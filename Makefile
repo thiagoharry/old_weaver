@@ -21,6 +21,10 @@ test:
 	@echo "#include <alsa/asoundlib.h>" >> dummy.h
 	@gcc dummy.c -lasound
 	@echo "OK"
+	@echo -n "Testing PNG libraries....."
+	@echo "#include <png.h>" >> dummy.h
+	@gcc dummy.c -lpng
+	@echo "OK"
 	@rm dummy.c a.out dummy.h
 	@echo "Your system is ready to host Weaver."
 install: test
