@@ -35,7 +35,6 @@ int main(int argc, char **argv){
   x = window_width / 2 - spider -> width / 2;
   y = window_height / 2 - spider -> height / 2;
 
-  blit_surface(spider, window, 0, 0, spider -> width, spider -> height, x, y);
 
   // Main loop
   for(;;){
