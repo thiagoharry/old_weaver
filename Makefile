@@ -36,5 +36,5 @@ install: test
 	install -d src/src ${DATA_DIR}/src
 	install -D -m 0644 src/src/game.{c,h} ${DATA_DIR}/src
 	install -d src/src/weaver ${DATA_DIR}/src/weaver
-	install -D -m 0644  src/src/weaver/* ${DATA_DIR}/src/weaver
+	install -D -m 0644  src/src/weaver/*.{c,h} ${DATA_DIR}/src/weaver
 	@echo "Weaver Framework was installed with success."
