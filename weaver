@@ -1,0 +1,89 @@
+#!/bin/bash
+
+# Copyright (C) 2009 Thiago Leucz Astrizi
+
+# This file is part of Weaver Framework.
+
+# Weaver Framework is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+# 
+# Weaver Framework is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#    
+# You should have received a copy of the GNU General Public License
+# along with Weaver Framework.  If not, see <http://www.gnu.org/licenses/>.
+
+WEAVER=/usr/share/weaver
+
+if [ -a .web ]; then
+    if [ -z $1 ]; then
+        rm -f ./*~ ./\#*
+    else
+        if [[ $1 == "--help" ]]; then
+            echo "       \\                    weaver: remove files ended with '~' or '#'" 
+            echo "        \\______/"
+            echo "        /\\____/\\           weaver EXT: Creates new EXT.c and EXT.h files."
+            echo "       / /\\__/\\ \\       "
+            echo "    __/_/_/\\/\\_\\_\\___  "
+            echo "      \\ \\ \\/\/ / /"
+            echo "       \\ \\/__\\/ /"
+            echo "        \\/____\\/"
+            echo "        /      \\"
+            echo "       /"
+            exit
+        else
+            if [ -a ${1}.c ]; then
+                true
+                # TODO: 
+            else
+                PROJ=$(cat .web)
+                sed s/DUMMY/${PROJ}/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi// | head -n 18 > ${1}.c
+                sed s/DUMMY/${PROJ}/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi// | sed s/_GAME_H_/_$(cat .web)_h_/ > ${1}.h
+                # TODO: Atualize the Makefile, append the header in other source files...
+            fi
+        fi
+    fi
+else
+    if [ -z $1 ]; then
+        echo "    .  .     weaver PROJECT_NAME"
+        echo "   .|  |."
+        echo "   ||  ||"
+        echo "   \\\\()//  You must pass the name of the new"
+        echo "   .={}=.    project as argument."
+        echo "  / /\`'\\ \\"
+        echo "  \` \\  / ' "
+        echo "     \`'"
+        exit
+    else 
+        if [[ $1 == "--help" ]]; then
+            echo "    .  .     weaver PROJECT_NAME"
+            echo "   .|  |."
+            echo "   ||  ||"
+            echo "   \\\\()//  You must pass the name of the new"
+            echo "   .={}=.    project as argument."
+            echo "  / /\`'\\ \\"
+            echo "  \` \\  / ' "
+            echo "     \`'"
+            exit
+        elif [[ $1 == "--version" ]]; then
+            echo "WEAVER -- Version Alpha"    
+        else
+            if mkdir $1 && cp -r ${WEAVER}/* $1; then
+                sed s/dummy/$1/ ${WEAVER}/Makefile > $1/Makefile
+                sed s/DUMMY/$1/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi// > $1/src/game.c
+                sed s/DUMMY/$1/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi// > $1/src/game.h
+                sed s/DUMMY/$1/ ${WEAVER}/src/weaver/sound.c > $1/src/weaver/sound.c
+                sed s/DUMMY/$1/ ${WEAVER}/src/weaver/image.c > $1/src/weaver/image.c
+                echo $1 > $1/.web
+                echo $1 > $1/src/.web
+                echo $1 > $1/src/weaver/.web
+                echo $1 > $1/images/.web
+                echo $1 > $1/sound/.web
+            fi
+        fi
+    fi
+fi
