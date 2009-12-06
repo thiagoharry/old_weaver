@@ -9,10 +9,11 @@ DATA_DIR=/usr/share/games/dummy
 #######################################################
 all: ${WEAVER_OBJ} ${PROG_OBJ}
 	${CC} ${CFLAGS} -g -o ${PROG} ${WEAVER_OBJ} ${PROG_OBJ} -lX11 -lm -lvorbisfile -lasound -lpng
-#######################################################
+#GAME_START
 game.o: src/game.c src/game.h
 	${CC} -c src/game.c
-#######################################################
+#GAME_END
+#WEAVER_START
 image.o: src/weaver/image.c src/weaver/image.h
 	${CC} -c src/weaver/image.c
 display.o: src/weaver/display.c src/weaver/display.h
@@ -29,7 +30,7 @@ weaver.o: src/weaver/weaver.c src/weaver/weaver.h
 	${CC} -c src/weaver/weaver.c
 sound.o: src/weaver/sound.c src/weaver/sound.h
 	${CC} -c src/weaver/sound.c
-#######################################################
+#WEAVER_END
 clean:
 	rm -rf *~ *.o ./\#*
 #######################################################
