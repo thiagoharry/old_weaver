@@ -38,3 +38,6 @@ install: test
 	install -d ${DATA_DIR}/src/weaver
 	install -D -m 0644  src/src/weaver/*.{c,h} ${DATA_DIR}/src/weaver
 	@echo "Weaver Framework was installed with success."
+uninstall:
+	rm -rf ${SCRIPT_DIR}/weaver
+	rm -rf ${DATA_DIR}
