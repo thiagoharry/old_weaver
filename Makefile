@@ -34,9 +34,11 @@ install: test
 	install -D -m 0644 src/Makefile ${DATA_DIR}/Makefile
 	install -d ${DATA_DIR}/sound
 	install -d ${DATA_DIR}/src
-	install -D -m 0644 src/src/game.{c,h} ${DATA_DIR}/src
+	install -D -m 0644 src/src/game.c ${DATA_DIR}/src
+	install -D -m 0644 src/src/game.h ${DATA_DIR}/src
 	install -d ${DATA_DIR}/src/weaver
-	install -D -m 0644  src/src/weaver/*.{c,h} ${DATA_DIR}/src/weaver
+	install -D -m 0644  src/src/weaver/*c ${DATA_DIR}/src/weaver
+	install -D -m 0644  src/src/weaver/*h ${DATA_DIR}/src/weaver
 	@echo "Weaver Framework was installed with success."
 uninstall:
 	rm -rf ${SCRIPT_DIR}/weaver
