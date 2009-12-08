@@ -28,5 +28,6 @@ struct vector3{
 };
 
 struct vector3 *new_vector3(float, float, float);
+void rotate_circle(struct vector3 *, float, float, float);
 
 #endif
