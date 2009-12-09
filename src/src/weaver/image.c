@@ -39,7 +39,8 @@ void _print_png_version(void){
 int _readpng_init(FILE *infile, long *pWidth, long *pHeight){
   unsigned char sig[8]; // The first 8 bytes with magic number
   
-  fread(sig, 1, 8, infile);
+  if(fread(sig, 1, 8, infile) <= 0)
+    return 1; // Not a PNG file!
   if (!png_check_sig(sig, 8))
     return 1; // It's not a PNG file!
 
