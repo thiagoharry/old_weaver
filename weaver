@@ -45,8 +45,8 @@ if [ -a .web ]; then
                 ADDR=$(echo $(pwd) | sed s/$(cat .web).*//)$(cat .web)
                 PROJ=$(cat .web)
                 cd $ADDR
-                sed s/DUMMY/${PROJ}/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi/Copyright\ (C)\ ${YEAR}\ ${NAME}/ | head -n 18 > src/${1}.c
-                sed s/DUMMY/${PROJ}/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ (C)\ ${YEAR}\ ${NAME}/ | sed s/_GAME_H_/_$(cat .web)_h_/ > src/${1}.h
+                sed s/DUMMY/${PROJ}/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ ${NAME}/ | head -n 18 > src/${1}.c
+                sed s/DUMMY/${PROJ}/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ ${NAME}/ | sed s/_GAME_H_/_$(cat .web)_h_/ > src/${1}.h
                 sed s/PROG_OBJ=/PROG_OBJ=${1}.o\ / Makefile > Makefile~
                 sed s/\#GAME_END/${1}.o:" src\/"${1}".c src\/"${1}".h\n\t\${CC} -c src\/"${1}".c\n"\#GAME_END/ Makefile~ > Makefile
                 rm Makefile~
@@ -83,8 +83,8 @@ else
                 NAME=$(echo $(finger $(whoami)) | sed s/Login:.*Name:\ // | sed s/\ Directory:.*//)
                 YEAR=$(date | cut -d " " -f 7)
                 sed s/dummy/$1/ ${WEAVER}/Makefile > $1/Makefile
-                sed s/DUMMY/$1/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi/Copyright\ (C)\ ${YEAR}\ ${NAME}/ > $1/src/game.c
-                sed s/DUMMY/$1/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ (C)\ ${YEAR}\ ${NAME}/ > $1/src/game.h
+                sed s/DUMMY/$1/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ ${NAME}/ > $1/src/game.c
+                sed s/DUMMY/$1/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ ${NAME}/ > $1/src/game.h
                 sed s/DUMMY/$1/ ${WEAVER}/src/weaver/sound.c > $1/src/weaver/sound.c
                 sed s/DUMMY/$1/ ${WEAVER}/src/weaver/image.c > $1/src/weaver/image.c
                 echo $1 > $1/.web
