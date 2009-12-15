@@ -33,7 +33,9 @@ void awake_the_weaver(void){
 }
 
 void may_the_weaver_sleep(void){
-  png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+  // It's causing a segmentation fault in some systems...
+  // Why?
+  //png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
 }
 
 // This function pauses the program for the number of nanoseconds
