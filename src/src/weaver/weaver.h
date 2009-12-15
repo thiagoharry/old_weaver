@@ -44,6 +44,7 @@ void weaver_rest(long);
 
 void center_camera(struct vector4 *, float, float);
 void limit_camera(struct vector4 *, int, int, int, int);
+void zoom_camera(struct vector4 *, float); 
 
 void film_vector3_circle(struct vector4 *, struct vector3 *, unsigned);
 void film_vector3_fullcircle(struct vector4 *, struct vector3 *, unsigned);

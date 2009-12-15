@@ -54,6 +54,20 @@ void center_camera(struct vector4 *camera, float x, float y){
   camera -> y = y - (camera -> z / 2);
 }
 
+// This functions zooms in and out wihout change the central point (focus)
+void zoom_camera(struct vector4 *cam, float zoom){
+  float x, y;
+  // Storing the central point
+  x = cam -> x + (cam -> w / 2);
+  y = cam -> y + (cam -> z / 2);
+  // Zooming
+  cam -> w *= zoom;
+  cam -> z *= zoom;
+  // Restoring the central point
+  cam -> x = x - (cam -> w / 2);
+  cam -> y = y - (cam -> z / 2);
+}
+
 // This function limits the area where a camera can draw things in the screen
 void limit_camera(struct vector4 *camera, int x, int y, int width, int height){
   camera -> previous = (struct vector4 *) (long) x;
