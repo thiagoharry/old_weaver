@@ -55,6 +55,14 @@ struct vector2 *new_polygon(int number_of_vertices, ...){
     x = (float) va_arg(args, double);
     y = (float) va_arg(args, double);
     new_vector = new_vector2(x, y);
+    if(new_vector == NULL){
+      if(previous_vector != NULL){
+        previous_vector -> next = first_vector;
+        first_vector -> previous = previous_vector;
+        destroy_polygon(first_vector);
+      }
+      return new_vector;
+    }
     if(previous_vector != NULL)
       connect_vector2(previous_vector, new_vector);
     else
