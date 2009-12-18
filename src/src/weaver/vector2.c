@@ -69,8 +69,10 @@ struct vector2 *new_polygon(int number_of_vertices, ...){
       first_vector = new_vector;
     previous_vector = new_vector;
   }
-  new_vector -> next = first_vector;
-  first_vector -> previous = new_vector;
+  if(number_of_vertices > 0){
+    new_vector -> next = first_vector;
+    first_vector -> previous = new_vector;
+  }
 
   return first_vector;
 }
