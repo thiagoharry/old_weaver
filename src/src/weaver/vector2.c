@@ -101,7 +101,8 @@ void rotate_polygon(struct vector2 *poly, float x, float y, float rad){
     new_y = (long double) current_vector -> y - (long double) y;
     // Rotating
     new_x =  new_x * cosl((long double) rad) - new_y * sinl((long double) rad);
-    new_y = ((long double) current_vector -> x - (long double) x) * sinl((long double) rad) + new_y * cosl((long double) rad); 
+    new_y = ((long double) current_vector -> x - (long double) x) * 
+      sinl((long double) rad) + new_y * cosl((long double) rad); 
     // Changing base again...
     current_vector -> x = (float) (new_x + (long double) x);
     current_vector -> y = (float) (new_y + (long double) y);

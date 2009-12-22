@@ -41,7 +41,8 @@ void rotate_circle(struct vector3 *circ, float x, float y, float rad){
   new_y = (long double) circ -> y - (long double) y;
 
   new_x = new_x * cosl((long double) rad) - new_y * sinl((long double) rad);
-  new_y = ((long double) circ -> x - (long double) x) * sinl((long double) rad) + new_y * cosl((long double) rad); 
+  new_y = ((long double) circ -> x - (long double) x) * 
+    sinl((long double) rad) + new_y * cosl((long double) rad);
 
   circ -> x = (float) (new_x + (long double) x);
   circ -> y = (float) (new_y + (long double) y);
