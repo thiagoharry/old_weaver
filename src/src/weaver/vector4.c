@@ -24,7 +24,8 @@ struct vector4 *new_vector4(float w, float x, float y, float z){
   struct vector4 *vector;
   vector = (struct vector4 *) malloc(sizeof(struct vector4));
   if(vector != NULL){
-    vector -> previous = vector -> next = vector -> top = vector -> down = NULL;
+    vector -> previous = vector -> next = vector -> top = 
+      vector -> down = NULL;
     vector -> w = w;
     vector -> x = x;
     vector -> y = y;
