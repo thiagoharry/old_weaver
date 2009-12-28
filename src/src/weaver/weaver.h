@@ -35,6 +35,7 @@
 #define new_circle(x, y, z) new_vector3(x, y, z)
 #define destroy_circle(a) free(a)
 #define destroy_rectangle(a) free(a)
+#define destroy_camera(a) free(a)
 #define new_rectangle(x, y, w, z) new_vector4(w, x, y, z)
 #define film_circle(x, y, z) film_vector3_circle(x, y, z)
 #define film_fullcircle(x, y, z) film_vector3_fullcircle(x, y, z)
