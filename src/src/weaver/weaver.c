@@ -63,8 +63,8 @@ void zoom_camera(struct vector4 *cam, float zoom){
   x = cam -> x + (cam -> w / 2);
   y = cam -> y + (cam -> z / 2);
   // Zooming
-  cam -> w *= zoom;
-  cam -> z *= zoom;
+  cam -> w /= zoom;
+  cam -> z /= zoom;
   // Restoring the central point
   cam -> x = x - (cam -> w / 2);
   cam -> y = y - (cam -> z / 2);
