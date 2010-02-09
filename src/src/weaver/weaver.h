@@ -63,8 +63,6 @@ int collision_circle_polygon(struct vector3 *, struct vector2 *);
 int collision_polygon_polygon(struct vector2 *, struct vector2 *);
 int collision_rectangle_circle(struct vector4 *, struct vector3 *);
 
-void move_polygon_v(struct vector2 *, float); 
-
 struct timeval _b_frame, current_time;
 int fps;
 

@@ -604,13 +604,3 @@ int collision_polygon_polygon(struct vector2 *poly1, struct vector2 *poly2){
 
   return 0;
 }
-
-// This moves a polygon vertically
-void move_polygon_v(struct vector2 *polygon, float distance){
-  struct vector2 *current, *first;
-  current = first = polygon;
-  do{
-    current -> y -= distance;
-    current = current -> next;
-  }while(current != first);
-}
