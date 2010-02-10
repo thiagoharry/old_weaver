@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Weaver Framework.  If not, see <http://www.gnu.org/licenses/>.
 
-WEAVER=/usr/share/weaver
+WEAVER=/usr/share/weaver 
 
 if [ -a .web ]; then
     if [ -z $1 ]; then
