@@ -37,8 +37,6 @@
 #define destroy_rectangle(a) free(a)
 #define destroy_camera(a) free(a)
 #define new_rectangle(x, y, w, z) new_vector4(w, x, y, z)
-#define film_circle(x, y, z) film_vector3_circle(x, y, z)
-#define film_fullcircle(x, y, z) film_vector3_fullcircle(x, y, z)
 
 // Functions
 void awake_the_weaver(void);
@@ -49,8 +47,8 @@ void center_camera(struct vector4 *, float, float);
 void limit_camera(struct vector4 *, int, int, int, int);
 void zoom_camera(struct vector4 *, float); 
 
-void film_vector3_circle(struct vector4 *, struct vector3 *, unsigned);
-void film_vector3_fullcircle(struct vector4 *, struct vector3 *, unsigned);
+void film_circle(struct vector4 *, struct vector3 *, unsigned);
+void film_fullcircle(struct vector4 *, struct vector3 *, unsigned);
 void film_rectangle(struct vector4 *, struct vector4 *, unsigned);
 void film_fullrectangle(struct vector4 *, struct vector4 *,unsigned);
 

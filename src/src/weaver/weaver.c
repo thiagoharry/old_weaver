@@ -99,7 +99,7 @@ void film_fullrectangle(struct vector4 *camera, struct vector4 *rectangle, unsig
 
 
 // This shows a circle in the screen if it's in the area covered by the camera
-void film_vector3_circle(struct vector4 *camera, struct vector3 *circle, unsigned color){
+void film_circle(struct vector4 *camera, struct vector3 *circle, unsigned color){
   int x, y, height, width, limited_camera;
   limited_camera = 0;
 
@@ -127,7 +127,7 @@ void film_vector3_circle(struct vector4 *camera, struct vector3 *circle, unsigne
 }
 
 // This draws a full circle in the screen if it's in the area covered by the camera
-void film_vector3_fullcircle(struct vector4 *camera, struct vector3 *circle, unsigned color){
+void film_fullcircle(struct vector4 *camera, struct vector3 *circle, unsigned color){
   int x, y, height, width, limited_camera;
   limited_camera = 0;
 
