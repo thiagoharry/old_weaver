@@ -37,6 +37,7 @@
 #define destroy_rectangle(a) free(a)
 #define destroy_camera(a) free(a)
 #define new_rectangle(x, y, w, z) new_vector4(w, x, y, z)
+#define collision_circle_rectangle(a, b) collision_rectangle_circle(b, a)
 
 // Functions
 void awake_the_weaver(void);
