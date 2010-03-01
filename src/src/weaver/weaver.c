@@ -411,6 +411,17 @@ void film_polygon(struct vector4 *camera, struct vector2 *polygon, unsigned colo
   }while(current_vertex != polygon);
 }
 
+// This detects collision between two rectangles
+int collision_rectangle_rectangle(struct vector4 *r1, struct vector4 *r2){
+  float dx = (r2 -> x - r1 -> x < 0) ? (r1 -> x - r2 -> x) : (r2 -> x - r1 -> x);
+  if((r1 -> x < r2 -> x) ? (dx <= r1 -> w) : (dx <= r2 -> w)){
+    float dy = (r2 -> y - r1 -> y < 0) ? (r1 -> y - r2 -> y) : (r2 -> y - r1 -> y);
+    if((r1 -> y < r2 -> y) ? (dy <= r1 -> z) : (dy <= r2 -> z))
+      return 1;
+  }
+  return 0;
+}
+
 // This detects collision between a rectangle and a circle
 int collision_rectangle_circle(struct vector4 *rectangle, struct vector3 *circle){
   // They collide in the X-axis?
@@ -463,11 +474,13 @@ int collision_circle_polygon(struct vector3 *circle, struct vector2 *polygon){
     dist *= dist; // dx * dx
     dist += (current -> y - circle -> y) * (current -> y - circle -> y);
     if(sqrt(dist) < circle -> z)
-      return 1;
+      return 1; // A collision happenned
     else
-      return 0;    
+      return 0; // No collision happening
   }
-  
+ 
+  // This loops a number of times equal the number of polygon's sides
+  // when the polygon isn's degenerated.
   do{
     // If it's not a vertical segment:
     if(current -> x != next -> x){

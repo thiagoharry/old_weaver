@@ -61,6 +61,7 @@ int collision_circle_circle(struct vector3 *, struct vector3 *);
 int collision_circle_polygon(struct vector3 *, struct vector2 *);
 int collision_polygon_polygon(struct vector2 *, struct vector2 *);
 int collision_rectangle_circle(struct vector4 *, struct vector3 *);
+int collision_rectangle_rectangle(struct vector4 *, struct vector4 *);
 
 struct timeval _b_frame, current_time;
 int fps;
