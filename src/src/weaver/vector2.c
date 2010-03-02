@@ -47,6 +47,7 @@ struct vector2 *new_polygon(int number_of_vertices, ...){
   struct vector2 *first_vector = NULL, *previous_vector;
   va_list args;
   float x, y;
+  int vertices = number_of_vertices;
 
   previous_vector = NULL;
 
@@ -69,7 +70,7 @@ struct vector2 *new_polygon(int number_of_vertices, ...){
       first_vector = new_vector;
     previous_vector = new_vector;
   }
-  if(number_of_vertices > 0){
+  if(vertices > 0){
     new_vector -> next = first_vector;
     first_vector -> previous = new_vector;
   }

@@ -38,6 +38,8 @@
 #define destroy_camera(a) free(a)
 #define new_rectangle(x, y, w, z) new_vector4(w, x, y, z)
 #define collision_circle_rectangle(a, b) collision_rectangle_circle(b, a)
+#define MAX(x, y) (x) > (y) ? (x) : (y)
+#define MIN(x, y) (x) > (y) ? (y) : (x)
 
 // Functions
 void awake_the_weaver(void);
@@ -62,6 +64,7 @@ int collision_circle_polygon(struct vector3 *, struct vector2 *);
 int collision_polygon_polygon(struct vector2 *, struct vector2 *);
 int collision_rectangle_circle(struct vector4 *, struct vector3 *);
 int collision_rectangle_rectangle(struct vector4 *, struct vector4 *);
+int collision_rectangle_polygon(struct vector4 *, struct vector2 *);
 
 struct timeval _b_frame, current_time;
 int fps;

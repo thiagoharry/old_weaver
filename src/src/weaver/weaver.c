@@ -461,6 +461,38 @@ int collision_circle_circle(struct vector3 *circle1, struct vector3 *circle2){
     return 0;
 }
 
+// This determines if a rectangle and a polygon are colliding
+int collision_rectangle_polygon(struct vector4 *r, struct vector2 *p){
+  struct vector2 *current, *next, *first;
+  float x1, x2, y1, y2;
+
+  current = first = p;
+  next = current -> next;
+
+  if(next == current){ // We have a degenerated polygon with a single vertex
+    if(p -> x >= r -> x && p -> x <= r -> x + r -> w)
+      if(p -> y >= r -> y && p -> y <= r -> y + r -> z)
+	return 1;
+    return 0;
+  }
+
+  do{ // Loops in all the polygon's vertices
+    x1 = MIN(current -> x, next -> x);
+    x2 = MAX(current -> x, next -> x);
+    if(!(x1 > r -> x + r -> w || x2 < r -> x)){
+      y1 = MIN(current -> y, next -> y);
+      y2 = MAX(current -> y, next -> y);
+      if(!(y1 > r -> y + r -> z || y2 < r -> y))
+	return 1;
+    }
+
+    current = next;
+    next = current -> next;
+  }while(current != first);
+  
+  return 0;
+}
+
 // This determines if a circle and a polygon are colliding.
 int collision_circle_polygon(struct vector3 *circle, struct vector2 *polygon){
   struct vector2 *current, *next, *first;
