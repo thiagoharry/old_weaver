@@ -482,8 +482,27 @@ int collision_rectangle_polygon(struct vector4 *r, struct vector2 *p){
     if(!(x1 > r -> x + r -> w || x2 < r -> x)){
       y1 = MIN(current -> y, next -> y);
       y2 = MAX(current -> y, next -> y);
-      if(!(y1 > r -> y + r -> z || y2 < r -> y))
-	return 1;
+      if(!(y1 > r -> y + r -> z || y2 < r -> y)){ // The edge is next. Perhaps
+	                                          //it's colliding...
+	if(x1 == x2 || y1 == y2){ // We have a vertical or horizontal edge
+	  return 1; // It certainly collides in this case
+	}
+	else{ // We have a non-vertical edge
+	  float a = (next -> y - current -> y) / (next -> x - current -> x);
+	  float b = current -> y - a * current -> x; 
+	  // Now we have an ax+b=y rect equation
+	  if((a * r -> x + b >= r -> y) && (a * r -> x + b <= r -> y + r -> z))
+	    return 1; // Collided with the left side
+	  if((a * (r -> x + r -> w) + b >= r -> y) && 
+	     (a * (r -> x + r -> w) + b <= r -> y + r -> z))
+	    return 1; // Collided with the right side
+	  if(((r -> y - b)/a >= r -> x) && ((r -> y - b)/a <= r -> x + r -> w))
+	    return 1; // Collided with the top side
+	  if(((r -> y + r -> z - b)/a >= r -> x) &&
+	     ((r -> y + r -> z - b)/a <= r -> x + r -> w))
+	    return 1; // Collided with the down side
+	}
+      }
     }
 
     current = next;
