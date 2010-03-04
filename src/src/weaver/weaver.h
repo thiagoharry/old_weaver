@@ -38,6 +38,7 @@
 #define destroy_camera(a) free(a)
 #define new_rectangle(x, y, w, z) new_vector4(w, x, y, z)
 #define collision_circle_rectangle(a, b) collision_rectangle_circle(b, a)
+#define collision_polygon_circle(a, b) collision_circle_polygon(b, a)
 #define MAX(x, y) (x) > (y) ? (x) : (y)
 #define MIN(x, y) (x) > (y) ? (y) : (x)
 
