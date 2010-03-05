@@ -1,4 +1,4 @@
-/*
+4/*
   Copyright (C) 2009 Thiago Leucz Astrizi
 
  This file is part of Weaver API.
@@ -39,6 +39,7 @@
 #define new_rectangle(x, y, w, z) new_vector4(w, x, y, z)
 #define collision_circle_rectangle(a, b) collision_rectangle_circle(b, a)
 #define collision_polygon_circle(a, b) collision_circle_polygon(b, a)
+#define collision_polygon_rectangle(a, b) collision_rectangle_polygon(b, a)
 #define MAX(x, y) (x) > (y) ? (x) : (y)
 #define MIN(x, y) (x) > (y) ? (y) : (x)
 
