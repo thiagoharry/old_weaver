@@ -30,6 +30,7 @@ void awake_the_weaver(void){
   //initialize_sound();
   srand(time(NULL));
   gettimeofday(&current_time, NULL);
+  fps = 50;
 }
 
 void may_the_weaver_sleep(void){

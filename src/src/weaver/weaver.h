@@ -1,4 +1,4 @@
-4/*
+/*
   Copyright (C) 2009 Thiago Leucz Astrizi
 
  This file is part of Weaver API.
