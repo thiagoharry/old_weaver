@@ -112,12 +112,12 @@
 #define flush() XFlush(_dpy)
 #define fill_screen(x) fill_rectangle(0, 0, window_width, window_height, x)
 
-struct surface{
+typedef struct surface{
   Pixmap pix;
   int width;
   int height;
   Pixmap mask;
-};
+} surface;
 
 Display *_dpy;
 Window _w;
