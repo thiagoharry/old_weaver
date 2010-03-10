@@ -24,7 +24,7 @@
 
 // This function initializes everything
 void awake_the_weaver(void){
-  initialize_screen();
+  _initialize_screen();
   initialize_keyboard();
   initialize_mouse();
   //initialize_sound();

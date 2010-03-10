@@ -132,7 +132,7 @@ struct surface *new_surface(int, int);
 void destroy_surface(struct surface *);
 void blit_surface(struct surface *, struct surface *, int, int, int, int, int, int);
 
-void initialize_screen(void);
+void _initialize_screen(void);
 void hide_cursor(void);
 void draw_point(unsigned, unsigned, unsigned);
 void draw_line(unsigned, unsigned, unsigned, unsigned, unsigned);

@@ -102,7 +102,7 @@ void apply_texture(struct surface *src, struct surface *dest){
 }
 
 // This function creates a black fullscreen window where we can play.
-void initialize_screen(void){
+void _initialize_screen(void){
   XVisualInfo *visual_list;
   XVisualInfo visual_info; 
   unsigned long valuemask = CWOverrideRedirect;
