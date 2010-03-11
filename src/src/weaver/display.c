@@ -56,7 +56,8 @@ void destroy_surface(struct surface *my_surf){
 
 
 // This is used to bit blit 2 surfaces
-void blit_surface(struct surface *src, struct surface *dest, int x_src, int y_src, int width, int height, int x_dest, int y_dest){
+void blit_surface(struct surface *src, struct surface *dest, int x_src, int y_src, 
+		  int width, int height, int x_dest, int y_dest){
   //XGCValues gcValues; 
   
   //XGetGCValues(_dpy, _gc, GCFunction|GCForeground|GCBackground|GCPlaneMask, &gcValues);
@@ -246,6 +247,7 @@ void draw_circle(unsigned x, unsigned y, unsigned r, unsigned color){
 void fill_circle(unsigned x, unsigned y, unsigned r, unsigned color){
   unsigned diameter = r + r;
   XSetForeground(_dpy, _gc, color); 
+  XDrawArc(_dpy, _w, _gc, x-r, y-r, diameter, diameter, 0, 23040);
   XFillArc(_dpy, _w, _gc, x-r, y-r, diameter, diameter, 0, 23040);
 }
 
@@ -259,6 +261,7 @@ void draw_rectangle(unsigned x, unsigned y, unsigned width, unsigned height, uns
 // This fills a rectangle
 void fill_rectangle(unsigned x, unsigned y, unsigned width, unsigned height, unsigned color){
   XSetForeground(_dpy, _gc, color);
+  XDrawRectangle(_dpy, _w, _gc, x, y, width, height);
   XFillRectangle(_dpy, _w, _gc, x, y, width, height);
 }
 
@@ -271,6 +274,7 @@ void draw_ellipse(unsigned x, unsigned y, unsigned width, unsigned height, unsig
 // We also can fill an ellipse
 void fill_ellipse(unsigned x, unsigned y, unsigned width, unsigned height, unsigned color){
   XSetForeground(_dpy, _gc, color);
+  XDrawArc(_dpy, _w, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
   XFillArc(_dpy, _w, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
 }
 
