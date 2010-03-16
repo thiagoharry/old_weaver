@@ -25,7 +25,7 @@
 #include "display.h"
 
 // This function adds mask bits in a surface
-void draw_mask(struct surface *my_surf, int x, int y, int width, int height){
+void draw_rectangle_mask(struct surface *my_surf, int x, int y, int width, int height){
   XSetForeground(_dpy, _mask_gc, 0l);
   XFillRectangle(_dpy, my_surf -> mask, _mask_gc, x, y, width, height);
 }

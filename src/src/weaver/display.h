@@ -71,7 +71,7 @@ void fill_ellipse(unsigned, unsigned, unsigned, unsigned, unsigned);
 
 void draw_text(unsigned, unsigned, char *, char *, unsigned);
 
-void draw_mask(struct surface *, int , int , int , int );
+void draw_rectangle_mask(struct surface *, int , int , int , int );
 
 void blit_masked_pixmap(Pixmap, Pixmap, struct surface *, int , 
 			int, int, int, int, 
