@@ -24,8 +24,8 @@
 #include "display.h"
 
 
-static double display_exponent;
-static unsigned char bg_red, bg_green, bg_blue;
+static double _display_exponent;
+static unsigned char _bg_red, _bg_green, _bg_blue;
 
 // Only for debugging
 void _print_png_version(void){
@@ -45,32 +45,32 @@ int _readpng_init(FILE *infile, long *pWidth, long *pHeight){
     return 1; // It's not a PNG file!
 
   // Let's set the PNG structs
-  png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
-  if (!png_ptr)
+  _png_ptr = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
+  if (!_png_ptr)
     return 4;   /* out of memory */
-  info_ptr = png_create_info_struct(png_ptr);
-  if (!info_ptr) {
-    //free(png_ptr);
-    png_destroy_read_struct(&png_ptr, NULL, NULL);
+  _info_ptr = png_create_info_struct(_png_ptr);
+  if (!_info_ptr) {
+    //free(_png_ptr);
+    png_destroy_read_struct(&_png_ptr, NULL, NULL);
     return 4;   /* out of memory */
   }
 
-  if (setjmp(png_ptr->jmpbuf)) {
-    png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+  if (setjmp(_png_ptr->jmpbuf)) {
+    png_destroy_read_struct(&_png_ptr, &_info_ptr, NULL);
     return 2;
   }
 
-  png_init_io(png_ptr, infile);
-  png_set_sig_bytes(png_ptr, 8);
-  png_read_info(png_ptr, info_ptr);
+  png_init_io(_png_ptr, infile);
+  png_set_sig_bytes(_png_ptr, 8);
+  png_read_info(_png_ptr, _info_ptr);
 
-  png_get_IHDR(png_ptr, info_ptr, (png_uint_32 *) &width, (png_uint_32 *) &height, &bit_depth,
-               &color_type, NULL, NULL, NULL);
-  *pWidth = width;
-  *pHeight = height;
+  png_get_IHDR(_png_ptr, _info_ptr, (png_uint_32 *) &_width, (png_uint_32 *) &_height, &_bit_depth,
+               &_color_type, NULL, NULL, NULL);
+  *pWidth = _width;
+  *pHeight = _height;
 
   
-  //free((char *) png_ptr);
+  //free((char *) _png_ptr);
   return 0;
 }
 
@@ -78,26 +78,26 @@ int _readpng_init(FILE *infile, long *pWidth, long *pHeight){
 int _readpng_get_bgcolor(unsigned char *red, unsigned char *green, unsigned char *blue){
   png_color_16p pBackground;
 
-  if (setjmp(png_jmpbuf(png_ptr))) {
-    png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+  if (setjmp(png_jmpbuf(_png_ptr))) {
+    png_destroy_read_struct(&_png_ptr, &_info_ptr, NULL);
     return 2;
   }  
   
-  if (!png_get_valid(png_ptr, info_ptr, PNG_INFO_bKGD))
+  if (!png_get_valid(_png_ptr, _info_ptr, PNG_INFO_bKGD))
     return 1;
   
-  png_get_bKGD(png_ptr, info_ptr, &pBackground);
+  png_get_bKGD(_png_ptr, _info_ptr, &pBackground);
 
-  if (bit_depth == 16) {
+  if (_bit_depth == 16) {
     *red   = pBackground->red   >> 8;
     *green = pBackground->green >> 8;
     *blue  = pBackground->blue  >> 8;
-  } else if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8) {
-    if (bit_depth == 1)
+  } else if (_color_type == PNG_COLOR_TYPE_GRAY && _bit_depth < 8) {
+    if (_bit_depth == 1)
       *red = *green = *blue = pBackground->gray? 255 : 0;
-    else if (bit_depth == 2)   /* i.e., max value is 3 */
+    else if (_bit_depth == 2)   /* i.e., max value is 3 */
       *red = *green = *blue = (255/3) * pBackground->gray;
-    else /* bit_depth == 4 */  /* i.e., max value is 15 */
+    else /* _bit_depth == 4 */  /* i.e., max value is 15 */
       *red = *green = *blue = (255/15) * pBackground->gray;
   } else {
     *red   = pBackground->red;
@@ -115,71 +115,71 @@ unsigned char *_readpng_get_image(double display_exponent, int *pChannels, unsig
   png_bytepp  row_pointers = NULL;
   //unsigned char *image_data;
   
-  if (setjmp(png_jmpbuf(png_ptr))) {
-    png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+  if (setjmp(png_jmpbuf(_png_ptr))) {
+    png_destroy_read_struct(&_png_ptr, &_info_ptr, NULL);
     return NULL;
   }
 
   // Expanding pallete to RGB[A]
-  if (color_type == PNG_COLOR_TYPE_PALETTE)
-    png_set_expand(png_ptr);
-  if (color_type == PNG_COLOR_TYPE_GRAY && bit_depth < 8)
-    png_set_expand(png_ptr);
-  if (png_get_valid(png_ptr, info_ptr, PNG_INFO_tRNS))
-    png_set_expand(png_ptr);
+  if (_color_type == PNG_COLOR_TYPE_PALETTE)
+    png_set_expand(_png_ptr);
+  if (_color_type == PNG_COLOR_TYPE_GRAY && _bit_depth < 8)
+    png_set_expand(_png_ptr);
+  if (png_get_valid(_png_ptr, _info_ptr, PNG_INFO_tRNS))
+    png_set_expand(_png_ptr);
 
-  if (bit_depth == 16)
-    png_set_strip_16(png_ptr);
-  if (color_type == PNG_COLOR_TYPE_GRAY ||
-      color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
-    png_set_gray_to_rgb(png_ptr);
+  if (_bit_depth == 16)
+    png_set_strip_16(_png_ptr);
+  if (_color_type == PNG_COLOR_TYPE_GRAY ||
+      _color_type == PNG_COLOR_TYPE_GRAY_ALPHA)
+    png_set_gray_to_rgb(_png_ptr);
 
   // Gamma correction
-  if (png_get_gAMA(png_ptr, info_ptr, &gamma))
-    png_set_gamma(png_ptr, display_exponent, gamma);
+  if (png_get_gAMA(_png_ptr, _info_ptr, &gamma))
+    png_set_gamma(_png_ptr, display_exponent, gamma);
   
   // Updating information in structs
-  png_read_update_info(png_ptr, info_ptr);
+  png_read_update_info(_png_ptr, _info_ptr);
 
-  *pRowbytes = rowbytes = png_get_rowbytes(png_ptr, info_ptr);
-  *pChannels = (int)png_get_channels(png_ptr, info_ptr);
+  *pRowbytes = rowbytes = png_get_rowbytes(_png_ptr, _info_ptr);
+  *pChannels = (int)png_get_channels(_png_ptr, _info_ptr);
   
-  if ((image_data = (unsigned char *)malloc(rowbytes*height)) == NULL) {
-    png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
+  if ((_image_data = (unsigned char *)malloc(rowbytes*_height)) == NULL) {
+    png_destroy_read_struct(&_png_ptr, &_info_ptr, NULL);
     return NULL;
   }
   
-  if ((row_pointers = (png_bytepp)malloc(height*sizeof(png_bytep))) == NULL) {
-    png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
-    free(image_data);
-    image_data = NULL;
+  if ((row_pointers = (png_bytepp)malloc(_height*sizeof(png_bytep))) == NULL) {
+    png_destroy_read_struct(&_png_ptr, &_info_ptr, NULL);
+    free(_image_data);
+    _image_data = NULL;
     return NULL;
   }
 
 
-  for (i = 0;  i < height;  ++i)
-    row_pointers[i] = image_data + i*rowbytes;
+  for (i = 0;  i < _height;  ++i)
+    row_pointers[i] = _image_data + i*rowbytes;
 
   
-  png_read_image(png_ptr, row_pointers);
+  png_read_image(_png_ptr, row_pointers);
   
-  png_read_end(png_ptr, NULL);
+  png_read_end(_png_ptr, NULL);
   free(row_pointers);
 
-  return image_data;
+  return _image_data;
 }
 
 struct surface *new_image(char *file){
   int rc;
   double default_display_exponent;   /* whole display system */
   FILE *infile;
-  char *path = (char *) malloc(strlen(file)+50);
+  char *path = (char *) malloc(strlen(file)+60);
   path[0] = '\0';
 
   //unsigned char *image_data;
   struct surface *my_surf;
 
-  display_exponent = default_display_exponent = 2.2;
+  _display_exponent = default_display_exponent = 2.2;
   
   strcat(path, "/usr/share/games/DUMMY/images/");
   strcat(path, file);
@@ -191,23 +191,23 @@ struct surface *new_image(char *file){
       return NULL;
   }
 
-  if ((rc = _readpng_init(infile, (long *) &image_width, (long *) &image_height)) != 0)
+  if ((rc = _readpng_init(infile, (long *) &_image_width, (long *) &_image_height)) != 0)
     return NULL;
 
-  if (_readpng_get_bgcolor(&bg_red, &bg_green, &bg_blue) > 1){
+  if (_readpng_get_bgcolor(&_bg_red, &_bg_green, &_bg_blue) > 1){
     return NULL;
   }
-  image_data = _readpng_get_image(display_exponent, &image_channels,
-                                 &image_rowbytes);
+  _image_data = _readpng_get_image(_display_exponent, &_image_channels,
+                                 &_image_rowbytes);
   //fclose(infile);
-  //my_image = XCreateImage(_dpy, _visual, _depth, ZPixmap, 0, image_data, image_width, image_height, 32, 0);  
-  my_surf = new_surface(image_width, image_height);
+  //my_image = XCreateImage(_dpy, _visual, _depth, ZPixmap, 0, _image_data, _image_width, _image_height, 32, 0);  
+  my_surf = new_surface(_image_width, _image_height);
   _display_image(my_surf, 0, 0);
-  //XPutImage(_dpy, my_surf -> pix, _gc, my_image, 0, 0, 0, 0, image_width, image_height);
+  //XPutImage(_dpy, my_surf -> pix, _gc, my_image, 0, 0, 0, 0, _image_width, _image_height);
   //XDestroyImage(my_image);
   fclose(infile);
-  png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
-  free(image_data);
+  png_destroy_read_struct(&_png_ptr, &_info_ptr, NULL);
+  free(_image_data);
   
   return my_surf;
 }
@@ -229,23 +229,23 @@ int _display_image(struct surface *my_surf, int x, int y){
   GMask = _visual->green_mask;
   BMask = _visual->blue_mask;
 
-  maskdata = (unsigned char *) malloc(image_width * image_height);
+  maskdata = (unsigned char *) malloc(_image_width * _image_height);
   if(_depth == 24 || _depth == 32){
-    xdata = (unsigned char *) malloc(4*image_width*image_height);
+    xdata = (unsigned char *) malloc(4*_image_width*_image_height);
     pad = 32;
     RShift = 7 - _rpng_x_msb(RMask);     // these are right-shifts, too 
     GShift = 7 - _rpng_x_msb(GMask);
     BShift = 7 - _rpng_x_msb(BMask);
   }
   else if(_depth == 16){
-    xdata = (unsigned char *)malloc(2*image_width*image_height);
+    xdata = (unsigned char *)malloc(2*_image_width*_image_height);
     pad = 16;
     RShift = 15 - _rpng_x_msb(RMask);    // these are right-shifts
     GShift = 15 - _rpng_x_msb(GMask);
     BShift = 15 - _rpng_x_msb(BMask);
   }
   else { // Unknown depth.
-    xdata = (unsigned char *)malloc(image_width*image_height);
+    xdata = (unsigned char *)malloc(_image_width*_image_height);
     pad = 8;
     RShift = GShift = BShift = 0;
     fprintf(stderr, "ERROR: Not supported depth... :-(\n");
@@ -255,7 +255,7 @@ int _display_image(struct surface *my_surf, int x, int y){
     fprintf(stderr, "ERROR: I can't allocate image memory.\n");
     exit(1);
   }
-  _ximage = XCreateImage(_dpy, _visual, _depth, ZPixmap, 0, (char *) xdata, image_width, image_height, pad, 0);
+  _ximage = XCreateImage(_dpy, _visual, _depth, ZPixmap, 0, (char *) xdata, _image_width, _image_height, pad, 0);
   if(!_ximage){
     fprintf(stderr, "ERROR: XCreateImage() failed!\n");
     exit(1);
@@ -263,7 +263,7 @@ int _display_image(struct surface *my_surf, int x, int y){
   XInitImage(_ximage);
   _ximage -> byte_order =  MSBFirst; 
   
-  mask = XCreateImage(_dpy, _visual, 1, XYBitmap, 0, (char *) maskdata, image_width, image_height, pad, 0);
+  mask = XCreateImage(_dpy, _visual, 1, XYBitmap, 0, (char *) maskdata, _image_width, _image_height, pad, 0);
   XInitImage(mask);
   if(!mask){
     fprintf(stderr, "ERROR: XCreateImage() failed while creating a bitmap!\n");
@@ -278,11 +278,11 @@ int _display_image(struct surface *my_surf, int x, int y){
     unsigned long red, green, blue;
     
     //LOOP!
-    for(lastrow = row = 0; row < image_height; ++row){
-      src = image_data + row * image_rowbytes;
+    for(lastrow = row = 0; row < _image_height; ++row){
+      src = _image_data + row * _image_rowbytes;
       dest = _ximage -> data + row * _ximage -> bytes_per_line;
-      if(image_channels == 3){
-        for(i = image_width; i > 0; --i){
+      if(_image_channels == 3){
+        for(i = _image_width; i > 0; --i){
           red = *src ++;
           green = *src ++;
           blue = *src ++;
@@ -297,7 +297,7 @@ int _display_image(struct surface *my_surf, int x, int y){
         } // End of for
       }
       else{ // image channels == 4
-        for(i = image_width; i > 0; --i){
+        for(i = _image_width; i > 0; --i){
           r = *src++;
           g = *src++;
           b = *src++;
@@ -308,14 +308,14 @@ int _display_image(struct surface *my_surf, int x, int y){
             blue  = b;
           }
           else if(a == 0){
-            red   = bg_red;
-            green = bg_green;
-            blue  = bg_blue;
+            red   = _bg_red;
+            green = _bg_green;
+            blue  = _bg_blue;
           }
           else{
-            alpha_composite(red,   r, a, bg_red);
-            alpha_composite(green, g, a, bg_green);
-            alpha_composite(blue,  b, a, bg_blue);
+            _alpha_composite(red,   r, a, _bg_red);
+            _alpha_composite(green, g, a, _bg_green);
+            _alpha_composite(blue,  b, a, _bg_blue);
           }
           
           //printf("DEBUG: %d %d %d\n", RShift, GShift, BShift);
@@ -331,20 +331,20 @@ int _display_image(struct surface *my_surf, int x, int y){
         } // End of for
       }// End of else if channels == 4
       //if(((row + 1) & 0xf) ==0){
-      //XPutImage(_dpy, _w, _gc, _ximage, 0, (int) lastrow, x, (int) lastrow + y, image_width, 16);
+      //XPutImage(_dpy, _w, _gc, _ximage, 0, (int) lastrow, x, (int) lastrow + y, _image_width, 16);
         //flush();
         //lastrow = row + 1;
       //}
     }// End of for
   } // End of depth == 24 || 32
-  if (lastrow < image_height) {
+  if (lastrow < _image_height) {
     int i, j;
     GC bit_gc;
     unsigned long pixel;
     XPutImage(_dpy, my_surf -> pix, _gc, _ximage, 0, 0, 0,
-              0,  image_width, image_height);
-    for(i = 0; i < image_width; i ++)
-      for(j = 0; j < image_height; j ++){
+              0,  _image_width, _image_height);
+    for(i = 0; i < _image_width; i ++)
+      for(j = 0; j < _image_height; j ++){
 	pixel = XGetPixel(_ximage, i, j);
 	if(pixel == transparent_color)
 	  XPutPixel(mask, i, j, 1);
@@ -353,7 +353,7 @@ int _display_image(struct surface *my_surf, int x, int y){
       }
     
     bit_gc = XCreateGC(_dpy, my_surf -> mask, 0, NULL);
-    XPutImage(_dpy, my_surf -> mask, bit_gc, mask, 0, 0, 0, 0, image_width, image_height);
+    XPutImage(_dpy, my_surf -> mask, bit_gc, mask, 0, 0, 0, 0, _image_width, _image_height);
     XFreeGC(_dpy, bit_gc); 
     XDestroyImage(_ximage);
     XDestroyImage(mask);

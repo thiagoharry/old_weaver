@@ -23,7 +23,7 @@
 #include <png.h>
 #include "display.h"
 
-#define alpha_composite(composite, fg, alpha, bg){\
+#define _alpha_composite(composite, fg, alpha, bg){\
     unsigned short temp = ((unsigned short)(fg)*(unsigned short)(alpha) +\
                            (unsigned short)(bg)*(unsigned short)(255 - (unsigned short)(alpha)) + (unsigned short)128); \
     (composite) = (unsigned char)((temp + (temp >> 8)) >> 8);           \
@@ -31,15 +31,15 @@
 
 
 
-png_structp png_ptr;
-png_infop info_ptr;
-long width, height;
-int bit_depth, color_type;
+png_structp _png_ptr;
+png_infop _info_ptr;
+long _width, _height;
+int _bit_depth, _color_type;
 
-unsigned long image_width, image_height, image_rowbytes;
-int image_channels;
+unsigned long _image_width, _image_height, _image_rowbytes;
+int _image_channels;
 
-unsigned char *image_data;
+unsigned char *_image_data;
 
 
 struct surface *new_image(char *);
