@@ -23,8 +23,8 @@
 
 #define SND_BUFFER 4096 // Our sound buffer has 4KB
 
-int initialize_sound(void);
-void play_soundfile(char *);
+int _initialize_sound(void);
+void play_sound(char *);
 void _play_soundfile(char *);
 
 #endif
