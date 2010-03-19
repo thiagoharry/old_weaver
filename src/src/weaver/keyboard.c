@@ -24,14 +24,14 @@
 #include "keyboard.h"
 
 // This function initializes and cleans our keyboard buffer
-void initialize_keyboard(void){
+void _initialize_keyboard(void){
   int i;
   for(i = 0; i < KEYS; i++)
     keyboard[i] = 0;
 }
 
 // And this initialize the mouse info
-void initialize_mouse(void){
+void _initialize_mouse(void){
   mouse.pressed = 0;
   mouse.x = mouse.y = 0;
 }
@@ -48,130 +48,15 @@ void get_input(void){
     if(event.type == KeyPress){
       keyboard[ANY] += 1;
       pressed_key = XLookupKeysym(&event.xkey, 0);
-      switch(pressed_key){
-      case XK_1:
-	keyboard[1] += 1;
-	break;
-      case XK_2:
-	keyboard[2] += 1;
-	break;
-      case XK_Up:
-        keyboard[UP] += 1;
-        break;
-      case XK_Down:
-        keyboard[DOWN] += 1;
-        break;
-      case XK_Left:
-        keyboard[LEFT] += 1;
-        break;
-      case XK_Right:
-        keyboard[RIGHT] += 1;
-        break;
-      case XK_KP_Add:
-        keyboard[PLUS] += 1;
-        break;
-      case XK_KP_Subtract:
-        keyboard[MINUS] += 1;
-        break;
-      case XK_Shift_L:
-        keyboard[SHIFT] += 1;
-        break;
-      case XK_Control_L:
-        keyboard[CTRL] += 1;
-	keyboard[LEFT_CTRL] += 1;
-        break;
-      case XK_Control_R:
-	keyboard[CTRL] += 1;
-	keyboard[RIGHT_CTRL] += 1;
-	break;
-      case XK_Escape:
-	keyboard[ESC] += 1;
-        break;
-      case XK_a:
-        keyboard[A] += 1;
-        break;
-      case XK_s:
-        keyboard[S] += 1;
-        break;
-      case XK_d:
-        keyboard[D] += 1;
-        break;
-      case XK_w:
-        keyboard[W] += 1;
-        break;
-      case XK_Return:
-	keyboard[ENTER] += 1;
-	break;
-      case XK_F1:
-	keyboard[F1] += 1;
-	break;
-      default:
-        break;
-      }
+      
+
+      keyboard[pressed_key] += 1; //Default behaviour
     }
     else if(event.type == KeyRelease){
       released_key = XLookupKeysym(&event.xkey, 0);
       keyboard[ANY] = 0;
-      switch(released_key){
-      case XK_1:
-	keyboard[1] = 0;
-	break;
-      case XK_2:
-	keyboard[2] = 0;
-	break;
-      case XK_Up:
-        keyboard[UP] = 0;
-        break;
-      case XK_Down:
-        keyboard[DOWN] = 0;
-        break;
-      case XK_Left:
-        keyboard[LEFT] = 0;
-        break;
-      case XK_Right:
-        keyboard[RIGHT] = 0;
-        break;
-      case XK_KP_Add:
-        keyboard[PLUS] = 0;
-        break;
-      case XK_KP_Subtract:
-        keyboard[MINUS] = 0;
-        break;
-      case XK_Shift_L:
-        keyboard[SHIFT] = 0;
-        break;
-      case XK_Control_L:
-        keyboard[CTRL] = 0;
-	keyboard[LEFT_CTRL] = 0;
-        break;
-      case XK_Control_R:
-	keyboard[CTRL] = 0;
-	keyboard[RIGHT_CTRL] = 0;
-	break;
-      case XK_Escape:
-	keyboard[ESC] = 0;
-	break;
-      case XK_a:
-        keyboard[A] = 0;
-        break;
-      case XK_s:
-        keyboard[S] = 0;
-        break;
-      case XK_d:
-        keyboard[D] = 0;
-        break;
-      case XK_w:
-        keyboard[W] = 0;
-        break;
-      case XK_Return:
-	keyboard[ENTER] = 0;
-	break;
-      case XK_F1:
-	keyboard[F1] = 0;
-	break;
-      default:
-        break;
-      }
+      
+      keyboard[released_key] = 0; // Default behaviour
    
     }
     else if(event.type == ButtonPress){

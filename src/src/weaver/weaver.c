@@ -25,8 +25,8 @@
 // This function initializes everything
 void awake_the_weaver(void){
   _initialize_screen();
-  initialize_keyboard();
-  initialize_mouse();
+  _initialize_keyboard();
+  _initialize_mouse();
   //initialize_sound();
   srand(time(NULL));
   gettimeofday(&current_time, NULL);
