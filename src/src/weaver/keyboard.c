@@ -42,13 +42,21 @@ void get_input(void){
   XEvent event;
   KeySym pressed_key, released_key;
   mouse.changed = 0;
+  
   while(XPending(_dpy)){
     XNextEvent(_dpy, &event);
-    //printf("DEBUG: %d\n", event.type);
-    if(event.type == KeyPress){
+    
+    if(event.type == KeyPress){ // KEYBOARD EVENT
       keyboard[ANY] += 1;
       pressed_key = XLookupKeysym(&event.xkey, 0);
       
+      // Treating special cases first 
+      if(pressed_key == LEFT_SHIFT || pressed_key == RIGHT_SHIFT)
+	keyboard[SHIFT] += 1;
+      if(pressed_key == LEFT_CTRL || pressed_key == RIGHT_CTRL)
+	keyboard[CTRL] += 1;
+      if(pressed_key == LEFT_ALT || pressed_key == RIGHT_ALT)
+	keyboard[ALT] += 1;
 
       keyboard[pressed_key] += 1; //Default behaviour
     }
@@ -56,10 +64,18 @@ void get_input(void){
       released_key = XLookupKeysym(&event.xkey, 0);
       keyboard[ANY] = 0;
       
-      keyboard[released_key] = 0; // Default behaviour
-   
+      // Some special cases
+      if(released_key == LEFT_SHIFT || released_key == RIGHT_SHIFT)
+	keyboard[SHIFT] = 0;
+      if(released_key == LEFT_CTRL || released_key == RIGHT_CTRL)
+	keyboard[CTRL] = 0;
+      if(released_key == LEFT_ALT || released_key == RIGHT_ALT)
+	keyboard[ALT] = 0;
+
+      
+      keyboard[released_key] = 0; // Default behaviour  
     }
-    else if(event.type == ButtonPress){
+    else if(event.type == ButtonPress){ //MOUSE EVENT
       if(! mouse.pressed){
 	mouse.pressed = 1;
 	mouse.changed = 1;

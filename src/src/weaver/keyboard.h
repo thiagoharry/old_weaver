@@ -28,7 +28,7 @@
 // Number of keys watched
 #define KEYS 0xffff+0x4
 
-// Position to each key
+// Position of each key
 #define UP          XK_Up
 #define RIGHT       XK_Right
 #define DOWN        XK_Down

@@ -21,6 +21,7 @@
 #include <math.h>
 #include <sys/time.h>
 #include "weaver.h"
+#include "display.h"
 
 // This function initializes everything
 void awake_the_weaver(void){
@@ -108,20 +109,38 @@ void film_circle(struct vector4 *camera, struct vector3 *circle, unsigned color)
   y = (int) (((circle -> y - camera -> y) / camera -> z) * window_height);
   height = 2 * (int) ((circle -> z / camera -> z) * window_height);
   width = 2 * (int) ((circle -> z / camera -> w) * window_width);
-  if(camera -> previous != NULL && camera -> next != NULL){
+  if(camera -> previous != NULL || camera -> next != NULL){
     limited_camera ++;
-    x = (int) ((float) x * ((float) (long) camera -> next) / (float) window_width) + (long) (camera -> previous);
+    x = (int) ((float) x * ((float) (long) camera -> next) / (float) window_width);
     width = (int) ((float) width * ((float) (long) camera -> next) / (float) window_width);
   }
-  if(camera -> top != NULL && camera -> down != NULL){
+  if(camera -> top != NULL || camera -> down != NULL){
     limited_camera ++;
-    y = (int) ((float) y * ((float) (long) camera -> down) / (float) window_height) + (long) (camera -> top);
+    y = (int) ((float) y * ((float) (long) camera -> down) / (float) window_height);
     height = (int) ((float) height * ((float) (long) camera -> down) / (float) window_height);
   }
   if(limited_camera){
-    if(x < (long) camera -> previous + (long) camera -> next && x > (long) camera -> previous &&
+    // Creating a temporary and transparent surface
+    struct surface *surf = new_surface((long) camera -> next, (long) camera -> down);
+    XSetForeground(_dpy, _mask_gc, 0l);
+    XFillRectangle(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width, surf -> height);
+    
+    // Drawing the circle in the surface
+    XSetForeground(_dpy, _gc, color);
+    XDrawArc(_dpy, surf -> pix, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+    
+    // Drawing the circle in the transparency map
+    XSetForeground(_dpy, _mask_gc, ~0l);
+    XDrawArc(_dpy, surf -> mask, _mask_gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+    printf("OK\n");
+    // Blitting the surface in the screen
+    blit_surface(surf, window, 0, 0, surf -> width, surf -> height, 
+		 (long) camera -> previous, (long) camera -> top);
+
+    /*if(x < (long) camera -> previous + (long) camera -> next && x > (long) camera -> previous &&
        y < (long) camera -> top + (long) camera -> down && y > (long) camera -> top)
-      draw_ellipse(x, y, width, height, color);
+       draw_ellipse(x, y, width, height, color);
+       }*/
   }
   else
     draw_ellipse(x, y, width, height, color);
