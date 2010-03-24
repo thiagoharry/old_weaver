@@ -30,7 +30,9 @@
 
 // Macro functions
 #define new_camera(x, y, width, height) new_vector4(width, x, y, height)
-#define new_camera_w(x, y, width) new_vector4(width, x, y, width * ((float) window_height / (float) window_width))
+#define new_camera_w(x, y, width) new_vector4(width, x, y, width *      \
+                                              ((float) window_height /  \
+                                               (float) window_width))
 #define new_camera_h(x, y, height) new_vector4(height * ((float) window_width / (float) window_height), x, y, height)
 #define new_circle(x, y, z) new_vector3(x, y, z)
 #define destroy_circle(a) free(a)

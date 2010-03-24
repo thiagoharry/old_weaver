@@ -82,12 +82,55 @@ void limit_camera(struct vector4 *camera, int x, int y, int width, int height){
 
 // This shows a rectangle (or square) in the area covered by the camera
 void film_rectangle(struct vector4 *camera, struct vector4 *rectangle, unsigned color){
-  int x, y, height, width;
+  int x, y, height, width, limited_camera = 0;
   x = (int) (((rectangle -> x - camera -> x) / camera -> w) * window_width);
   y = (int) (((rectangle -> y - camera -> y) / camera -> z) * window_height);
   height = (int) ((rectangle -> z / camera -> z) * window_height);
   width = (int) ((rectangle -> w / camera -> w) * window_width);
-  draw_rectangle(x, y, width, height, color);
+
+  if(camera -> previous != NULL || camera -> next != NULL){
+    limited_camera ++;
+    x = (int) ((float) x * ((float) (long) camera -> next) / 
+               (float) window_width);
+    width = (int) ((float) width * ((float) (long) camera -> next) / 
+                   (float) window_width);
+  }
+  if(camera -> top != NULL || camera -> down != NULL){
+    limited_camera ++;
+    y = (int) ((float) y * ((float) (long) camera -> down) / 
+               (float) window_height);
+    height = (int) ((float) height * ((float) (long) camera -> down) / 
+                    (float) window_height);
+  }
+  if(limited_camera){
+    if(rectangle -> x + rectangle -> w > camera -> x &&
+       rectangle -> x < camera -> x + camera -> w &&
+       rectangle -> y + rectangle -> z > camera -> y &&
+       rectangle -> y < camera -> y + camera -> z){
+      // If we are here, the rectangle appears in the camera
+      // Creating a temporary and transparent surface
+      struct surface *surf = new_surface((long) camera -> next, 
+                                         (long) camera -> down);
+      XSetForeground(_dpy, _mask_gc, 0l);
+      XFillRectangle(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width, 
+                     surf -> height);
+      
+      // Drawing the rectangle in the surface
+      XSetForeground(_dpy, _gc, color);
+      XDrawRectangle(_dpy, surf -> pix, _gc, x, y, width, height);
+      
+      // Drawing the circle in the transparency map
+      XSetForeground(_dpy, _mask_gc, ~0l);
+      XDrawRectangle(_dpy, surf -> mask, _mask_gc, x, y, width, height);
+      
+      // Blitting the surface in the screen
+      blit_surface(surf, window, 0, 0, surf -> width, surf -> height, 
+		   (long) camera -> previous, (long) camera -> top);
+      destroy_surface(surf);
+    }
+  }
+  else
+    draw_rectangle(x, y, width, height, color);
 }
 
 void film_fullrectangle(struct vector4 *camera, struct vector4 *rectangle, unsigned color){
