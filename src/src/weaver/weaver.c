@@ -292,6 +292,8 @@ void film_fullpolygon(struct vector4 *camera, struct vector2 *polygon,
   XPoint *points;
   int limited_camera = 0, number_of_points = 0;
   
+  XSetFillRule(_dpy, _gc, WindingRule);
+
   if(polygon == NULL || polygon -> next == polygon)
     return;
 
@@ -337,20 +339,21 @@ void film_fullpolygon(struct vector4 *camera, struct vector2 *polygon,
     // Creating a temporary and transparent surface
     struct surface *surf = new_surface((long) camera -> next, 
                                        (long) camera -> down);
+    XSetFillRule(_dpy, _mask_gc, WindingRule);
     XSetForeground(_dpy, _mask_gc, 0l);
     XFillRectangle(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width, 
                    surf -> height);
       
     // Drawing the polygon in the surface
     XSetForeground(_dpy, _gc, color);
-    XFillPolygon(_dpy, surf -> pix, _gc, points, number_of_points, Convex, 
+    XFillPolygon(_dpy, surf -> pix, _gc, points, number_of_points, Complex, 
                CoordModeOrigin);
     
       
     // Drawing the polygon in the transparency map
     XSetForeground(_dpy, _mask_gc, ~0l);
     XFillPolygon(_dpy, surf -> mask, _mask_gc, points, number_of_points, 
-                 Convex, CoordModeOrigin);
+                 Complex, CoordModeOrigin);
 
     // Blitting the surface in the screen
     blit_surface(surf, window, 0, 0, surf -> width, surf -> height, 
@@ -360,7 +363,7 @@ void film_fullpolygon(struct vector4 *camera, struct vector2 *polygon,
   }
   else{  
     XSetForeground(_dpy, _gc, color);
-    XFillPolygon(_dpy, _w, _gc, points, number_of_points, Convex, 
+    XFillPolygon(_dpy, _w, _gc, points, number_of_points, Complex, 
                  CoordModeOrigin);
   }
   free(points);

@@ -228,12 +228,14 @@ void hide_cursor(void){
 void draw_point(unsigned x, unsigned y, unsigned color){
   XSetForeground(_dpy, _gc, color);
   XDrawPoint(_dpy, _w, _gc, x, y);
+  XFlush(_dpy);
 }
 
 // This function draws a line in the screen
 void draw_line(unsigned x1, unsigned y1, unsigned x2, unsigned y2, unsigned color){
   XSetForeground(_dpy, _gc, color);
   XDrawLine(_dpy, _w, _gc, x1, y1, x2, y2);
+  XFlush(_dpy);
 }
 
 // This function draws a circle
@@ -241,6 +243,7 @@ void draw_circle(unsigned x, unsigned y, unsigned r, unsigned color){
   unsigned diameter = r + r;
   XSetForeground(_dpy, _gc, color); 
   XDrawArc(_dpy, _w, _gc, x-r, y-r, diameter, diameter, 0, 23040);
+  XFlush(_dpy);
 }
 
 // This function fills a circle
@@ -249,6 +252,7 @@ void fill_circle(unsigned x, unsigned y, unsigned r, unsigned color){
   XSetForeground(_dpy, _gc, color); 
   XDrawArc(_dpy, _w, _gc, x-r, y-r, diameter, diameter, 0, 23040);
   XFillArc(_dpy, _w, _gc, x-r, y-r, diameter, diameter, 0, 23040);
+  XFlush(_dpy);
 }
 
 
@@ -256,6 +260,7 @@ void fill_circle(unsigned x, unsigned y, unsigned r, unsigned color){
 void draw_rectangle(unsigned x, unsigned y, unsigned width, unsigned height, unsigned color){
   XSetForeground(_dpy, _gc, color);
   XDrawRectangle(_dpy, _w, _gc, x, y, width, height);
+  XFlush(_dpy);
 }
 
 // This fills a rectangle
@@ -263,12 +268,14 @@ void fill_rectangle(unsigned x, unsigned y, unsigned width, unsigned height, uns
   XSetForeground(_dpy, _gc, color);
   XDrawRectangle(_dpy, _w, _gc, x, y, width, height);
   XFillRectangle(_dpy, _w, _gc, x, y, width, height);
+  XFlush(_dpy);
 }
 
 // And this draws ellipses
 void draw_ellipse(unsigned x, unsigned y, unsigned width, unsigned height, unsigned color){
   XSetForeground(_dpy, _gc, color);
   XDrawArc(_dpy, _w, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+  XFlush(_dpy);
 }
 
 // We also can fill an ellipse
@@ -276,6 +283,7 @@ void fill_ellipse(unsigned x, unsigned y, unsigned width, unsigned height, unsig
   XSetForeground(_dpy, _gc, color);
   XDrawArc(_dpy, _w, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
   XFillArc(_dpy, _w, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+  XFlush(_dpy);
 }
 
 // And now we can draw text
@@ -290,4 +298,5 @@ void draw_text(unsigned x, unsigned y, char *text, char *font, unsigned color){
   else{
     printf("Warning: Font %s not found.\n", font);
   }
+  XFlush(_dpy);
 }
