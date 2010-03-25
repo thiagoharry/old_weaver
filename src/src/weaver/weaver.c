@@ -286,34 +286,85 @@ void film_fullcircle(struct vector4 *camera, struct vector3 *circle, unsigned co
 }
 
 // This films a full polygon
-void film_fullpolygon(struct vector4 *camera, struct vector2 *polygon, unsigned color){
+void film_fullpolygon(struct vector4 *camera, struct vector2 *polygon, 
+                      unsigned color){
   struct vector2 *current_vertex = polygon;
   XPoint *points;
-  int number_of_points = 0;
+  int limited_camera = 0, number_of_points = 0;
   
   if(polygon == NULL || polygon -> next == polygon)
     return;
 
+  if(camera -> previous != NULL || camera -> next != NULL)
+    limited_camera = 1;
+  
   // Discovering the number of points
   do{
     number_of_points ++;
     current_vertex = current_vertex -> next;
   }while(current_vertex != polygon);
-
+  
   // Allocating space for the XPoints
   points = (XPoint *) malloc(sizeof(XPoint) * number_of_points);
-  //Getting thew points coordinates
+  
+  //Getting the points coordinates 
   number_of_points = 0;
+  current_vertex = polygon;
   do{
-    points[number_of_points].x =  (int) (((current_vertex -> x - camera -> x) / camera -> w) * window_width);
-    points[number_of_points].y =  (int) (((current_vertex -> y - camera -> y) / camera -> z) * window_height);
+    points[number_of_points].x = (int) (((current_vertex -> x - camera -> x)/
+                                         camera -> w) * window_width);
+    points[number_of_points].y = (int) (((current_vertex -> y - camera -> y)/
+                                         camera -> z) * window_height);
     number_of_points ++;
     current_vertex = current_vertex -> next;
   }while(current_vertex != polygon);
+  // Correcting values if we are under a limited camera
+  if(limited_camera){
+    number_of_points = 0;
+    current_vertex = polygon;
+    do{
+      points[number_of_points].x = (int) ((float) points[number_of_points].x * 
+                                          ((float) (long) camera -> next) / 
+                                          (float) window_width);
+      points[number_of_points].y = (int) ((float) points[number_of_points].y * 
+                                          ((float) (long) camera -> down) / 
+                                          (float) window_height);
 
-  XSetForeground(_dpy, _gc, color);
-  XFillPolygon(_dpy, _w, _gc, points, number_of_points, Convex, CoordModeOrigin);
+      number_of_points ++;
+      current_vertex = current_vertex -> next;
+    }while(current_vertex != polygon);
+    
+    // Creating a temporary and transparent surface
+    struct surface *surf = new_surface((long) camera -> next, 
+                                       (long) camera -> down);
+    XSetForeground(_dpy, _mask_gc, 0l);
+    XFillRectangle(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width, 
+                   surf -> height);
+      
+    // Drawing the polygon in the surface
+    XSetForeground(_dpy, _gc, color);
+    XFillPolygon(_dpy, surf -> pix, _gc, points, number_of_points, Convex, 
+               CoordModeOrigin);
+    
+      
+    // Drawing the polygon in the transparency map
+    XSetForeground(_dpy, _mask_gc, ~0l);
+    XFillPolygon(_dpy, surf -> mask, _mask_gc, points, number_of_points, 
+                 Convex, CoordModeOrigin);
+
+    // Blitting the surface in the screen
+    blit_surface(surf, window, 0, 0, surf -> width, surf -> height, 
+                 (long) camera -> previous, (long) camera -> top);
+    destroy_surface(surf);
+
+  }
+  else{  
+    XSetForeground(_dpy, _gc, color);
+    XFillPolygon(_dpy, _w, _gc, points, number_of_points, Convex, 
+                 CoordModeOrigin);
+  }
   free(points);
+  
 }
 
 // This films an empty polygon
