@@ -19,6 +19,7 @@
 
 #include "font.h"
 
+// Initializes the FreeType Library
 int _initialize_font(void){
   int error = 0;
   error = FT_Init_FreeType(&_library);
@@ -27,5 +28,48 @@ int _initialize_font(void){
     return 0;
   }
   _face = NULL;
+  return 1;
+}
+
+// Loads a font face number 'index' from the 'file' file
+int load_font(char *file, int index){
+  int error;
+  FILE *fp;
+  char *path = (char *) malloc(strlen(file)+50);
+  path[0] = '\0';
+
+  // Opening file passed as argument
+  strcat(path, "/usr/share/games/DUMMY/fonts/");
+  strcat(path, file);
+  fp = fopen(path, "rb");
+  if(!fp){
+    path[0] = '\0';
+    strcat(path, "fonts/");
+    strcat(path, file);
+    fp = fopen(path, "rb");
+    if(!fp){
+      printf("WARNING: The font %s was not found.\n", file);
+      free(path);
+      return 0;
+    }
+  }
+  fclose(fp);
+
+  // Loading font
+  error = FT_New_Face(_library, path, index, &_face);
+  free(path);
+  
+  // Handling some possible errors
+  if(error == FT_Err_Unknown_File_Format){
+    printf("WARNING: The font %s has an unsupported format.\n", file);
+    _face = NULL;
+    return 0;
+  }
+  if(error){
+    printf("WARNING: Error while loading font %s.\n", file);
+    _face = NULL;
+    return 0;
+  }
+  
   return 1;
 }
