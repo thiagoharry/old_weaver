@@ -7,26 +7,32 @@ test:
 	@echo "#include <X11/Xlib.h>" >> dummy.h
 	@echo "#include <X11/Xutil.h>" >> dummy.h
 	@echo -n "Testing X11 libraries....."
-	@gcc dummy.c -lX11
-	@echo "OK"
+	@gcc dummy.c -lX11 2> /dev/null || touch ERROR
+	@if [ -e a.out ]; then echo "OK"; rm a.out; else \
+		echo -e "\033[31mFAILED\033[m"; fi
 	@echo -n "Testing Math libraries...."
-	@echo "#include <math.h>" >> dummy.h
-	@gcc dummy.c -lm
-	@echo "OK"
+	@echo "#include <math.h>" > dummy.h
+	@gcc dummy.c -lm 2> /dev/null || touch ERROR
+	@if [ -e a.out ]; then echo "OK"; rm a.out; else \
+		echo -e "\033[31mFAILED\033[m"; fi
 	@echo -n "Testing Vorbis libraries.."
-	@echo "#include <vorbis/vorbisfile.h>" >> dummy.h
-	@gcc dummy.c -lvorbisfile
-	@echo "OK"
+	@echo "#include <vorbis/vorbisfile.h>" > dummy.h
+	@gcc dummy.c -lvorbisfile 2> /dev/null || touch ERROR
+	@if [ -e a.out ]; then echo "OK"; rm a.out; else \
+		echo -e "\033[31mFAILED\033[m"; fi
 	@echo -n "Testing ALSA libraries...."
-	@echo "#include <alsa/asoundlib.h>" >> dummy.h
-	@gcc dummy.c -lasound
-	@echo "OK"
+	@echo "#include <alsa/asoundlib.h>" > dummy.h
+	@gcc dummy.c -lasound 2> /dev/null || touch ERROR
+	@if [ -e a.out ]; then echo "OK"; rm a.out; else \
+		echo -e "\033[31mFAILED\033[m"; fi
 	@echo -n "Testing PNG libraries....."
-	@echo "#include <png.h>" >> dummy.h
-	@gcc dummy.c -lpng
-	@echo "OK"
-	@rm dummy.c a.out dummy.h
-	@echo "Your system is ready to host Weaver."
+	@echo "#include <png.h>" > dummy.h
+	@gcc dummy.c -lpng 2> /dev/null || touch ERROR
+	@if [ -e a.out ]; then echo "OK"; rm a.out; else \
+		echo -e "\033[31mFAILED\033[m"; fi
+	@rm dummy.c dummy.h
+	@echo $$ERROR
+	@if [ ! -e ERROR ]; then echo "Your system is ready to host Weaver."; else echo "Your system misses some requirements to become a Weaver habitat."; rm ERROR; false; fi
 install: test
 	install -D -m 0755 weaver ${SCRIPT_DIR}/weaver
 	install -d ${DATA_DIR}/images
