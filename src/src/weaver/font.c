@@ -18,6 +18,7 @@
 */
 
 #include "font.h"
+#include "display.h"
 
 // Initializes the FreeType Library
 int _initialize_font(void){
@@ -32,7 +33,7 @@ int _initialize_font(void){
 }
 
 // Loads a font face number 'index' from the 'file' file
-int load_font(char *file, int index){
+int load_font(char *file, int size){
   int error;
   FILE *fp;
   char *path = (char *) malloc(strlen(file)+50);
@@ -56,7 +57,7 @@ int load_font(char *file, int index){
   fclose(fp);
 
   // Loading font
-  error = FT_New_Face(_library, path, index, &_face);
+  error = FT_New_Face(_library, path, 0, &_face);
   free(path);
   
   // Handling some possible errors
@@ -70,6 +71,14 @@ int load_font(char *file, int index){
     _face = NULL;
     return 0;
   }
+
+  // Setting font size
+  error = FT_Set_Char_Size(_face, 0, size, window_width, window_height);
+  if(error){
+    printf("WARNING: Error while setting size in font %s.\n", file);
+    _face = NULL;
+    return 0;
+  }  
   
   return 1;
 }
