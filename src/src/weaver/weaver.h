@@ -27,6 +27,7 @@
 #include "keyboard.h"
 #include "sound.h"
 #include "image.h"
+#include "font.h"
 
 // Macro functions
 #define new_camera(x, y, width, height) new_vector4(width, x, y, height)

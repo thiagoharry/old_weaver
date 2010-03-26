@@ -89,11 +89,13 @@ else
                 sed s/DUMMY/$1/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.h
                 sed s/DUMMY/$1/ ${WEAVER}/src/weaver/sound.c > $1/src/weaver/sound.c
                 sed s/DUMMY/$1/ ${WEAVER}/src/weaver/image.c > $1/src/weaver/image.c
+		sed s/DUMMY/$1/ ${WEAVER}/src/weaver/font.c > $1/src/weaver/font.c
                 echo $1 > $1/.web
                 echo $1 > $1/src/.web
                 echo $1 > $1/src/weaver/.web
                 echo $1 > $1/images/.web
                 echo $1 > $1/sound/.web
+		echo $1 > $1/fonts/.web
             fi
         fi
     fi
