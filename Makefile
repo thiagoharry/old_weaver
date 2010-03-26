@@ -4,32 +4,38 @@ DATA_DIR=/usr/share/weaver
 test:
 	@echo "Testing dependencies..."
 	@/bin/echo -e "#include \"dummy.h\" \n\nint main(int argc, char **argv){ return 1; }" > dummy.c
-	@echo "#include <X11/Xlib.h>" >> dummy.h
+	@touch dummy.h
+	@echo -n "Checking for GCC Compiler.."
+	@gcc dummy.c 2> /dev/null || touch ERROR
+	@if [ -e a.out ]; then echo "OK"; rm a.out; else \
+	/bin/echo -e "\033[31mFAILED\033[m"; rm ERROR dummy.c; \
+	rm dummy.h; false; fi
+	@echo "#include <X11/Xlib.h>" > dummy.h
 	@echo "#include <X11/Xutil.h>" >> dummy.h
-	@echo -n "Testing X11 libraries....."
+	@echo -n "Testing X11 libraries......"
 	@gcc dummy.c -lX11 2> /dev/null || touch ERROR
 	@if [ -e a.out ]; then echo "OK"; rm a.out; else \
-		echo -e "\033[31mFAILED\033[m"; fi
-	@echo -n "Testing Math libraries...."
+	/bin/echo -e "\033[31mFAILED\033[m"; fi
+	@echo -n "Testing Math libraries....."
 	@echo "#include <math.h>" > dummy.h
 	@gcc dummy.c -lm 2> /dev/null || touch ERROR
 	@if [ -e a.out ]; then echo "OK"; rm a.out; else \
-		echo -e "\033[31mFAILED\033[m"; fi
-	@echo -n "Testing Vorbis libraries.."
+	/bin/echo -e "\033[31mFAILED\033[m"; fi
+	@echo -n "Testing Vorbis libraries..."
 	@echo "#include <vorbis/vorbisfile.h>" > dummy.h
 	@gcc dummy.c -lvorbisfile 2> /dev/null || touch ERROR
 	@if [ -e a.out ]; then echo "OK"; rm a.out; else \
-		echo -e "\033[31mFAILED\033[m"; fi
-	@echo -n "Testing ALSA libraries...."
+	/bin/echo -e "\033[31mFAILED\033[m"; fi
+	@echo -n "Testing ALSA libraries....."
 	@echo "#include <alsa/asoundlib.h>" > dummy.h
 	@gcc dummy.c -lasound 2> /dev/null || touch ERROR
 	@if [ -e a.out ]; then echo "OK"; rm a.out; else \
-		echo -e "\033[31mFAILED\033[m"; fi
-	@echo -n "Testing PNG libraries....."
+	/bin/echo -e "\033[31mFAILED\033[m"; fi
+	@echo -n "Testing PNG libraries......"
 	@echo "#include <png.h>" > dummy.h
 	@gcc dummy.c -lpng 2> /dev/null || touch ERROR
 	@if [ -e a.out ]; then echo "OK"; rm a.out; else \
-		echo -e "\033[31mFAILED\033[m"; fi
+	/bin/echo -e "\033[31mFAILED\033[m"; fi
 	@rm dummy.c dummy.h
 	@echo $$ERROR
 	@if [ ! -e ERROR ]; then echo "Your system is ready to host Weaver."; else echo "Your system misses some requirements to become a Weaver habitat."; rm ERROR; false; fi
