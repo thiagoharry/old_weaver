@@ -88,23 +88,31 @@ else
 	    # --version invoked
             echo "WEAVER -- Version Alpha"    
         else
+	    if grep "^[ ]*"$1"[ ]*$" /usr/share/weaver; then 
+		# Trying to create a project with a reserved name
+		echo $1" is a reserved name. Please, choose another name for your project."
+	    elif [ -a $1 ]; then #Project  exists. Update it with the current Weaver version
+		true #TODO
 	    # Creating a new Weaver Project
-            if mkdir $1 && cp -r ${WEAVER}/* $1; then
-                NAME=$(echo $(finger $(whoami)) | sed s/Login:.*Name:\ // | sed s/\ Directory:.*//)
-                YEAR=$(date | cut -d " " -f 7)
-                sed s/dummy/$1/ ${WEAVER}/Makefile > $1/Makefile
-                sed s/DUMMY/$1/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.c
-                sed s/DUMMY/$1/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.h
-                sed s/DUMMY/$1/ ${WEAVER}/src/weaver/sound.c > $1/src/weaver/sound.c
-                sed s/DUMMY/$1/ ${WEAVER}/src/weaver/image.c > $1/src/weaver/image.c
-		sed s/DUMMY/$1/ ${WEAVER}/src/weaver/font.c > $1/src/weaver/font.c
-                echo $1 > $1/.web
-                echo $1 > $1/src/.web
-                echo $1 > $1/src/weaver/.web
-                echo $1 > $1/images/.web
-                echo $1 > $1/sound/.web
-		echo $1 > $1/fonts/.web
+            else 
+		if mkdir $1 && cp -r ${WEAVER}/* $1; then
+		    rm $1/reserved_words
+                    NAME=$(echo $(finger $(whoami)) | sed s/Login:.*Name:\ // | sed s/\ Directory:.*//)
+                    YEAR=$(date | cut -d " " -f 7)
+                    sed s/dummy/$1/ ${WEAVER}/Makefile > $1/Makefile
+                    sed s/DUMMY/$1/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.c
+                    sed s/DUMMY/$1/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.h
+                    sed s/DUMMY/$1/ ${WEAVER}/src/weaver/sound.c > $1/src/weaver/sound.c
+                    sed s/DUMMY/$1/ ${WEAVER}/src/weaver/image.c > $1/src/weaver/image.c
+		    sed s/DUMMY/$1/ ${WEAVER}/src/weaver/font.c > $1/src/weaver/font.c
+                    echo $1 > $1/.web
+                    echo $1 > $1/src/.web
+                    echo $1 > $1/src/weaver/.web
+                    echo $1 > $1/images/.web
+                    echo $1 > $1/sound/.web
+		    echo $1 > $1/fonts/.web
+		fi
             fi
-        fi
+	fi
     fi
 fi

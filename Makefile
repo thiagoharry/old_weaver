@@ -65,6 +65,7 @@ install: test
 	install -d ${DATA_DIR}/fonts
 	install -D -m 0644 src/LICENSE ${DATA_DIR}/LICENSE
 	install -D -m 0644 src/Makefile ${DATA_DIR}/Makefile
+	install -D -m 0644 reserved_words ${DATA_DIR}
 	install -d ${DATA_DIR}/sound
 	install -d ${DATA_DIR}/src
 	install -D -m 0644 src/src/game.c ${DATA_DIR}/src

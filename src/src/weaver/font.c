@@ -111,9 +111,9 @@ int draw_text(unsigned x, unsigned y, int size, char *text, unsigned color){
       continue;
 
     // Now we have a charactere in _face->glyph-> bitmap
-    ximage = XCreateImage(_dpy, _visual, _depth, ZPixmap
-    XPutImage(_dpy, _w, _gc, ximage, 0, 0, x, y, 
-	      _face->glyph->bitmap.width, _face->glyph->bitmap.rows);
+    //ximage = XCreateImage(_dpy, _visual, _depth, ZPixmap
+    //XPutImage(_dpy, _w, _gc, ximage, 0, 0, x, y, 
+    //      _face->glyph->bitmap.width, _face->glyph->bitmap.rows);
     x += _face -> glyph -> advance.x >> 6;
     
   }
