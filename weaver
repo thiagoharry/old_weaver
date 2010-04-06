@@ -93,9 +93,9 @@ else
 		echo $1" is a reserved name. Please, choose another name for your project."
 	    elif [ -a $1 ]; then #Project  exists. Update it with the current Weaver version
 		true #TODO
-	    # Creating a new Weaver Project
             else 
-		if mkdir $1 && cp -r ${WEAVER}/* $1; then
+		if mkdir $1 2> /dev/null && cp -r ${WEAVER}/* $1 2> /dev/null; then
+		    # reating a new Weaver project
 		    rm $1/reserved_words
                     NAME=$(echo $(finger $(whoami)) | sed s/Login:.*Name:\ // | sed s/\ Directory:.*//)
                     YEAR=$(date | cut -d " " -f 7)
@@ -111,6 +111,9 @@ else
                     echo $1 > $1/images/.web
                     echo $1 > $1/sound/.web
 		    echo $1 > $1/fonts/.web
+		else
+		    echo "Sorry, your project could not be created." 
+		    echo "Probably you don't have permission to write in this directory."
 		fi
             fi
 	fi
