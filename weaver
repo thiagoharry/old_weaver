@@ -88,7 +88,7 @@ else
 	    # --version invoked
             echo "WEAVER -- Version Alpha"    
         else
-	    if grep "^[ ]*"$1"[ ]*$" /usr/share/weaver; then 
+	    if grep "^[ ]*"$1"[ ]*$" /usr/share/weaver/reserved_words &> /dev/null; then 
 		# Trying to create a project with a reserved name
 		echo $1" is a reserved name. Please, choose another name for your project."
 	    elif [ -a $1 ]; then #Project  exists. Update it with the current Weaver version
