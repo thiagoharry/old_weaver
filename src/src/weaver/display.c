@@ -285,18 +285,3 @@ void fill_ellipse(unsigned x, unsigned y, unsigned width, unsigned height, unsig
   XFillArc(_dpy, _w, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
   XFlush(_dpy);
 }
-
-// And now we can draw text
-void draw_text(unsigned x, unsigned y, char *text, char *font, unsigned color){
-  XFontStruct *new_font;
-
-  XSetForeground(_dpy, _gc, color);
-  new_font = XLoadQueryFont(_dpy, font);
-  if(new_font != NULL){
-    XDrawString(_dpy, _w, _gc, x, y, text, strlen(text));
-  }
-  else{
-    printf("Warning: Font %s not found.\n", font);
-  }
-  XFlush(_dpy);
-}

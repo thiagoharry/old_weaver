@@ -71,14 +71,51 @@ int load_font(char *file, int size){
     _face = NULL;
     return 0;
   }
+  
+  return 1;
+}
+
+int draw_text(unsigned x, unsigned y, int size, char *text, unsigned color){
+  int error;
+  char *p;
+
+  if(_face == NULL){
+    printf("WARNING: Trying to write, but no font were selected.\n");
+    return 0;
+  }
 
   // Setting font size
   error = FT_Set_Char_Size(_face, 0, size, window_width, window_height);
   if(error){
-    printf("WARNING: Error while setting size in font %s.\n", file);
+    printf("WARNING: Error while setting size in font.\n");
     _face = NULL;
     return 0;
   }  
-  
-  return 1;
+
+  for(p = text; *p != '\0'; p++){
+    FT_UInt glyph_index;
+    XImage *ximage;
+    
+    // retrieve glyph index from character code  
+    glyph_index = FT_Get_Char_Index(_face, *p);
+
+    // load glyph image into the slot (erase previous one)
+    error = FT_Load_Glyph(_face, glyph_index, FT_LOAD_DEFAULT);
+
+    if(error) // If we can't handle this character, go to the next
+      continue;
+
+    // convert to an anti-aliased bitmap
+    error = FT_Render_Glyph(_face->glyph, FT_RENDER_MODE_NORMAL);
+    if(error)
+      continue;
+
+    // Now we have a charactere in _face->glyph-> bitmap
+    ximage = XCreateImage(_dpy, _visual, _depth, ZPixmap
+    XPutImage(_dpy, _w, _gc, ximage, 0, 0, x, y, 
+	      _face->glyph->bitmap.width, _face->glyph->bitmap.rows);
+    x += _face -> glyph -> advance.x >> 6;
+    
+  }
+  return 0;
 }

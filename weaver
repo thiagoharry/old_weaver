@@ -19,13 +19,14 @@
 
 WEAVER=/usr/share/weaver 
 
-if [ -a .web ]; then
-    if [ -z $1 ]; then
+if [ -a .web ]; then # We're invoking weaver from inside a Weaver Directory
+    if [ -z $1 ]; then # No arguments. Clean recursively the directory
         find . -name "*~" -exec rm -f {} \;
         find . -name "*\#" -exec rm -f {} \;
         find . -name "*.o" -exec rm -f {} \;
     else
         if [[ $1 == "--help" ]]; then
+	    # --help invoked. Printing instructions...
             echo "       \\                    weaver: remove files ended with '~' or '#'" 
             echo "        \\______/"
             echo "        /\\____/\\           weaver EXT: Creates new EXT.c and EXT.h files."
@@ -39,9 +40,11 @@ if [ -a .web ]; then
             exit
         else
             if [ -a ${1}.c ]; then
-                true
-                # TODO: 
+		# A C's source file name was passed. In the future, perhaps we should update the
+		# ${1}.h with the function declarations presented here
+                true 
             else
+		# Creating new files ${1}.{c,h}
                 ADDR=$(echo $(pwd) | sed s/$(cat .web).*//)$(cat .web)
                 PROJ=$(cat .web)
                 NAME=$(echo $(finger $(whoami)) | sed s/Login:.*Name:\ // | sed s/\ Directory:.*//)
@@ -57,7 +60,9 @@ if [ -a .web ]; then
         fi
     fi
 else
+    # We are not inside a Weaver Directory
     if [ -z $1 ]; then
+	# No arguments! Print instructions
         echo "    .  .     weaver PROJECT_NAME"
         echo "   .|  |."
         echo "   ||  ||"
@@ -69,6 +74,7 @@ else
         exit
     else 
         if [[ $1 == "--help" ]]; then
+	    # --help invoked
             echo "    .  .     weaver PROJECT_NAME"
             echo "   .|  |."
             echo "   ||  ||"
@@ -79,8 +85,10 @@ else
             echo "     \`'"
             exit
         elif [[ $1 == "--version" ]]; then
+	    # --version invoked
             echo "WEAVER -- Version Alpha"    
         else
+	    # Creating a new Weaver Project
             if mkdir $1 && cp -r ${WEAVER}/* $1; then
                 NAME=$(echo $(finger $(whoami)) | sed s/Login:.*Name:\ // | sed s/\ Directory:.*//)
                 YEAR=$(date | cut -d " " -f 7)

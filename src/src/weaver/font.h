@@ -28,4 +28,6 @@ FT_Face _face;
 int _initialize_font(void);
 int load_font(char *, int);
 
+int draw_text(unsigned, unsigned, int, char *, unsigned);
+
 #endif
