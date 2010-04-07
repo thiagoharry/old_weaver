@@ -94,7 +94,7 @@ int draw_text(unsigned x, unsigned y, int size, char *text, unsigned color){
 
   for(p = text; *p != '\0'; p++){
     FT_UInt glyph_index;
-    XImage *ximage;
+    //XImage *ximage;
     
     // retrieve glyph index from character code  
     glyph_index = FT_Get_Char_Index(_face, *p);
