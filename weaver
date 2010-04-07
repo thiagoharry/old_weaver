@@ -100,14 +100,18 @@ else
 		fi
 		NAME=$(grep "Copyright (C) " $1/src/game.c | sed s/^" "*// | sed s/" "+/" "/ | cut -d ' ' -f 4-)
 		
+		# Updating Weaver API
 		cp -r ${WEAVER}/reserved_words $1 2> /dev/null
                 cp -r ${WEAVER}/src/weaver $1/src 2> /dev/null
 
+		# Updating year and copyright holder
 		for i in $(ls $1/src/*.{c,h}); do 
 		    file=$(basename $i)
 		    sed s/Copyright\ \(C\)\ .*$/Copyright\ \(C\)\ ${YEAR}\ ${NAME}/ $1/src/$file > $1/src/${file}~
 		    mv $1/src/$file~ $1/src/$file
 		done
+
+		# Correcting some names in some source code files
                 sed s/DUMMY/$1/ ${WEAVER}/src/weaver/sound.c > $1/src/weaver/sound.c
                 sed s/DUMMY/$1/ ${WEAVER}/src/weaver/image.c > $1/src/weaver/image.c
                 sed s/DUMMY/$1/ ${WEAVER}/src/weaver/font.c > $1/src/weaver/font.c
