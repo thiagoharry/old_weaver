@@ -52,8 +52,8 @@ if [ -a .web ]; then # We're invoking weaver from inside a Weaver Directory
                 cd $ADDR
                 sed s/DUMMY/${PROJ}/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ ${NAME}/ | head -n 18 > src/${1}.c
                 sed s/DUMMY/${PROJ}/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ ${NAME}/ | sed s/_GAME_H_/_$(head -n 1 .web)_h_/ > src/${1}.h
-                sed s/PROG_OBJ=/PROG_OBJ=${1}.o\ / Makefile > Makefile~
-                sed s/\#GAME_END/${1}.o:" src\/"${1}".c src\/"${1}".h\n\t\${CC} -c src\/"${1}".c\n"\#GAME_END/ Makefile~ > Makefile
+                sed s/PROG_OBJ=/PROG_OBJ=${1}.o\ / Makefile | sed s:PROG_HEAD=:PROG_HEAD=src/${1}.h\ : > Makefile~
+                sed s/\#GAME_END/${1}.o:" src\/"${1}".c $PROG_HEAD\n\t\${CC} -c src\/"${1}".c\n"\#GAME_END/ Makefile~ > Makefile
                 rm Makefile~
                 
             fi
