@@ -3,6 +3,7 @@ W_DIR=src/weaver/
 PROG=dummy
 WEAVER_OBJ=display.o keyboard.o vector2.o vector3.o vector4.o weaver.o sound.o image.o font.o
 PROG_OBJ=game.o
+PROG_HEAD=src/game.h
 INSTALL_DIR=/usr/games
 DATA_DIR=/usr/share/games/dummy
 
@@ -10,7 +11,7 @@ DATA_DIR=/usr/share/games/dummy
 all: ${WEAVER_OBJ} ${PROG_OBJ}
 	${CC} ${CFLAGS} -g -o ${PROG} ${WEAVER_OBJ} ${PROG_OBJ} -lX11 -lm -lvorbisfile -lasound -lpng -lfreetype $$(freetype-config --cflags)
 #GAME_START
-game.o: src/game.c src/game.h
+game.o: src/game.c ${PROG_HEAD}
 	${CC} -c src/game.c
 #GAME_END
 #WEAVER_START
