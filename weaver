@@ -50,10 +50,17 @@ if [ -a .web ]; then # We're invoking weaver from inside a Weaver Directory
                 NAME=$(echo $(finger $(whoami)) | sed s/Login:.*Name:\ // | sed s/\ Directory:.*//)
                 YEAR=$(date | cut -d " " -f 7)
                 cd $ADDR
+		for i in $(ls src/*.h); do
+		    name=$(basename $i)
+		    name=${name:0:${#name}-2}
+		    sed s/\#define\ _$(echo $name | tr [:lower:] [:upper:])_H_/\#define\ _$(echo $name | tr [:lower:] [:upper:])_H_"\n"\#include\ \"${1}.h\"/ $i > $i~
+		    mv $i~ $i
+		done
                 sed s/DUMMY/${PROJ}/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ ${NAME}/ | head -n 18 > src/${1}.c
                 sed s/DUMMY/${PROJ}/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ ${NAME}/ | sed s/_GAME_H_/_$(echo ${1} | tr [:lower:] [:upper:])_H_/ > src/${1}.h
                 sed s/PROG_OBJ=/PROG_OBJ=${1}.o\ / Makefile | sed s:PROG_HEAD=:PROG_HEAD=src/${1}.h\ : > Makefile~
                 sed s/\#GAME_END/${1}.o:" src\/"${1}".c \${PROG_HEAD}\n\t\${CC} -c src\/"${1}".c\n"\#GAME_END/ Makefile~ > Makefile
+		
                 rm Makefile~
                 
             fi
