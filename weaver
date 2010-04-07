@@ -92,18 +92,22 @@ else
 		# Trying to create a project with a reserved name
 		echo $1" is a reserved name. Please, choose another name for your project."
 	    elif [ -a $1/.web ]; then #Project  exists. Update it with the current Weaver version
+		# Take the old information about the year and copyright holder
 		YEAR=$(grep "Copyright (C) " $1/src/game.c | sed s/^" "*// | sed s/" "+/" "/ | cut -d ' ' -f 3)
 		COUNT=$(( $(echo $YEAR | grep -o "," | wc -l | sed s/\ //g) + 1 ))
-				
 		if [ $(echo $YEAR | cut -d , -f $COUNT) != $(date | cut -d " " -f 7) ]; then
 		    YEAR=${YEAR}","$(date | cut -d " " -f 7)
 		fi
 		NAME=$(grep "Copyright (C) " $1/src/game.c | sed s/^" "*// | sed s/" "+/" "/ | cut -d ' ' -f 4-)
-		echo $YEAR $NAME
-		cp -r ${WEAVER}/* $1 2> /dev/null
-                sed s/dummy/$1/ ${WEAVER}/Makefile > $1/Makefile
-                sed s/DUMMY/$1/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.c
-                sed s/DUMMY/$1/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.h
+		
+		cp -r ${WEAVER}/reserved_words $1 2> /dev/null
+                cp -r ${WEAVER}/src/weaver $1/src 2> /dev/null
+
+		for i in $(ls $1/src/*.{c,h}); do 
+		    file=$(basename $i)
+		    sed s/Copyright\ \(C\)\ .*$/Copyright\ \(C\)\ ${YEAR}\ ${NAME}/ $1/src/$file > $1/src/${file}~
+		    mv $1/src/$file~ $1/src/$file
+		done
                 sed s/DUMMY/$1/ ${WEAVER}/src/weaver/sound.c > $1/src/weaver/sound.c
                 sed s/DUMMY/$1/ ${WEAVER}/src/weaver/image.c > $1/src/weaver/image.c
                 sed s/DUMMY/$1/ ${WEAVER}/src/weaver/font.c > $1/src/weaver/font.c
