@@ -17,8 +17,8 @@
  along with Weaver API.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef _PADDLE_H_
-#define _PADDLE_H_
+#ifndef _WEAVER_H_
+#define _WEAVER_H_
 
 #include "display.h"
 #include "vector2.h"

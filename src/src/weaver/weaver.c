@@ -49,6 +49,7 @@ void weaver_rest(long nanoseconds){
   _b_frame.tv_sec = current_time.tv_sec;
   _b_frame.tv_usec = current_time.tv_usec;
   gettimeofday(&current_time, NULL);
+  XCopyArea(_dpy, window -> pix, _w, _gc, 0, 0, window_width, window_height, 0, 0);
   fps = 1000000 / (1000000 * (current_time.tv_sec - _b_frame.tv_sec) + current_time.tv_usec - _b_frame.tv_usec);
 }
 
