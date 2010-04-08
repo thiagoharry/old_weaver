@@ -17,6 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with Weaver Framework.  If not, see <http://www.gnu.org/licenses/>.
 
+#WEAVER=/home/bcc/tla06/weaver/src
 WEAVER=/usr/share/weaver 
 
 if [ -a .web ]; then # We're invoking weaver from inside a Weaver Directory
@@ -56,13 +57,19 @@ if [ -a .web ]; then # We're invoking weaver from inside a Weaver Directory
 		    sed s/\#define\ _$(echo $name | tr [:lower:] [:upper:])_H_/\#define\ _$(echo $name | tr [:lower:] [:upper:])_H_"\n"\#include\ \"${1}.h\"/ $i > $i~
 		    mv $i~ $i
 		done
-                sed s/DUMMY/${PROJ}/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ ${NAME}/ | head -n 18 > src/${1}.c
-                sed s/DUMMY/${PROJ}/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ ${NAME}/ | sed s/_GAME_H_/_$(echo ${1} | tr [:lower:] [:upper:])_H_/ > src/${1}.h
+		sed s/DUMMY/${PROJ}/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi/Copyright" (C) "${YEAR}\ "${NAME}"/ | head -n 18 > src/${1}.c
+                sed s/DUMMY/${PROJ}/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ | sed s/_GAME_H_/_$(echo ${1} | tr [:lower:] [:upper:])_H_/ > src/${1}.h
                 sed s/PROG_OBJ=/PROG_OBJ=${1}.o\ / Makefile | sed s:PROG_HEAD=:PROG_HEAD=src/${1}.h\ : > Makefile~
                 sed s/\#GAME_END/${1}.o:" src\/"${1}".c \${PROG_HEAD}\n\t\${CC} -c src\/"${1}".c\n"\#GAME_END/ Makefile~ > Makefile
-		
                 rm Makefile~
-                
+		for i in $(ls src/*.h); do
+		    name=$(basename $i)
+		    if [ $name == ${1}.h ]; then
+			continue
+		    fi
+		    sed s/\#define\ _$(echo ${1} | tr [:lower:] [:upper:])_H_/\#define\ _$(echo ${1} | tr [:lower:] [:upper:])_H_"\n#include \"${name}\""/ src/${1}.h > src/${1}.h~
+		    mv src/${1}.h~ src/${1}.h
+		done
             fi
         fi
     fi
@@ -95,7 +102,7 @@ else
 	    # --version invoked
             echo "WEAVER -- Version Alpha"    
         else
-	    if grep "^[ ]*"$1"[ ]*$" /usr/share/weaver/reserved_words &> /dev/null; then 
+	    if grep "^[ ]*"$1"[ ]*$" ${WEAVER}/reserved_words &> /dev/null; then 
 		# Trying to create a project with a reserved name
 		echo $1" is a reserved name. Please, choose another name for your project."
 	    elif [ -a $1/.web ]; then #Project  exists. Update it with the current Weaver version
@@ -114,7 +121,7 @@ else
 		# Updating year and copyright holder
 		for i in $(ls $1/src/*.{c,h}); do 
 		    file=$(basename $i)
-		    sed s/Copyright\ \(C\)\ .*$/Copyright\ \(C\)\ ${YEAR}\ ${NAME}/ $1/src/$file > $1/src/${file}~
+		    sed s/Copyright\ \(C\)\ .*$/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ $1/src/$file > $1/src/${file}~
 		    mv $1/src/$file~ $1/src/$file
 		done
 
@@ -124,8 +131,8 @@ else
                 sed s/DUMMY/$1/ ${WEAVER}/src/weaver/font.c > $1/src/weaver/font.c
             else 
 		if mkdir $1 2> /dev/null && cp -r ${WEAVER}/* $1 2> /dev/null; then
-		    # reating a new Weaver project
-		    rm $1/reserved_words
+		    # Creating a new Weaver project
+		    rm -f $1/reserved_words
                     NAME=$(echo $(finger $(whoami)) | sed s/Login:.*Name:\ // | sed s/\ Directory:.*//)
                     YEAR=$(date | cut -d " " -f 7)
                     sed s/dummy/$1/ ${WEAVER}/Makefile > $1/Makefile
