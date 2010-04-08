@@ -94,7 +94,7 @@ int draw_text(unsigned x, unsigned y, int size, char *text, unsigned color){
 
   for(p = text; *p != '\0'; p++){
     FT_UInt glyph_index;
-    //XImage *ximage;
+    XImage *ximage;
     
     // retrieve glyph index from character code  
     glyph_index = FT_Get_Char_Index(_face, *p);
@@ -111,9 +111,16 @@ int draw_text(unsigned x, unsigned y, int size, char *text, unsigned color){
       continue;
 
     // Now we have a charactere in _face->glyph-> bitmap
-    //ximage = XCreateImage(_dpy, _visual, _depth, ZPixmap
-    //XPutImage(_dpy, _w, _gc, ximage, 0, 0, x, y, 
-    //      _face->glyph->bitmap.width, _face->glyph->bitmap.rows);
+    ximage = XCreateImage(_dpy, _visual, _depth, ZPixmap, 0, (char *) _face->glyph-> bitmap.buffer,
+			  _face->glyph->bitmap.width, _face->glyph->bitmap.rows, 32, 0);
+    if(!ximage){
+      fprintf(stderr, "ERROR: XCreateImage() failed!\n");
+      exit(1);
+    }
+    XInitImage(ximage);
+    ximage -> byte_order =  MSBFirst;
+    XPutImage(_dpy, _w, _gc, ximage, 0, 0, x, y, 
+          _face->glyph->bitmap.width, _face->glyph->bitmap.rows);
     x += _face -> glyph -> advance.x >> 6;
     
   }

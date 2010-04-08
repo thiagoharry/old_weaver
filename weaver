@@ -41,9 +41,8 @@ if [ -a .web ]; then # We're invoking weaver from inside a Weaver Directory
             exit
         else
             if [ -a ${1}.c ]; then
-		# A C's source file name was passed. In the future, perhaps we should update the
-		# ${1}.h with the function declarations presented here
-                true 
+		echo "The module $1 already exists. Please, choose another \
+name"
             else
 		# Creating new files ${1}.{c,h}
                 ADDR=$(echo $(pwd) | sed s/$(head -n 1 .web).*//)$(head -n 1 .web)
@@ -58,10 +57,15 @@ if [ -a .web ]; then # We're invoking weaver from inside a Weaver Directory
 		    mv $i~ $i
 		done
 		sed s/DUMMY/${PROJ}/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi/Copyright" (C) "${YEAR}\ "${NAME}"/ | head -n 18 > src/${1}.c
+		echo "#include \"${1}.h\"" >> src/${1}.c
+		echo >> src/${1}.h
                 sed s/DUMMY/${PROJ}/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ | sed s/_GAME_H_/_$(echo ${1} | tr [:lower:] [:upper:])_H_/ > src/${1}.h
                 sed s/PROG_OBJ=/PROG_OBJ=${1}.o\ / Makefile | sed s:PROG_HEAD=:PROG_HEAD=src/${1}.h\ : > Makefile~
                 sed s/\#GAME_END/${1}.o:" src\/"${1}".c \${PROG_HEAD}\n\t\${CC} -c src\/"${1}".c\n"\#GAME_END/ Makefile~ > Makefile
                 rm Makefile~
+
+		sed s/\#define\ _$(echo ${1} | tr [:lower:] [:upper:])_H_/\#define\ _$(echo ${1} | tr [:lower:] [:upper:])_H_"\n#include \"weaver\/weaver.h\""/ src/${1}.h > src/${1}.h~
+		mv src/${1}.h~ src/${1}.h
 		for i in $(ls src/*.h); do
 		    name=$(basename $i)
 		    if [ $name == ${1}.h ]; then
