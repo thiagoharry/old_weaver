@@ -19,6 +19,7 @@
 
 #include "font.h"
 #include "display.h"
+#include <X11/Xutil.h>
 
 // Initializes the FreeType Library
 int _initialize_font(void){
@@ -78,6 +79,8 @@ int load_font(char *file, int size){
 int draw_text(unsigned x, unsigned y, int size, char *text, unsigned color){
   int error;
   char *p;
+  XImage *ximage = NULL;
+
 
   if(_face == NULL){
     printf("WARNING: Trying to write, but no font were selected.\n");
@@ -92,37 +95,71 @@ int draw_text(unsigned x, unsigned y, int size, char *text, unsigned color){
     return 0;
   }  
 
+
+
   for(p = text; *p != '\0'; p++){
-    FT_UInt glyph_index;
-    XImage *ximage;
-    
+    surface *surf;
+
     // retrieve glyph index from character code  
-    glyph_index = FT_Get_Char_Index(_face, *p);
-
+    //glyph_index = FT_Get_Char_Index(_face, *p);
+    
+    printf("-6\n"); fflush(stdout);
     // load glyph image into the slot (erase previous one)
-    error = FT_Load_Glyph(_face, glyph_index, FT_LOAD_DEFAULT);
-
+    error = FT_Load_Char(_face, *p, FT_LOAD_MONOCHROME);
     if(error) // If we can't handle this character, go to the next
       continue;
 
+    printf("-5\n"); fflush(stdout);
     // convert to an anti-aliased bitmap
-    error = FT_Render_Glyph(_face->glyph, FT_RENDER_MODE_NORMAL);
+    error = FT_Render_Glyph(_face->glyph, FT_RENDER_MODE_MONO);
     if(error)
       continue;
 
+    printf("-4\n"); fflush(stdout);
+
+    if(_face->glyph->bitmap.width <= 0 || _face->glyph->bitmap.rows <= 0){
+      x += _face -> glyph -> advance.x >> 6;
+      continue;
+    }
+
+    printf("-3\n"); fflush(stdout);
     // Now we have a charactere in _face->glyph-> bitmap
-    ximage = XCreateImage(_dpy, _visual, _depth, ZPixmap, 0, (char *) _face->glyph-> bitmap.buffer,
+    ximage = XCreateImage(_dpy, _visual, 1, XYBitmap, 0, (char *) _face->glyph-> bitmap.buffer,
 			  _face->glyph->bitmap.width, _face->glyph->bitmap.rows, 32, 0);
     if(!ximage){
       fprintf(stderr, "ERROR: XCreateImage() failed!\n");
       exit(1);
     }
+
+    printf("-2\n"); fflush(stdout);
+
+   
+
+    printf("-1\n"); fflush(stdout);
+
     XInitImage(ximage);
     ximage -> byte_order =  MSBFirst;
-    XPutImage(_dpy, _w, _gc, ximage, 0, 0, x, y, 
-          _face->glyph->bitmap.width, _face->glyph->bitmap.rows);
+    ximage -> bitmap_bit_order = MSBFirst;
+    ximage -> bits_per_pixel = 1;
+
+    printf("0\n"); fflush(stdout);
+    surf = new_surface(_face->glyph->bitmap.width*2, _face->glyph->bitmap.rows*2);
+    printf("1\n"); fflush(stdout);
+    XSetForeground(_dpy, _gc, color);
+    printf("2\n"); fflush(stdout);
+    XFillRectangle(_dpy, surf -> pix, _gc, 0, 0, surf -> width, surf -> height);
+    printf("3\n"); fflush(stdout);
+    XPutImage(_dpy, surf -> mask, _mask_gc, ximage, 0, 0, 0, 0, 
+          _face->glyph->bitmap.width*2, _face->glyph->bitmap.rows*2);
+    printf("4\n"); fflush(stdout);
+    blit_surface(surf, window, 0, 0, surf -> width, surf -> height, x, y);
+    printf("5\n"); fflush(stdout);
     x += _face -> glyph -> advance.x >> 6;
-    
+    printf("6\n"); fflush(stdout);
+    printf("7\n"); fflush(stdout);
+    destroy_surface(surf);
+    printf("8\n"); fflush(stdout);
   }
+  XDestroyImage(ximage);
   return 0;
 }

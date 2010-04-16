@@ -47,7 +47,8 @@ name"
 		# Creating new files ${1}.{c,h}
                 ADDR=$(echo $(pwd) | sed s/$(head -n 1 .web).*//)$(head -n 1 .web)
                 PROJ=$(head -n 1 .web)
-                NAME=$(echo $(finger $(whoami)) | sed s/Login:.*Name:\ // | sed s/\ Directory:.*//)
+		NAME=$(grep "^$(whoami):" /etc/passwd | cut -d : -f 5 | sed s/,.*//)
+                
                 YEAR=$(date | cut -d " " -f 7)
                 cd $ADDR
 		for i in $(ls src/*.h); do
@@ -137,7 +138,8 @@ else
 		if mkdir $1 2> /dev/null && cp -r ${WEAVER}/* $1 2> /dev/null; then
 		    # Creating a new Weaver project
 		    rm -f $1/reserved_words
-                    NAME=$(echo $(finger $(whoami)) | sed s/Login:.*Name:\ // | sed s/\ Directory:.*//)
+		    NAME=$(grep "^$(whoami):" /etc/passwd | cut -d : -f 5 | sed s/,.*//)
+                    
                     YEAR=$(date | cut -d " " -f 7)
                     sed s/dummy/$1/ ${WEAVER}/Makefile > $1/Makefile
                     sed s/DUMMY/$1/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.c
