@@ -49,7 +49,7 @@ name"
                 PROJ=$(head -n 1 .web)
 		NAME=$(grep "^$(whoami):" /etc/passwd | cut -d : -f 5 | sed s/,.*//)
                 
-                YEAR=$(date | cut -d " " -f 7)
+                YEAR=$(date +%Y)
                 cd $ADDR
 		for i in $(ls src/*.h); do
 		    name=$(basename $i)
@@ -114,8 +114,8 @@ else
 		# Take the old information about the year and copyright holder
 		YEAR=$(grep "Copyright (C) " $1/src/game.c | sed s/^" "*// | sed s/" "+/" "/ | cut -d ' ' -f 3)
 		COUNT=$(( $(echo $YEAR | grep -o "," | wc -l | sed s/\ //g) + 1 ))
-		if [ $(echo $YEAR | cut -d , -f $COUNT) != $(date | cut -d " " -f 7) ]; then
-		    YEAR=${YEAR}","$(date | cut -d " " -f 7)
+		if [ $(echo $YEAR | cut -d , -f $COUNT) != $(date +%Y) ]; then
+		    YEAR=${YEAR}","$(date +%Y)
 		fi
 		NAME=$(grep "Copyright (C) " $1/src/game.c | sed s/^" "*// | sed s/" "+/" "/ | cut -d ' ' -f 4-)
 		
@@ -140,7 +140,7 @@ else
 		    rm -f $1/reserved_words
 		    NAME=$(grep "^$(whoami):" /etc/passwd | cut -d : -f 5 | sed s/,.*//)
                     
-                    YEAR=$(date | cut -d " " -f 7)
+                    YEAR=$(date +%Y)
                     sed s/dummy/$1/ ${WEAVER}/Makefile > $1/Makefile
                     sed s/DUMMY/$1/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.c
                     sed s/DUMMY/$1/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.h
