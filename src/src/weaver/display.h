@@ -37,6 +37,7 @@
 // Some useful macros
 #define flush() XFlush(_dpy)
 #define fill_screen(x) fill_rectangle(0, 0, window_width, window_height, x)
+#define draw_surface(a, b, x, y) blit_surface(a, b, 0, 0, a -> width, a -> height, x, y)
 
 typedef struct surface{
   Pixmap pix;
