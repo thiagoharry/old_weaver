@@ -58,6 +58,7 @@ unsigned long transparent_color;
 struct surface *new_surface(int, int);
 void destroy_surface(struct surface *);
 void blit_surface(struct surface *, struct surface *, int, int, int, int, int, int);
+void fill_surface(struct surface *, unsigned);
 
 void _initialize_screen(void);
 void hide_cursor(void);

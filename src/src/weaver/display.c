@@ -30,6 +30,12 @@ void draw_rectangle_mask(struct surface *my_surf, int x, int y, int width, int h
   XFillRectangle(_dpy, my_surf -> mask, _mask_gc, x, y, width, height);
 }
 
+// This function fills a surface with some color
+void fill_surface(struct surface *surf, unsigned color){
+  XSetForeground(_dpy, _gc, color);
+  XFillRectangle(_dpy, surf -> pix, _gc, 0, 0, surf -> width, surf -> height);
+}
+
 // This function is used to create surfaces
 struct surface *new_surface(int width, int height){
   struct surface *my_surf = (struct surface *) malloc(sizeof(struct surface));
