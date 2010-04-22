@@ -20,6 +20,7 @@
 #ifndef _WEAVER_H_
 #define _WEAVER_H_
 
+#include <math.h>
 #include "display.h"
 #include "vector2.h"
 #include "vector3.h"
