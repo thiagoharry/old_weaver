@@ -21,6 +21,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <signal.h>
 #include "sound.h"
 #include "display.h"
 
@@ -65,13 +66,27 @@ void handle_pcm_error(int status, snd_pcm_uframes_t frames){
 
 // This functions opens an Ogg Vorbis file and play it
 void play_sound(char *file){
-  if(fork()){
-    _play_soundfile(file);
+  if(!fork()){
+    _play_soundfile(file, "sound/");
     exit(0);
   }
 }
 
-void _play_soundfile(char *file){
+void play_music(char *file){
+  if(_music)
+    kill(_music, 9);
+  if(!(_music = fork())){
+    for(;;)
+      _play_soundfile(file, "music/");
+  }
+}
+
+void stop_music(void){
+  if(_music)
+    kill(_music, 9);
+}
+
+void _play_soundfile(char *file, char *dir){
   int status;
   snd_pcm_t *handle;
   snd_pcm_hw_params_t *params;
@@ -92,7 +107,7 @@ void _play_soundfile(char *file){
   fp = fopen(path, "rb");
   if(!fp){
     path[0] = '\0';
-    strcat(path, "sound/");
+    strcat(path, dir);
     strcat(path, file);
     fp = fopen(path, "rb");
   }

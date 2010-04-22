@@ -153,6 +153,7 @@ else
                     echo $1 > $1/images/.web
                     echo $1 > $1/sound/.web
 		    echo $1 > $1/fonts/.web
+		    echo $1 > $1/music/.web
 		else
 		    echo "Sorry, your project could not be created." 
 		    echo "Probably you don't have permission to write in this directory."

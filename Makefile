@@ -63,6 +63,7 @@ install: test
 	install -D -m 0755 weaver ${SCRIPT_DIR}/weaver
 	install -d ${DATA_DIR}/images
 	install -d ${DATA_DIR}/fonts
+	install -d ${DATA_DIR}/music
 	install -D -m 0644 src/LICENSE ${DATA_DIR}/LICENSE
 	install -D -m 0644 src/Makefile ${DATA_DIR}/Makefile
 	install -D -m 0644 reserved_words ${DATA_DIR}

@@ -20,11 +20,16 @@
 #define _SOUND_H_
 
 #include <alsa/asoundlib.h>
+#include <unistd.h>
 
 #define SND_BUFFER 4096 // Our sound buffer has 4KB
 
 int _initialize_sound(void);
 void play_sound(char *);
-void _play_soundfile(char *);
+void _play_soundfile(char *, char *);
+void play_music(char *);
+void stop_music(void);
+
+pid_t _music;
 
 #endif

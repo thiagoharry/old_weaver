@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <sys/time.h>
+#include <signal.h>
 #include "weaver.h"
 #include "display.h"
 
@@ -33,9 +34,11 @@ void awake_the_weaver(void){
   srand(time(NULL));
   gettimeofday(&current_time, NULL);
   fps = 50;
+  _music = 0;
 }
 
 void may_the_weaver_sleep(void){
+  stop_music();
   // It's causing a segmentation fault in some systems...
   // Why?
   //png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
