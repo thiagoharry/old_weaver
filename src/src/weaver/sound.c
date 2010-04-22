@@ -102,7 +102,8 @@ void _play_soundfile(char *file, char *dir){
     
   
   // Opening file passed as argument
-  strcat(path, "/usr/share/games/DUMMY/sound/");
+  strcat(path, "/usr/share/games/DUMMY/");
+  strcat(path, dir);
   strcat(path, file);
   fp = fopen(path, "rb");
   if(!fp){
