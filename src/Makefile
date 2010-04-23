@@ -38,6 +38,7 @@ clean:
 	rm -rf *~ *.o ./\#*
 #######################################################
 install:
+	install -d ${DATA_DIR}
 	install -D -s ${PROG} ${INSTALL_DIR}/${PROG}
 	cp -r sound ${DATA_DIR}/
 	cp -r images ${DATA_DIR}/
