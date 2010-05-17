@@ -41,7 +41,7 @@ int load_font(char *file, int size){
   path[0] = '\0';
 
   // Opening file passed as argument
-  strcat(path, "/usr/share/games/pong/fonts/");
+  strcat(path, "/usr/share/games/spacewar/fonts/");
   strcat(path, file);
   fp = fopen(path, "rb");
   if(!fp){
