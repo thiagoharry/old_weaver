@@ -181,7 +181,7 @@ struct surface *new_image(char *file){
 
   _display_exponent = default_display_exponent = 2.2;
   
-  strcat(path, "/usr/share/games/ball/images/");
+  strcat(path, "/usr/share/games/invasion/images/");
   strcat(path, file);
   if(!(infile = fopen(path, "rb"))){
     path[0] = '\0';
