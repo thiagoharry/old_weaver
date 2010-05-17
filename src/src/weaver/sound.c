@@ -102,7 +102,7 @@ void _play_soundfile(char *file, char *dir){
     
   
   // Opening file passed as argument
-  strcat(path, "/usr/share/games/invasion/");
+  strcat(path, "/usr/share/games/pong/");
   strcat(path, dir);
   strcat(path, file);
   fp = fopen(path, "rb");

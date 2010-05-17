@@ -41,7 +41,7 @@ int _readpng_init(FILE *infile, long *pWidth, long *pHeight){
   
   if(fread(sig, 1, 8, infile) <= 0)
     return 1; // Not a PNG file!
-  if (!png_check_sig(sig, 8))
+  if (png_sig_cmp(sig, 0, 8))
     return 1; // It's not a PNG file!
 
   // Let's set the PNG structs
@@ -181,7 +181,7 @@ struct surface *new_image(char *file){
 
   _display_exponent = default_display_exponent = 2.2;
   
-  strcat(path, "/usr/share/games/DUMMY/images/");
+  strcat(path, "/usr/share/games/ball/images/");
   strcat(path, file);
   if(!(infile = fopen(path, "rb"))){
     path[0] = '\0';
