@@ -116,6 +116,7 @@ else
 		COUNT=$(( $(echo $YEAR | grep -o "," | wc -l | sed s/\ //g) + 1 ))
 		if [ $(echo $YEAR | cut -d , -f $COUNT) != $(date +%Y) ]; then
 		    YEAR=${YEAR}","$(date +%Y)
+
 		fi
 		NAME=$(grep "Copyright (C) " $1/src/game.c | sed s/^" "*// | sed s/" "+/" "/ | cut -d ' ' -f 4-)
 		

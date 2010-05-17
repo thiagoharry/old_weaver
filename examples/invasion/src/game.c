@@ -1,4 +1,6 @@
 /*
+  Copyright (C) 2009,2010 Thiago Leucz Astrizi
+
  This file is part of Tower Defense.
 
  Tower Defense is free software: you can redistribute it and/or modify
