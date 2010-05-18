@@ -20,7 +20,7 @@
 #include "font.h"
 #include "display.h"
 #include <X11/Xutil.h>
-
+/*
 // Initializes the FreeType Library
 int _initialize_font(void){
   int error = 0;
@@ -163,3 +163,4 @@ int draw_text(unsigned x, unsigned y, int size, char *text, unsigned color){
   XDestroyImage(ximage);
   return 0;
 }
+*/

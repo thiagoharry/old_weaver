@@ -40,7 +40,7 @@ int _readpng_init(FILE *infile, long *pWidth, long *pHeight){
   unsigned char sig[8]; // The first 8 bytes with magic number
   
   fread(sig, 1, 8, infile);
-  if (!png_check_sig(sig, 8))
+  if (png_sig_cmp(sig, 0, 8))
     return 1; // It's not a PNG file!
 
   // Let's set the PNG structs
