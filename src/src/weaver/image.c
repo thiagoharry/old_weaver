@@ -55,7 +55,7 @@ int _readpng_init(FILE *infile, long *pWidth, long *pHeight){
     return 4;   /* out of memory */
   }
 
-  if (setjmp(_png_ptr->jmpbuf)) {
+  if (setjmp(png_jmpbuf(_png_ptr))) {
     png_destroy_read_struct(&_png_ptr, &_info_ptr, NULL);
     return 2;
   }
