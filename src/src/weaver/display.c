@@ -34,6 +34,7 @@ void draw_rectangle_mask(struct surface *my_surf, int x, int y, int width, int h
 void fill_surface(struct surface *surf, unsigned color){
   XSetForeground(_dpy, _gc, color);
   XFillRectangle(_dpy, surf -> pix, _gc, 0, 0, surf -> width, surf -> height);
+  flush();
 }
 
 // This function is used to create surfaces
@@ -76,6 +77,7 @@ void blit_surface(struct surface *src, struct surface *dest, int x_src, int y_sr
   
   XSetClipMask(_dpy, _gc, None);
   //XChangeGC(_dpy, _gc, GCFunction|GCForeground|GCBackground|GCPlaneMask, &gcValues);
+  flush();
 }
 
 // This blit a pixmap using a mask passed as argument
@@ -86,6 +88,7 @@ void blit_masked_pixmap(Pixmap pix, Pixmap mask, struct surface *dest, int x_src
   XSetClipOrigin(_dpy, _gc, x_dest - x_mask, y_dest - y_mask);
   XCopyArea(_dpy, pix, dest -> pix, _gc, x_src, y_src, width, height, x_dest, y_dest);
   XSetClipMask(_dpy, _gc, None);
+  flush();
 }
 
 
@@ -98,6 +101,7 @@ void blit_masked_surface(Pixmap pix, Pixmap mask, struct surface *dest, int x_sr
   }
   XCopyArea(_dpy, pix, dest -> pix, _gc, x_src, y_src, width, height, x_dest, y_dest);
   XSetClipMask(_dpy, _gc, None);
+  flush();
 }
 
 // This function fills a surface with a texture defined in other surface
@@ -106,6 +110,7 @@ void apply_texture(struct surface *src, struct surface *dest){
   for(x = 0; x < dest -> width; x += src -> width)
     for(y = 0; y < dest -> height; y += src -> height)
       XCopyArea(_dpy, src -> pix, dest -> pix, _gc, 0, 0, src -> width, src -> height, x, y);
+  flush();
 }
 
 // This function creates a black fullscreen window where we can play.
