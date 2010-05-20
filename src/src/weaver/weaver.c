@@ -53,6 +53,7 @@ void weaver_rest(long nanoseconds){
   _b_frame.tv_usec = current_time.tv_usec;
   gettimeofday(&current_time, NULL);
   fps = 1000000 / (1000000 * (current_time.tv_sec - _b_frame.tv_sec) + current_time.tv_usec - _b_frame.tv_usec);
+  if(fps == 0) fps = 1;
 }
 
 
