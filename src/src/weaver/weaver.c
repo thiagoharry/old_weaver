@@ -47,7 +47,8 @@ void may_the_weaver_sleep(void){
 // This function pauses the program for the number of nanoseconds
 // passed as argumment
 void weaver_rest(long nanoseconds){
-  struct timespec req = {0, nanoseconds}; 
+  struct timespec req = {0, nanoseconds};
+  flush();
   nanosleep(&req, NULL);
   _b_frame.tv_sec = current_time.tv_sec;
   _b_frame.tv_usec = current_time.tv_usec;
