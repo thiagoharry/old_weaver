@@ -183,7 +183,7 @@ void _initialize_screen(void){
     }
   }
 
-  XSetInputFocus(_dpy, _w, RevertToNone, CurrentTime);
+  XSetInputFocus(_dpy, _w, RevertToParent, CurrentTime);
 
   // Creating our virtual window.
   // TODO: Make it portable with other depths.
