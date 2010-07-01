@@ -44,6 +44,7 @@ install:
 	cp -r images ${DATA_DIR}/
 	cp -r fonts ${DATA_DIR}/
 	cp -r music ${DATA_DIR}/
+	chmod -R +r ${DATA_DIR}
 uninstall:
 	rm -rf ${INSTALL_DIR}/${PROG}
 	rm -rf ${DATA_DIR}/
