@@ -20,6 +20,14 @@ test:
 	@gcc dummy.c -lX11 2> /dev/null || touch ERROR
 	@if [ -e a.out ]; then echo "OK"; rm a.out; else \
 	/bin/echo -e "\033[31mFAILED\033[m"; fi
+############################## XDBE TEST #######################################
+	@echo "#include <X11/Xlib.h>" > dummy.h
+	@echo "#include <X11/extensions/Xdbe.h>" >> dummy.h
+	@echo -n "Testing XDBE extension......"
+	@gcc dummy.c -lX11 2> /dev/null || touch ERROR
+	@if [ -e a.out ]; then echo "OK"; rm a.out; else \
+	/bin/echo -e "\033[31mFAILED\033[m"; fi
+
 ############################ MATH TEST ########################################
 	@echo -n "Testing Math libraries......"
 	@echo "#include <math.h>" > dummy.h
