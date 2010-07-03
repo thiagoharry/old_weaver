@@ -25,6 +25,15 @@
 #include <string.h>
 #include "display.h"
 
+// Flushes the buffer in the screen
+void flush(void){
+  XdbeSwapInfo info;
+  info.swap_window = _w;
+  info.swap_action = XdbeCopied;
+  XdbeSwapBuffers(_dpy, &info, 1);
+  XFlush(_dpy);
+}
+
 // This function adds mask bits in a surface
 void draw_rectangle_mask(struct surface *my_surf, int x, int y, int width, int height){
   XSetForeground(_dpy, _mask_gc, 0l);
@@ -35,7 +44,7 @@ void draw_rectangle_mask(struct surface *my_surf, int x, int y, int width, int h
 void fill_surface(struct surface *surf, unsigned color){
   XSetForeground(_dpy, _gc, color);
   XFillRectangle(_dpy, surf -> pix, _gc, 0, 0, surf -> width, surf -> height);
-  flush();
+  XFlush(_dpy);
 }
 
 // This function is used to create surfaces
@@ -74,11 +83,12 @@ void blit_surface(struct surface *src, struct surface *dest, int x_src, int y_sr
     XSetClipMask(_dpy, _gc, src -> mask);
     XSetClipOrigin(_dpy, _gc, x_dest - x_src, y_dest - y_src);
   }
+  
   XCopyArea(_dpy, src -> pix, dest -> pix, _gc, x_src, y_src, width, height, x_dest, y_dest);
   
   XSetClipMask(_dpy, _gc, None);
   //XChangeGC(_dpy, _gc, GCFunction|GCForeground|GCBackground|GCPlaneMask, &gcValues);
-  flush();
+  XFlush(_dpy);
 }
 
 // This blit a pixmap using a mask passed as argument
@@ -89,7 +99,7 @@ void blit_masked_pixmap(Pixmap pix, Pixmap mask, struct surface *dest, int x_src
   XSetClipOrigin(_dpy, _gc, x_dest - x_mask, y_dest - y_mask);
   XCopyArea(_dpy, pix, dest -> pix, _gc, x_src, y_src, width, height, x_dest, y_dest);
   XSetClipMask(_dpy, _gc, None);
-  flush();
+  XFlush(_dpy);
 }
 
 
@@ -102,7 +112,7 @@ void blit_masked_surface(Pixmap pix, Pixmap mask, struct surface *dest, int x_sr
   }
   XCopyArea(_dpy, pix, dest -> pix, _gc, x_src, y_src, width, height, x_dest, y_dest);
   XSetClipMask(_dpy, _gc, None);
-  flush();
+  XFlush(_dpy);
 }
 
 // This function fills a surface with a texture defined in other surface
@@ -111,7 +121,7 @@ void apply_texture(struct surface *src, struct surface *dest){
   for(x = 0; x < dest -> width; x += src -> width)
     for(y = 0; y < dest -> height; y += src -> height)
       XCopyArea(_dpy, src -> pix, dest -> pix, _gc, 0, 0, src -> width, src -> height, x, y);
-  flush();
+  XFlush(_dpy);
 }
 
 // This function creates a black fullscreen window where we can play.
@@ -121,6 +131,7 @@ void _initialize_screen(void){
   unsigned long valuemask = CWOverrideRedirect;
   XSetWindowAttributes attributes;
 
+  
   // Connecting with the X server...
   _dpy = XOpenDisplay(NULL);          
   if(_dpy == NULL){
@@ -186,12 +197,16 @@ void _initialize_screen(void){
 
   XSetInputFocus(_dpy, _w, RevertToParent, CurrentTime);
 
+  // Creating the back buffer
+  _b = XdbeAllocateBackBufferName(_dpy, _w, XdbeUndefined);
+
+
   // Creating our virtual window.
   // TODO: Make it portable with other depths.
   {
     window = (struct surface *) malloc(sizeof(struct surface));
     if(window != NULL){
-      window -> pix = _w;
+      window -> pix = _b;
       window -> width = window_width;
       window -> height = window_height;
       window -> mask = None;
@@ -210,6 +225,7 @@ void _initialize_screen(void){
     _mask_gc = None;
   }
 
+  
   transparent_color = 0x00029a;
    //flush();                                        
 }
@@ -239,14 +255,14 @@ void hide_cursor(void){
 // This function draws a point in the screen
 void draw_point(unsigned x, unsigned y, unsigned color){
   XSetForeground(_dpy, _gc, color);
-  XDrawPoint(_dpy, _w, _gc, x, y);
+  XDrawPoint(_dpy, _b, _gc, x, y);
   XFlush(_dpy);
 }
 
 // This function draws a line in the screen
 void draw_line(unsigned x1, unsigned y1, unsigned x2, unsigned y2, unsigned color){
   XSetForeground(_dpy, _gc, color);
-  XDrawLine(_dpy, _w, _gc, x1, y1, x2, y2);
+  XDrawLine(_dpy, _b, _gc, x1, y1, x2, y2);
   XFlush(_dpy);
 }
 
@@ -254,7 +270,7 @@ void draw_line(unsigned x1, unsigned y1, unsigned x2, unsigned y2, unsigned colo
 void draw_circle(unsigned x, unsigned y, unsigned r, unsigned color){
   unsigned diameter = r + r;
   XSetForeground(_dpy, _gc, color); 
-  XDrawArc(_dpy, _w, _gc, x-r, y-r, diameter, diameter, 0, 23040);
+  XDrawArc(_dpy, _b, _gc, x-r, y-r, diameter, diameter, 0, 23040);
   XFlush(_dpy);
 }
 
@@ -262,8 +278,8 @@ void draw_circle(unsigned x, unsigned y, unsigned r, unsigned color){
 void fill_circle(unsigned x, unsigned y, unsigned r, unsigned color){
   unsigned diameter = r + r;
   XSetForeground(_dpy, _gc, color); 
-  XDrawArc(_dpy, _w, _gc, x-r, y-r, diameter, diameter, 0, 23040);
-  XFillArc(_dpy, _w, _gc, x-r, y-r, diameter, diameter, 0, 23040);
+  XDrawArc(_dpy, _b, _gc, x-r, y-r, diameter, diameter, 0, 23040);
+  XFillArc(_dpy, _b, _gc, x-r, y-r, diameter, diameter, 0, 23040);
   XFlush(_dpy);
 }
 
@@ -271,29 +287,29 @@ void fill_circle(unsigned x, unsigned y, unsigned r, unsigned color){
 // This draws a rectangle
 void draw_rectangle(unsigned x, unsigned y, unsigned width, unsigned height, unsigned color){
   XSetForeground(_dpy, _gc, color);
-  XDrawRectangle(_dpy, _w, _gc, x, y, width, height);
+  XDrawRectangle(_dpy, _b, _gc, x, y, width, height);
   XFlush(_dpy);
 }
 
 // This fills a rectangle
 void fill_rectangle(unsigned x, unsigned y, unsigned width, unsigned height, unsigned color){
   XSetForeground(_dpy, _gc, color);
-  XDrawRectangle(_dpy, _w, _gc, x, y, width, height);
-  XFillRectangle(_dpy, _w, _gc, x, y, width, height);
+  XDrawRectangle(_dpy, _b, _gc, x, y, width, height);
+  XFillRectangle(_dpy, _b, _gc, x, y, width, height);
   XFlush(_dpy);
 }
 
 // And this draws ellipses
 void draw_ellipse(unsigned x, unsigned y, unsigned width, unsigned height, unsigned color){
   XSetForeground(_dpy, _gc, color);
-  XDrawArc(_dpy, _w, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+  XDrawArc(_dpy, _b, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
   XFlush(_dpy);
 }
 
 // We also can fill an ellipse
 void fill_ellipse(unsigned x, unsigned y, unsigned width, unsigned height, unsigned color){
   XSetForeground(_dpy, _gc, color);
-  XDrawArc(_dpy, _w, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
-  XFillArc(_dpy, _w, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+  XDrawArc(_dpy, _b, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+  XFillArc(_dpy, _b, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
   XFlush(_dpy);
 }

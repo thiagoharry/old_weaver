@@ -24,7 +24,7 @@ test:
 	@echo "#include <X11/Xlib.h>" > dummy.h
 	@echo "#include <X11/extensions/Xdbe.h>" >> dummy.h
 	@echo -n "Testing XDBE extension......"
-	@gcc dummy.c -lX11 2> /dev/null || touch ERROR
+	@gcc dummy.c -lX11 -lXext 2> /dev/null || touch ERROR
 	@if [ -e a.out ]; then echo "OK"; rm a.out; else \
 	/bin/echo -e "\033[31mFAILED\033[m"; fi
 

@@ -47,14 +47,18 @@ void may_the_weaver_sleep(void){
 // This function pauses the program for the number of nanoseconds
 // passed as argumment
 void weaver_rest(long nanoseconds){
+  XdbeSwapInfo info;
+  info.swap_window = _w;
+  info.swap_action = XdbeCopied;
   struct timespec req = {0, nanoseconds};
-  flush();
+  XFlush(_dpy);
   nanosleep(&req, NULL);
   _b_frame.tv_sec = current_time.tv_sec;
   _b_frame.tv_usec = current_time.tv_usec;
   gettimeofday(&current_time, NULL);
   fps = 1000000 / (1000000 * (current_time.tv_sec - _b_frame.tv_sec) + current_time.tv_usec - _b_frame.tv_usec);
   if(fps == 0) fps = 1;
+  XdbeSwapBuffers(_dpy, &info, 1);
 }
 
 

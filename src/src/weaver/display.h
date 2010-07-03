@@ -36,7 +36,6 @@
 #define WHITE               0xffffff
 
 // Some useful macros
-#define flush() XFlush(_dpy)
 #define fill_screen(x) fill_rectangle(0, 0, window_width, window_height, x)
 #define draw_surface(a, b, x, y) blit_surface(a, b, 0, 0, a -> width, a -> height, x, y)
 
@@ -49,6 +48,7 @@ typedef struct surface{
 
 Display *_dpy;
 Window _w;
+XdbeBackBuffer _b;
 int window_width, window_height;
 GC _gc, _mask_gc;
 int _screen, _depth;
@@ -78,5 +78,6 @@ void blit_masked_pixmap(Pixmap, Pixmap, struct surface *, int ,
 			int, int, int, int, 
 			int, int, int);
 void apply_texture(struct surface *, struct surface *);
+void flush(void);
 
 #endif

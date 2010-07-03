@@ -9,7 +9,7 @@ DATA_DIR=/usr/share/games/dummy
 
 #######################################################
 all: ${WEAVER_OBJ} ${PROG_OBJ}
-	${CC} ${CFLAGS} -g -o ${PROG} ${WEAVER_OBJ} ${PROG_OBJ} -lX11 -lm -lvorbisfile -lasound -lpng -lfreetype $$(freetype-config --cflags)
+	${CC} ${CFLAGS} -g -o ${PROG} ${WEAVER_OBJ} ${PROG_OBJ} -lX11 -lXext -lm -lvorbisfile -lasound -lpng -lfreetype $$(freetype-config --cflags)
 #GAME_START
 game.o: src/game.c ${PROG_HEAD}
 	${CC} -c src/game.c
