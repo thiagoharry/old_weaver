@@ -204,8 +204,10 @@ void _initialize_screen(void){
   // Creating our virtual window.
   // TODO: Make it portable with other depths.
   {
+    background = NULL;
+    background = new_surface(window_width, window_height);
     window = (struct surface *) malloc(sizeof(struct surface));
-    if(window != NULL){
+    if(window != NULL && background != NULL){
       window -> pix = _b;
       window -> width = window_width;
       window -> height = window_height;
@@ -216,7 +218,8 @@ void _initialize_screen(void){
       exit(1);
     }
   }
-
+  
+  
                                     
   // Creates a Graphic Context...
   {
@@ -225,7 +228,7 @@ void _initialize_screen(void){
     _mask_gc = None;
   }
 
-  
+  fill_surface(background, BLACK);
   transparent_color = 0x00029a;
    //flush();                                        
 }

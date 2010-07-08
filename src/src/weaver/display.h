@@ -38,6 +38,7 @@
 // Some useful macros
 #define fill_screen(x) fill_rectangle(0, 0, window_width, window_height, x)
 #define draw_surface(a, b, x, y) blit_surface(a, b, 0, 0, a -> width, a -> height, x, y)
+#define erase_screen() draw_surface(background, window, 0, 0)
 
 typedef struct surface{
   Pixmap pix;
@@ -54,6 +55,7 @@ GC _gc, _mask_gc;
 int _screen, _depth;
 Visual *_visual;
 struct surface *window;
+struct surface *background;
 unsigned long transparent_color;
 
 struct surface *new_surface(int, int);

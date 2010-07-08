@@ -57,8 +57,11 @@ void limit_camera(struct vector4 *, int, int, int, int);
 void zoom_camera(struct vector4 *, float); 
 
 void film_circle(struct vector4 *, struct vector3 *, unsigned);
+void erase_circle(struct vector4 *, struct vector3 *);
 void film_fullcircle(struct vector4 *, struct vector3 *, unsigned);
+void erase_fullcircle(struct vector4 *, struct vector3 *);
 void film_rectangle(struct vector4 *, struct vector4 *, unsigned);
+void erase_rectangle(struct vector4 *, struct vector4 *);
 void film_fullrectangle(struct vector4 *, struct vector4 *,unsigned);
 
 
