@@ -292,8 +292,10 @@ void erase_circle(struct vector4 *camera, struct vector3 *circle){
       XDrawArc(_dpy, surf -> mask, _mask_gc, x - width / 2, y - height / 2, 
 	       width, height, 0, 23040);
       // Blitting the surface in the screen
-      blit_surface(surf, window, 0, 0, surf -> width, surf -> height, 
-		   (long) camera -> previous, (long) camera -> top);
+      blit_surface(surf, window, x - width / 2, y - height / 2,
+		   width+1, height+1,
+		   (long) camera -> previous + x - width / 2, 
+		   (long) camera -> top + y - height / 2);
       destroy_surface(surf);
     }
   }
@@ -341,20 +343,64 @@ void erase_fullcircle(struct vector4 *camera, struct vector3 *circle){
        circle -> y < (long) camera -> y + (long) camera -> z + 
        (long) (2 * circle -> z) && 
        circle -> y > (long) camera -> y - (long) (2 * circle -> z)){
+      int surf_x, surf_y, surf_w, surf_h;
+      surf_x =  (int) (long) camera -> previous;
+      surf_y = (int) (long) camera -> top;
+      surf_w = (int) (long) camera -> next;
+      surf_h = (int) (long) camera -> down;
+      if(x - width /2 > 0){ 
+	if(x - width /2 > surf_w){
+	  return; // Circle outside camera range
+	}
+	else{
+	  surf_x += x - width /2;
+	  surf_w -= x - width /2;
+	}
+      }
+      else{ // Circle's start before the camera range
+	if(x + width < surf_x)
+	  return;
+	else{
+	  surf_w = width - surf_x + x;
+	}
+      }
+      if(y - height /2 > 0){
+	if(y - height /2 > surf_h){
+	  return; // Circle outside camera range
+	}
+	else{
+	  surf_y += y - height /2;
+	  surf_h -= y - height /2;
+	}
+      }	
+      if(width < surf_w)
+	surf_w = width + 1;
+      if(height  < surf_h)
+	surf_h = height + 1;
+      
+      if(surf_w <= 0 || surf_h <= 0)
+	return;
+
       // Creating a surface with part of the background
-      surface *surf = new_surface((long) camera -> next, (long) camera -> down);
-      blit_surface(background, surf, (long) camera -> previous,
-		   (long) camera -> top, surf -> width, surf -> height,
+      surface *surf = new_surface(surf_w, surf_h);
+      blit_surface(background, surf, surf_x,
+		   surf_y, surf_w, surf_h,
 		   0, 0);
       // Drawing the circle in the transparency map
       XSetForeground(_dpy, _mask_gc, ~0l);
-      XDrawArc(_dpy, surf -> mask, _mask_gc, x - width / 2, y - height / 2, 
+      XDrawArc(_dpy, surf -> mask, _mask_gc, x - width / 2 - surf_x, 
+	       y - height / 2 - surf_y, 
 	       width, height, 0, 23040);
-      XFillArc(_dpy, surf -> mask, _mask_gc, x - width / 2, y - height / 2, 
+      XFillArc(_dpy, surf -> mask, _mask_gc, x - width / 2 - surf_x, 
+	       y - height / 2 - surf_y, 
 	       width, height, 0, 23040);
       // Blitting the surface in the screen
-      blit_surface(surf, window, 0, 0, surf -> width, surf -> height, 
-		   (long) camera -> previous, (long) camera -> top);
+       blit_surface(surf, window, 0, 0,
+		   surf_w, surf_h,
+		   surf_x, 
+		   surf_y);
+       //blit_surface(surf, window, 0, 0, surf -> width, surf -> height, 
+       //	   (long) camera -> previous, (long) camera -> top);
       destroy_surface(surf);
     }
   }
