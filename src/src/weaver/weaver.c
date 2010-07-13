@@ -93,7 +93,8 @@ void limit_camera(struct vector4 *camera, int x, int y, int width, int height){
 }
 
 // This erases a rectangle from the screen
-void erase_rectangle(struct vector4 *camera, struct vector4 *rectangle){
+void _erase_rectangle(struct vector4 *camera, struct vector4 *rectangle,
+		      int full){
    int x, y, height, width, limited_camera = 0;
   x = (int) (((rectangle -> x - camera -> x) / camera -> w) * window_width);
   y = (int) (((rectangle -> y - camera -> y) / camera -> z) * window_height);
@@ -118,29 +119,59 @@ void erase_rectangle(struct vector4 *camera, struct vector4 *rectangle){
        rectangle -> x < camera -> x + camera -> w &&
        rectangle -> y + rectangle -> z > camera -> y &&
        rectangle -> y < camera -> y + camera -> z){
+      int surf_x, surf_y, surf_w, surf_h;
+      surf_x =  (int) (long) camera -> previous;
+      surf_y = (int) (long) camera -> top;
+      surf_w = (int) (long) camera -> next;
+      surf_h = (int) (long) camera -> down;
+      if(x > 0){
+	if(x > surf_w)
+	  return; // Outside range
+	surf_x += x;
+	surf_w -= x;
+	x = 0;
+      }
+      if(y > 0){
+	if(y > surf_h)
+	  return; // Outside range
+	surf_y += y;
+	surf_h -= y;
+	y = 0;
+      }
+      if(x + width < surf_w){
+	surf_w = x + width;
+	surf_w ++;
+      }
+      if(y + height < surf_h){
+	surf_h = y + height;
+	surf_h ++;
+      }
       // If we are here, the rectangle appears in the camera
       // Creating a temporary surface
-      struct surface *surf = new_surface((long) camera -> next, 
-                                         (long) camera -> down);
-      blit_surface(background, surf, (long) camera -> previous,
-		   (long) camera -> top, surf -> width, surf -> height,
-		   0, 0);
-      
+      struct surface *surf = new_surface(surf_w, surf_h);
+      blit_surface(background, surf, surf_x, surf_y, 
+		   surf_w, surf_h, 0, 0);
+      draw_rectangle_mask(surf, 0, 0, surf_w, surf_h);
       // Drawing the rectangle in the transparency map
       XSetForeground(_dpy, _mask_gc, ~0l);
       XDrawRectangle(_dpy, surf -> mask, _mask_gc, x, y, width, height);
+      if(full)
+	XFillRectangle(_dpy, surf -> mask, _mask_gc, x, y, width, height);
       
       // Blitting the surface in the screen
       blit_surface(surf, window, 0, 0, surf -> width, surf -> height, 
-		   (long) camera -> previous, (long) camera -> top);
+		   surf_x, surf_y);
       destroy_surface(surf);
     }
   }
   else{
     struct surface *surf = new_surface(width + 1, height + 1);
-    blit_surface(background, surf, x, y, width+1, height+1, 0, 0);
+    draw_rectangle_mask(surf, 0, 0, surf -> width, surf -> height);
+    blit_surface(background, surf, x, y, width + 1, height + 1, 0, 0);
     XSetForeground(_dpy, _mask_gc, ~0l);
-    XDrawRectangle(_dpy, surf -> mask, _mask_gc, x, y, width, height);
+    XDrawRectangle(_dpy, surf -> mask, _mask_gc, 0, 0, width, height);
+    if(full)
+      XFillRectangle(_dpy, surf -> mask, _mask_gc, 0, 0, width, height);
     draw_surface(surf, window, x, y);
     destroy_surface(surf);
   }

@@ -44,6 +44,8 @@
 #define collision_circle_rectangle(a, b) collision_rectangle_circle(b, a)
 #define collision_polygon_circle(a, b) collision_circle_polygon(b, a)
 #define collision_polygon_rectangle(a, b) collision_rectangle_polygon(b, a)
+#define erase_rectangle(a, b) _erase_rectangle(a, b, 0)
+#define erase_fullrectangle(a, b) _erase_rectangle(a, b, 1)
 #define MAX(x, y) (x) > (y) ? (x) : (y)
 #define MIN(x, y) (x) > (y) ? (y) : (x)
 
@@ -61,7 +63,7 @@ void erase_circle(struct vector4 *, struct vector3 *);
 void film_fullcircle(struct vector4 *, struct vector3 *, unsigned);
 void erase_fullcircle(struct vector4 *, struct vector3 *);
 void film_rectangle(struct vector4 *, struct vector4 *, unsigned);
-void erase_rectangle(struct vector4 *, struct vector4 *);
+void _erase_rectangle(struct vector4 *, struct vector4 *, int);
 void film_fullrectangle(struct vector4 *, struct vector4 *,unsigned);
 
 
