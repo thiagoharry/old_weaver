@@ -20,6 +20,7 @@
 #include <stdio.h>
 #include <math.h>
 #include <sys/time.h>
+#include <float.h>
 #include <signal.h>
 #include "weaver.h"
 #include "display.h"
@@ -593,23 +594,40 @@ void film_fullcircle(struct vector4 *camera, struct vector3 *circle, unsigned co
 }
 
 // This films a full polygon
-void film_fullpolygon(struct vector4 *camera, struct vector2 *polygon, 
-                      unsigned color){
+void _film_fullpolygon(struct vector4 *camera, struct vector2 *polygon, 
+		       unsigned color, int erase){
   struct vector2 *current_vertex = polygon;
   XPoint *points;
   int limited_camera = 0, number_of_points = 0;
-  
-  XSetFillRule(_dpy, _gc, WindingRule);
+  float smallest_x = FLT_MAX, smallest_y = FLT_MAX;
+  float biggest_x  = FLT_MIN, biggest_y  = FLT_MIN;
 
+  if(!erase)
+    XSetFillRule(_dpy, _gc, WindingRule);
+  else
+    XSetFillRule(_dpy, _mask_gc, WindingRule);
+  
+  /* Empty polygon or henagon.*/
   if(polygon == NULL || polygon -> next == polygon)
     return;
 
   if(camera -> previous != NULL || camera -> next != NULL)
     limited_camera = 1;
   
-  // Discovering the number of points
+  // Discovering the number of points, and also
+  // the extreme points
   do{
     number_of_points ++;
+    if(erase){
+      if(current_vertex -> x < smallest_x)
+	smallest_x = current_vertex -> x;
+      if(current_vertex -> y < smallest_y)
+	smallest_y = current_vertex -> y;
+      if(current_vertex -> x > biggest_x)
+	biggest_x = current_vertex -> x;
+      if(current_vertex -> y > biggest_y)
+	biggest_y = current_vertex -> y;
+    }
     current_vertex = current_vertex -> next;
   }while(current_vertex != polygon);
   
@@ -621,14 +639,63 @@ void film_fullpolygon(struct vector4 *camera, struct vector2 *polygon,
   current_vertex = polygon;
   do{
     points[number_of_points].x = (int) (((current_vertex -> x - camera -> x)/
-                                         camera -> w) * window_width);
+					 camera -> w) * window_width);
     points[number_of_points].y = (int) (((current_vertex -> y - camera -> y)/
-                                         camera -> z) * window_height);
+					 camera -> z) * window_height);
+    if(erase && !limited_camera){  
+      points[number_of_points].x -= (int) (((smallest_x - camera -> x)/
+		      camera -> w) * window_width);
+      points[number_of_points].y -= (int) (((smallest_y - camera -> y)/
+		      camera -> z) * window_height);
+    }
     number_of_points ++;
     current_vertex = current_vertex -> next;
   }while(current_vertex != polygon);
   // Correcting values if we are under a limited camera
   if(limited_camera){
+    int width = (int) ((float) ((int) (((biggest_x - smallest_x)/
+					camera -> w) * window_width)) * 
+		       ((float) (long) camera -> next) / 
+		       (float) window_width) + 1;
+    
+    int height =  (int) ((float) ((int) (((biggest_y - smallest_y)/
+					camera -> z) * window_height)) * 
+		       ((float) (long) camera -> down) / 
+		       (float) window_height) +1;
+    
+    int x = (int) ((float) ((int) (((smallest_x - camera -> x)/
+					  camera -> w) * window_width)) * 
+			 ((float) (long) camera -> next) / 
+		   (float) window_width) + (int) (long) camera -> previous;
+    int y = (int) ((float) ((int) (((smallest_y - camera -> y)/
+				    camera -> z) * window_height)) * 
+		   ((float) (long) camera -> down) / 
+		   (float) window_height) + (int) (long) camera -> top;
+    if(x < (int) (long) camera -> previous){
+      width -= (int) (long) camera -> previous - x;
+      x = (int) (long) camera -> previous;
+    }
+    else if(x > (int) (long) camera -> previous + (int) (long) camera -> next)
+      x = (int) (long) camera -> previous + (int) (long) camera -> next;
+    if(y < (int) (long) camera -> top){
+      height -= (int) (long) camera -> top - y;
+      y = (int) (long) camera -> top;
+    }
+    else if(y > (int) (long) camera -> top + (int) (long) camera -> down)
+      y = (int) (long) camera -> top + (int) (long) camera -> down;
+    if(width > (int) (long) camera -> next)
+      width = (int) (long) camera -> next;
+    if(height > (int) (long) camera -> down)
+      height = (int) (long) camera -> down - 1; 
+    if(x + width > (long) camera -> previous + (long) camera -> next)
+      width = (long) camera -> previous + (long) camera -> next - x;
+    if(y + height > (long) camera -> top + (long) camera -> down)
+      height = (long) camera -> top + (long) camera -> down - y;
+    
+    
+    if(erase && (width <= 0 || height <= 0))
+      return;
+    
     number_of_points = 0;
     current_vertex = polygon;
     do{
@@ -638,40 +705,77 @@ void film_fullpolygon(struct vector4 *camera, struct vector2 *polygon,
       points[number_of_points].y = (int) ((float) points[number_of_points].y * 
                                           ((float) (long) camera -> down) / 
                                           (float) window_height);
-
+      if(erase){
+	points[number_of_points].x += (long) camera -> previous - x;
+	points[number_of_points].y += (long) camera -> top - y;
+      }
       number_of_points ++;
       current_vertex = current_vertex -> next;
     }while(current_vertex != polygon);
     
-    // Creating a temporary and transparent surface
-    struct surface *surf = new_surface((long) camera -> next, 
-                                       (long) camera -> down);
-    XSetFillRule(_dpy, _mask_gc, WindingRule);
-    XSetForeground(_dpy, _mask_gc, 0l);
-    XFillRectangle(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width, 
-                   surf -> height);
-      
-    // Drawing the polygon in the surface
-    XSetForeground(_dpy, _gc, color);
-    XFillPolygon(_dpy, surf -> pix, _gc, points, number_of_points, Complex, 
-               CoordModeOrigin);
     
+    if(erase){
+      struct surface *surf = new_surface(width, height);
+      draw_rectangle_mask(surf, 0, 0, surf -> width, surf -> height);
+      blit_surface(background, surf, x, y, width, height, 0, 0);
+      // Drawing the polygon in the surface
+      XSetForeground(_dpy, _mask_gc, ~0l);
+      XFillPolygon(_dpy, surf -> mask, _mask_gc, points, number_of_points, 
+		   Complex, CoordModeOrigin);
+      draw_surface(surf, window, x, y);
+      destroy_surface(surf);
+    }
+    else{
+      struct surface *surf = new_surface((long) camera -> next, 
+					 (long) camera -> down);
+      XSetFillRule(_dpy, _mask_gc, WindingRule);
+      XSetForeground(_dpy, _mask_gc, 0l);
+      XFillRectangle(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width, 
+		     surf -> height);
       
-    // Drawing the polygon in the transparency map
-    XSetForeground(_dpy, _mask_gc, ~0l);
-    XFillPolygon(_dpy, surf -> mask, _mask_gc, points, number_of_points, 
-                 Complex, CoordModeOrigin);
-
-    // Blitting the surface in the screen
-    blit_surface(surf, window, 0, 0, surf -> width, surf -> height, 
-                 (long) camera -> previous, (long) camera -> top);
-    destroy_surface(surf);
-
+      // Drawing the polygon in the surface
+      XSetForeground(_dpy, _gc, color);
+      XFillPolygon(_dpy, surf -> pix, _gc, points, number_of_points, Complex, 
+		   CoordModeOrigin);
+      
+      
+      // Drawing the polygon in the transparency map
+      XSetForeground(_dpy, _mask_gc, ~0l);
+      XFillPolygon(_dpy, surf -> mask, _mask_gc, points, number_of_points, 
+		   Complex, CoordModeOrigin);
+      
+      // Blitting the surface in the screen
+      blit_surface(surf, window, 0, 0, surf -> width, surf -> height, 
+		   (long) camera -> previous, (long) camera -> top);
+      
+      
+      destroy_surface(surf);
+    }
   }
-  else{  
-    XSetForeground(_dpy, _gc, color);
-    XFillPolygon(_dpy, _w, _gc, points, number_of_points, Complex, 
-                 CoordModeOrigin);
+  else{
+    if(erase){
+      int x = (int) (((smallest_x - camera -> x)/
+		      camera -> w) * window_width);
+      int y = (int) (((smallest_y - camera -> y)/
+		      camera -> z) * window_height);
+      int width = (int) (((biggest_x - smallest_x)/
+		      camera -> w) * window_width) + 1;
+      int height = (int) (((biggest_y- smallest_y)/
+		      camera -> z) * window_height) + 1;
+      surface *surf = new_surface(width, height);
+      draw_rectangle_mask(surf, 0, 0, surf -> width, surf -> height);
+      blit_surface(background, surf, x, y, width, height, 0, 0);
+      XSetForeground(_dpy, _mask_gc, ~0l);
+      XFillPolygon(_dpy, surf -> mask, _mask_gc, points, number_of_points, 
+		   Complex, CoordModeOrigin);
+      draw_surface(surf, window, x, y);      
+      destroy_surface(surf);
+    }
+    else{
+      XSetForeground(_dpy, _gc, color);
+      XFillPolygon(_dpy, window -> pix, _gc, points, number_of_points, Complex, 
+		   CoordModeOrigin);
+    }
   }
   free(points);
   
