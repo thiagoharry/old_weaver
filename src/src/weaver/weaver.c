@@ -57,7 +57,8 @@ void weaver_rest(long nanoseconds){
   _b_frame.tv_sec = current_time.tv_sec;
   _b_frame.tv_usec = current_time.tv_usec;
   gettimeofday(&current_time, NULL);
-  fps = 1000000 / (1000000 * (current_time.tv_sec - _b_frame.tv_sec) + current_time.tv_usec - _b_frame.tv_usec);
+  fps = 1000000 / (1000000 * (current_time.tv_sec - _b_frame.tv_sec) + \
+		   current_time.tv_usec - _b_frame.tv_usec);
   if(fps == 0) fps = 1;
   XdbeSwapBuffers(_dpy, &info, 1);
   XFlush(_dpy);
@@ -179,7 +180,8 @@ void _erase_rectangle(struct vector4 *camera, struct vector4 *rectangle,
 }
 
 // This shows a rectangle (or square) in the area covered by the camera
-void film_rectangle(struct vector4 *camera, struct vector4 *rectangle, unsigned color){
+void film_rectangle(struct vector4 *camera, struct vector4 *rectangle, 
+		    unsigned color){
   int x, y, height, width, limited_camera = 0;
   x = (int) (((rectangle -> x - camera -> x) / camera -> w) * window_width);
   y = (int) (((rectangle -> y - camera -> y) / camera -> z) * window_height);
@@ -231,7 +233,8 @@ void film_rectangle(struct vector4 *camera, struct vector4 *rectangle, unsigned 
     draw_rectangle(x, y, width, height, color);
 }
 
-void film_fullrectangle(struct vector4 *camera, struct vector4 *rectangle, unsigned color){
+void film_fullrectangle(struct vector4 *camera, struct vector4 *rectangle, 
+			unsigned color){
   int x, y, height, width, limited_camera = 0;
   x = (int) (((rectangle -> x - camera -> x) / camera -> w) * window_width);
   y = (int) (((rectangle -> y - camera -> y) / camera -> z) * window_height);
@@ -296,7 +299,8 @@ void erase_circle(struct vector4 *camera, struct vector3 *circle){
   width = 2 * (int) ((circle -> z / camera -> w) * window_width);
   if(camera -> previous != NULL || camera -> next != NULL){
     limited_camera ++;
-    x = (int) ((float) x * ((float) (long) camera -> next) / (float) window_width);
+    x = (int) ((float) x * ((float) (long) camera -> next) / 
+	       (float) window_width);
     width = (int) ((float) width * ((float) (long) camera -> next) / 
 		   (float) window_width);
   }
@@ -399,7 +403,8 @@ void erase_fullcircle(struct vector4 *camera, struct vector3 *circle){
   width = 2 * (int) ((circle -> z / camera -> w) * window_width);
   if(camera -> previous != NULL || camera -> next != NULL){
     limited_camera ++;
-    x = (int) ((float) x * ((float) (long) camera -> next) / (float) window_width);
+    x = (int) ((float) x * ((float) (long) camera -> next) / 
+	       (float) window_width);
     width = (int) ((float) width * ((float) (long) camera -> next) / 
 		   (float) window_width);
   }
@@ -498,7 +503,8 @@ void erase_fullcircle(struct vector4 *camera, struct vector3 *circle){
 }
 
 // This shows a circle in the screen if it's in the area covered by the camera
-void film_circle(struct vector4 *camera, struct vector3 *circle, unsigned color){
+void film_circle(struct vector4 *camera, struct vector3 *circle, 
+		 unsigned color){
   int x, y, height, width, limited_camera;
   limited_camera = 0;
 
@@ -508,31 +514,41 @@ void film_circle(struct vector4 *camera, struct vector3 *circle, unsigned color)
   width = 2 * (int) ((circle -> z / camera -> w) * window_width);
   if(camera -> previous != NULL || camera -> next != NULL){
     limited_camera ++;
-    x = (int) ((float) x * ((float) (long) camera -> next) / (float) window_width);
-    width = (int) ((float) width * ((float) (long) camera -> next) / (float) window_width);
+    x = (int) ((float) x * ((float) (long) camera -> next) / 
+	       (float) window_width);
+    width = (int) ((float) width * ((float) (long) camera -> next) / 
+		   (float) window_width);
   }
   if(camera -> top != NULL || camera -> down != NULL){
     limited_camera ++;
-    y = (int) ((float) y * ((float) (long) camera -> down) / (float) window_height);
-    height = (int) ((float) height * ((float) (long) camera -> down) / (float) window_height);
+    y = (int) ((float) y * ((float) (long) camera -> down) / 
+	       (float) window_height);
+    height = (int) ((float) height * ((float) (long) camera -> down) / 
+		    (float) window_height);
   }
   if(limited_camera){
-    if(circle -> x < (long) camera -> x + (long) camera -> w + (long) (2 * circle -> z) && 
+    if(circle -> x < (long) camera -> x + (long) camera -> w + 
+       (long) (2 * circle -> z) && 
        circle -> x > (long) camera -> x - (long) (2 * circle -> z) &&
-       circle -> y < (long) camera -> y + (long) camera -> z + (long) (2 * circle -> z) && 
+       circle -> y < (long) camera -> y + (long) camera -> z + 
+       (long) (2 * circle -> z) && 
        circle -> y > (long) camera -> y - (long) (2 * circle -> z)){
       // Creating a temporary and transparent surface
-      struct surface *surf = new_surface((long) camera -> next, (long) camera -> down);
+      struct surface *surf = new_surface((long) camera -> next, 
+					 (long) camera -> down);
       XSetForeground(_dpy, _mask_gc, 0l);
-      XFillRectangle(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width, surf -> height);
+      XFillRectangle(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width, 
+		     surf -> height);
       
       // Drawing the circle in the surface
       XSetForeground(_dpy, _gc, color);
-      XDrawArc(_dpy, surf -> pix, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+      XDrawArc(_dpy, surf -> pix, _gc, x - width / 2, y - height / 2, width, 
+	       height, 0, 23040);
       
       // Drawing the circle in the transparency map
       XSetForeground(_dpy, _mask_gc, ~0l);
-      XDrawArc(_dpy, surf -> mask, _mask_gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+      XDrawArc(_dpy, surf -> mask, _mask_gc, x - width / 2, y - height / 2, 
+	       width, height, 0, 23040);
       
       // Blitting the surface in the screen
       blit_surface(surf, window, 0, 0, surf -> width, surf -> height, 
@@ -544,8 +560,10 @@ void film_circle(struct vector4 *camera, struct vector3 *circle, unsigned color)
     draw_ellipse(x, y, width, height, color);
 }
 
-// This draws a full circle in the screen if it's in the area covered by the camera
-void film_fullcircle(struct vector4 *camera, struct vector3 *circle, unsigned color){
+// This draws a full circle in the screen if it's in the area covered by the 
+// camera
+void film_fullcircle(struct vector4 *camera, struct vector3 *circle, 
+		     unsigned color){
   int x, y, height, width, limited_camera;
   limited_camera = 0;
 
@@ -555,33 +573,45 @@ void film_fullcircle(struct vector4 *camera, struct vector3 *circle, unsigned co
   width = 2 * (int) ((circle -> z / camera -> w) * window_width);
   if(camera -> previous != NULL || camera -> next != NULL){
     limited_camera ++;
-    x = (int) ((float) x * ((float) (long) camera -> next) / (float) window_width);
-    width = (int) ((float) width * ((float) (long) camera -> next) / (float) window_width);
+    x = (int) ((float) x * ((float) (long) camera -> next) / 
+	       (float) window_width);
+    width = (int) ((float) width * ((float) (long) camera -> next) / 
+		   (float) window_width);
   }
   if(camera -> top != NULL || camera -> down != NULL){
     limited_camera ++;
-    y = (int) ((float) y * ((float) (long) camera -> down) / (float) window_height);
-    height = (int) ((float) height * ((float) (long) camera -> down) / (float) window_height);
+    y = (int) ((float) y * ((float) (long) camera -> down) / 
+	       (float) window_height);
+    height = (int) ((float) height * ((float) (long) camera -> down) / 
+		    (float) window_height);
   }
   if(limited_camera){
-    if(circle -> x < (long) camera -> x + (long) camera -> w + (long) (2 * circle -> z) && 
+    if(circle -> x < (long) camera -> x + (long) camera -> w + 
+       (long) (2 * circle -> z) && 
        circle -> x > (long) camera -> x - (long) (2 * circle -> z) &&
-       circle -> y < (long) camera -> y + (long) camera -> z + (long) (2 * circle -> z) && 
+       circle -> y < (long) camera -> y + (long) camera -> z + 
+       (long) (2 * circle -> z) && 
        circle -> y > (long) camera -> y - (long) (2 * circle -> z)){
       // Creating a temporary and transparent surface
-      struct surface *surf = new_surface((long) camera -> next, (long) camera -> down);
+      struct surface *surf = new_surface((long) camera -> next, 
+					 (long) camera -> down);
       XSetForeground(_dpy, _mask_gc, 0l);
-      XFillRectangle(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width, surf -> height);
+      XFillRectangle(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width, 
+		     surf -> height);
       
       // Drawing the circle in the surface
       XSetForeground(_dpy, _gc, color);
-      XDrawArc(_dpy, surf -> pix, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
-      XFillArc(_dpy, surf -> pix, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+      XDrawArc(_dpy, surf -> pix, _gc, x - width / 2, y - height / 2, width, 
+	       height, 0, 23040);
+      XFillArc(_dpy, surf -> pix, _gc, x - width / 2, y - height / 2, width, 
+	       height, 0, 23040);
       
       // Drawing the circle in the transparency map
       XSetForeground(_dpy, _mask_gc, ~0l);
-      XDrawArc(_dpy, surf -> mask, _mask_gc, x - width / 2, y - height / 2, width, height, 0, 23040);
-      XFillArc(_dpy, surf -> mask, _mask_gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+      XDrawArc(_dpy, surf -> mask, _mask_gc, x - width / 2, y - height / 2, 
+	       width, height, 0, 23040);
+      XFillArc(_dpy, surf -> mask, _mask_gc, x - width / 2, y - height / 2, 
+	       width, height, 0, 23040);
 
       // Blitting the surface in the screen
       blit_surface(surf, window, 0, 0, surf -> width, surf -> height, 
@@ -773,8 +803,8 @@ void _film_fullpolygon(struct vector4 *camera, struct vector2 *polygon,
     }
     else{
       XSetForeground(_dpy, _gc, color);
-      XFillPolygon(_dpy, window -> pix, _gc, points, number_of_points, Complex, 
-		   CoordModeOrigin);
+      XFillPolygon(_dpy, window -> pix, _gc, points, number_of_points, 
+		   Complex, CoordModeOrigin);
     }
   }
   free(points);
@@ -782,9 +812,8 @@ void _film_fullpolygon(struct vector4 *camera, struct vector2 *polygon,
 }
 
 // This films an empty polygon
-/// WARNING: This is spaghety code that ran out of control. It must be rewritten with
-/// modularity in mind...    
-void film_polygon(struct vector4 *camera, struct vector2 *polygon, unsigned color){
+void _film_polygon(struct vector4 *camera, struct vector2 *polygon, 
+		   unsigned color, int erase){
   struct vector2 *current_vertex = polygon;
   struct vector2 *next;
   int x1, y1, x2, y2;
@@ -804,15 +833,26 @@ void film_polygon(struct vector4 *camera, struct vector2 *polygon, unsigned colo
     // If our camera is limited, we need some more calculations
     if(camera -> previous != NULL && camera -> next != NULL){
       limited_camera = 1;
-      x1 = (int) ((float) x1 * ((float) (long) camera -> next) / (float) window_width) + (long) (camera -> previous);
+      x1 = (int) ((float) x1 * ((float) (long) camera -> next) / 
+		  (float) window_width) + (long) (camera -> previous);
     }
     if(camera -> top != NULL && camera -> down != NULL){
       limited_camera = 1;
-      y1 = (int) ((float) y1 * ((float) (long) camera -> down) / (float) window_height) + (long) (camera -> top);
+      y1 = (int) ((float) y1 * ((float) (long) camera -> down) / 
+		  (float) window_height) + (long) (camera -> top);
     }
-    if((!limited_camera) || (x1 < (long) camera -> previous + (long) camera -> next && x1 > (long) camera -> previous &&
-			     y1 < (long) camera -> top + (long) camera -> down && y1 > (long) camera -> top))
-      draw_point(x1, y1, color);
+    if((!limited_camera) || (x1 < (long) camera -> previous + 
+			     (long) camera -> next && x1 > 
+			     (long) camera -> previous &&
+			     y1 < (long) camera -> top + 
+			     (long) camera -> down && y1 > 
+			     (long) camera -> top)){
+      if(!erase)
+	draw_point(x1, y1, color);
+      else
+	blit_surface(background, window, x1, y1, 1, 1, x1, y1);
+    }
+
     // We draw the point only if it's inside the camera limits
     return;
   }  
@@ -822,41 +862,54 @@ void film_polygon(struct vector4 *camera, struct vector2 *polygon, unsigned colo
     next = current_vertex -> next;
     limited_camera = 0;
 
-    x1 = (int) (((current_vertex -> x - camera -> x) / camera -> w) * window_width);
-    y1 = (int) (((current_vertex -> y - camera -> y) / camera -> z) * window_height);
+    x1 = (int) (((current_vertex -> x - camera -> x) / camera -> w) * 
+		window_width);
+    y1 = (int) (((current_vertex -> y - camera -> y) / camera -> z) * 
+		window_height);
     x2 = (int) (((next -> x - camera -> x) / camera -> w) * window_width);
     y2 = (int) (((next -> y - camera -> y) / camera -> z) * window_height);
 
     if(camera -> previous != NULL && camera -> next != NULL){
-      x1 = (int) ((float) x1 * ((float) (long) camera -> next) / (float) window_width) + (long) (camera -> previous);
-      x2 = (int) ((float) x2 * ((float) (long) camera -> next) / (float) window_width) + (long) (camera -> previous);
+      x1 = (int) ((float) x1 * ((float) (long) camera -> next) / 
+		  (float) window_width) + (long) (camera -> previous);
+      x2 = (int) ((float) x2 * ((float) (long) camera -> next) / 
+		  (float) window_width) + (long) (camera -> previous);
       limited_camera ++;
     }
     if(camera -> top != NULL && camera -> down != NULL){
-      y1 = (int) ((float) y1 * ((float) (long) camera -> down) / (float) window_height) + (long) (camera -> top);
-      y2 = (int) ((float) y2 * ((float) (long) camera -> down) / (float) window_height) + (long) (camera -> top);
+      y1 = (int) ((float) y1 * ((float) (long) camera -> down) / 
+		  (float) window_height) + (long) (camera -> top);
+      y2 = (int) ((float) y2 * ((float) (long) camera -> down) / 
+		  (float) window_height) + (long) (camera -> top);
       limited_camera ++;
     }
 
-    // In fact, we must handle 4 cases: The 2 dots are inside the limit, the 2 are outside, only the first is
+    // In fact, we must handle 4 cases: The 2 dots are inside the limit, 
+    //the 2 are outside, only the first is
     // inside or only the second is inside.
     if(limited_camera){
-      if((x1 < (long) camera -> previous + (long) camera -> next && x1 > (long) camera -> previous &&
-	  y1 < (long) camera -> top + (long) camera -> down && y1 > (long) camera -> top)){
+      if((x1 < (long) camera -> previous + (long) camera -> next && x1 > 
+	  (long) camera -> previous &&
+	  y1 < (long) camera -> top + (long) camera -> down && y1 > 
+	  (long) camera -> top)){
 	// The first dot is inside!
-	if(x2 < (long) camera -> previous + (long) camera -> next && x2 > (long) camera -> previous &&
-	   y2 < (long) camera -> top + (long) camera -> down && y2 > (long) camera -> top){
+	if(x2 < (long) camera -> previous + (long) camera -> next && x2 > 
+	   (long) camera -> previous &&
+	   y2 < (long) camera -> top + (long) camera -> down && y2 > 
+	   (long) camera -> top){
 	  // The 2 dots are inside!
 	  draw_line(x1, y1, x2, y2, color);
 	}
 	else{
 	  // (x2, y2) is outside
-	  if(x2 > (long) camera -> previous + (long) camera -> next){ // x2 is far east
+	  if(x2 > (long) camera -> previous + (long) camera -> next){ 
+	    // x2 is far east
 	    float a = ((float) (y2 - y1)) / ((float) (x2 - x1)); // We already know that x2 != x1
 	    float b = y1 - a * x1;
 	    x2 = (int) ((long) camera -> previous + (long) camera -> next);
 	    y2 = a * (float) x2 + b;
-	    if(y2 > (long) camera -> top && y2 < (long) camera -> top + (long) camera -> down)
+	    if(y2 > (long) camera -> top && y2 < (long) camera -> top + 
+	       (long) camera -> down)
 	      draw_line(x1, y1, x2, y2, color);
 	    else{
 	      if(y2 <= (long) camera -> top){
@@ -876,11 +929,13 @@ void film_polygon(struct vector4 *camera, struct vector2 *polygon, unsigned colo
 	    } // End of else
 	  }
 	  else if(x2 < (long) camera -> previous){ // x2 is far west
-	    float a = ((float) (y2 - y1)) / ((float) (x2 - x1)); // We already know that x2 != x1
+	    float a = ((float) (y2 - y1)) / ((float) (x2 - x1)); 
+	    // We already know that x2 != x1
 	    float b = y1 - a * x1;
 	    x2 = (int) (long) camera -> previous;
 	    y2 = a * (float) x2 + b;
-	    if(y2 > (long) camera -> top && y2 < (long) camera -> top + (long) camera -> down)
+	    if(y2 > (long) camera -> top && y2 < (long) camera -> top + 
+	       (long) camera -> down)
 	      draw_line(x1, y1, x2, y2, color);
 	    else{
 	      if(y2 <= (long) camera -> top){
@@ -900,13 +955,15 @@ void film_polygon(struct vector4 *camera, struct vector2 *polygon, unsigned colo
 	    }
 	  }
 	  else{ // x2 is not outside the screen. But y2 is
-	    float a = ((float) (y2 - y1)) / ((float) (x2 - x1)); // We already know that x2 != x1
+	    float a = ((float) (y2 - y1)) / ((float) (x2 - x1)); 
+	    // We already know that x2 != x1
 	    float b = (float) y1 - a * (float) x1;
 	    if(y2 <= (long) camera -> top){
 	      y2 = (long) camera -> top;
 	      if(a != 0.0){
 		x2 = (y2 - b) / a;
-		if(x2 > (long) camera -> previous && x2 < (long) camera -> previous + (long) camera -> next)
+		if(x2 > (long) camera -> previous && x2 < 
+		   (long) camera -> previous + (long) camera -> next)
 		  draw_line(x1, y1, x2, y2, color);
 	      }
 	    }
@@ -914,7 +971,8 @@ void film_polygon(struct vector4 *camera, struct vector2 *polygon, unsigned colo
 	      y2 = (long) camera -> top + (long) camera -> down;
 	      if(a != 0.0){
 		x2 = (int) ((float) y2 - b) / a;
-		if(x2 > (long) camera -> previous && x2 < (long) camera -> previous + (long) camera -> next)
+		if(x2 > (long) camera -> previous && x2 < 
+		   (long) camera -> previous + (long) camera -> next)
 		  draw_line(x1, y1, x2, y2, color);
 	      }
 	    }
@@ -924,16 +982,21 @@ void film_polygon(struct vector4 *camera, struct vector2 *polygon, unsigned colo
       }
       else{
 	// The first dot is outside.
-	if(x2 < (long) camera -> previous + (long) camera -> next && x2 > (long) camera -> previous &&
-           y2 < (long) camera -> top + (long) camera -> down && y2 > (long) camera -> top){
+	if(x2 < (long) camera -> previous + (long) camera -> next && x2 > 
+	   (long) camera -> previous &&
+           y2 < (long) camera -> top + (long) camera -> down && y2 > 
+	   (long) camera -> top){
 	  // Only the second dot is inside
 	  // (x1, y1) is outside
-	  if(x1 > (long) camera -> previous + (long) camera -> next){ // x1 is far east
-	    float a = ((float) (y1 - y2)) / ((float) (x1 - x2)); // We already know that x2 != x1
+	  if(x1 > (long) camera -> previous + (long) camera -> next){ 
+	    // x1 is far east
+	    float a = ((float) (y1 - y2)) / ((float) (x1 - x2)); 
+	    // We already know that x2 != x1
 	    float b = y2 - a * x2;
 	    x1 = (int) ((long) camera -> previous + (long) camera -> next);
 	    y1 = a * (float) x1 + b;
-	    if(y1 > (long) camera -> top && y1 < (long) camera -> top + (long) camera -> down)
+	    if(y1 > (long) camera -> top && y1 < (long) camera -> top + 
+	       (long) camera -> down)
 	      draw_line(x1, y1, x2, y2, color);
 	    else{
 	      if(y1 <= (long) camera -> top){
@@ -953,11 +1016,13 @@ void film_polygon(struct vector4 *camera, struct vector2 *polygon, unsigned colo
 	    } // End of else
 	  }
 	  else if(x1 < (long) camera -> previous){ // x2 is far west
-	    float a = ((float) (y1 - y2)) / ((float) (x1 - x2)); // We already know that x2 != x1
+	    float a = ((float) (y1 - y2)) / ((float) (x1 - x2)); 
+	    // We already know that x2 != x1
 	    float b = y2 - a * x2;
 	    x1 = (int) (long) camera -> previous;
 	    y1 = a * (float) x1 + b;
-	    if(y1 > (long) camera -> top && y1 < (long) camera -> top + (long) camera -> down)
+	    if(y1 > (long) camera -> top && y1 < (long) camera -> top + 
+	       (long) camera -> down)
 	      draw_line(x1, y1, x2, y2, color);
 	    else{
 	      if(y1 <= (long) camera -> top){
@@ -976,14 +1041,17 @@ void film_polygon(struct vector4 *camera, struct vector2 *polygon, unsigned colo
               }	      
 	    }
 	  }
-	  else{ // x1 is not outside the screen. But y1 is
-	    float a = ((float) (y1 - y2)) / ((float) (x1 - x2)); // We already know that x2 != x1
+	  else{
+	    // x1 is not outside the screen. But y1 is
+	    float a = ((float) (y1 - y2)) / ((float) (x1 - x2)); 
+	    // We already know that x2 != x1
 	    float b = y2 - a * x2;
 	    if(y1 <= (long) camera -> top){
 	      y1 = (long) camera -> top;
 	      if(a != 0.0){
 		x1 = (y1 - b) / a;
-		if(x1 > (long) camera -> previous && x1 < (long) camera -> previous + (long) camera -> next)
+		if(x1 > (long) camera -> previous && x1 < 
+		   (long) camera -> previous + (long) camera -> next)
 		  draw_line(x1, y1, x2, y2, color);
 	      }
 	    }
@@ -991,7 +1059,8 @@ void film_polygon(struct vector4 *camera, struct vector2 *polygon, unsigned colo
 	      y1 = (long) camera -> top + (long) camera -> down;
 	      if(a != 0.0){
 		x1 = (y1 - b) / a;
-		if(x1 > (long) camera -> previous && x1 < (long) camera -> previous + (long) camera -> next)
+		if(x1 > (long) camera -> previous && x1 < 
+		   (long) camera -> previous + (long) camera -> next)
 		  draw_line(x1, y1, x2, y2, color);
 	      }
 	    }
@@ -1000,18 +1069,61 @@ void film_polygon(struct vector4 *camera, struct vector2 *polygon, unsigned colo
 	// Else the 2 are outside and there's nothing to do.
       }
     }
-    else
+    else{
       // We don't have a limited camera. Much easier!
-      draw_line(x1, y1, x2, y2, color);
+      if(!erase){
+	draw_line(x1, y1, x2, y2, color);
+      }
+      else{
+	int width = (x1 - x2 >= 0)?(x1 - x2):(x2 - x1);
+	int height = (y1 - y2 >= 0)?(y1 - y2):(y2 - y1);
+	int x = (x1 >= x2)?(x2):(x1);
+	int y = (y1 >= y2)?(y2):(y1);
+	if(!width){
+	  blit_surface(background, window, x, y, 1, height, x, y);
+	  continue;
+	}
+	if(!height){
+	   blit_surface(background, window, x, y, width, 1, x, y);
+	  continue;
+	}
+	surface *surf = new_surface(width, height);
+	draw_rectangle_mask(surf, 0, 0, surf -> width, surf -> height);
+	blit_surface(background, surf, x, y,
+		     surf -> width, surf -> height, 
+		     0, 0);
+	// Drawing the edge in the surface
+	if((x1 <= x2 && y1 <= y2) || ((x1 >= x2 && y1 >= y2))){ 
+	  XSetForeground(_dpy, _mask_gc, ~0l);
+	  XDrawLine(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width, 
+		    surf-> height);
+	 
+	}
+
+	else{
+	  XSetForeground(_dpy, _mask_gc, ~0l);
+	  XDrawLine(_dpy, surf -> mask, _mask_gc, surf -> width, 0, 0, 
+		    surf-> height);
+	
+	  
+	}
+
+	draw_surface(surf, window, x, y);
+	
+	destroy_surface(surf);
+      }
+    }
     current_vertex = current_vertex -> next;
   }while(current_vertex != polygon);
 }
 
 // This detects collision between two rectangles
 int collision_rectangle_rectangle(struct vector4 *r1, struct vector4 *r2){
-  float dx = (r2 -> x - r1 -> x < 0) ? (r1 -> x - r2 -> x) : (r2 -> x - r1 -> x);
+  float dx = (r2 -> x - r1 -> x < 0) ? (r1 -> x - r2 -> x) : 
+    (r2 -> x - r1 -> x);
   if((r1 -> x < r2 -> x) ? (dx <= r1 -> w) : (dx <= r2 -> w)){
-    float dy = (r2 -> y - r1 -> y < 0) ? (r1 -> y - r2 -> y) : (r2 -> y - r1 -> y);
+    float dy = (r2 -> y - r1 -> y < 0) ? (r1 -> y - r2 -> y) : 
+      (r2 -> y - r1 -> y);
     if((r1 -> y < r2 -> y) ? (dy <= r1 -> z) : (dy <= r2 -> z))
       return 1;
   }
@@ -1019,19 +1131,24 @@ int collision_rectangle_rectangle(struct vector4 *r1, struct vector4 *r2){
 }
 
 // This detects collision between a rectangle and a circle
-int collision_rectangle_circle(struct vector4 *rectangle, struct vector3 *circle){
+int collision_rectangle_circle(struct vector4 *rectangle, 
+			       struct vector3 *circle){
   // They collide in the X-axis?
-  if(!((circle -> x + circle -> z < rectangle -> x && circle -> x - circle -> z < rectangle -> x &&
+  if(!((circle -> x + circle -> z < rectangle -> x && circle -> x - 
+	circle -> z < rectangle -> x &&
      circle -> x + circle -> z < rectangle -> x + rectangle -> w &&
       circle -> x - circle -> z < rectangle -> x + rectangle -> w) ||
-     (circle -> x + circle -> z > rectangle -> x && circle -> x - circle -> z > rectangle -> x &&
+     (circle -> x + circle -> z > rectangle -> x && circle -> x - 
+      circle -> z > rectangle -> x &&
      circle -> x + circle -> z > rectangle -> x + rectangle -> w &&
       circle -> x - circle -> z > rectangle -> x + rectangle -> w)))
-    if(!((circle -> y + circle -> z < rectangle -> y && circle -> y - circle -> z < rectangle -> y &&
-     circle -> y + circle -> z < rectangle -> y + rectangle -> z &&
+    if(!((circle -> y + circle -> z < rectangle -> y && circle -> y - 
+	  circle -> z < rectangle -> y &&
+	  circle -> y + circle -> z < rectangle -> y + rectangle -> z &&
 	  circle -> y - circle -> z < rectangle -> y + rectangle -> z) ||
-	 (circle -> y + circle -> z > rectangle -> y && circle -> y - circle -> z > rectangle -> y &&
-     circle -> y + circle -> z > rectangle -> y + rectangle -> z &&
+	 (circle -> y + circle -> z > rectangle -> y && circle -> y - 
+	  circle -> z > rectangle -> y &&
+	  circle -> y + circle -> z > rectangle -> y + rectangle -> z &&
 	  circle -> y - circle -> z > rectangle -> y + rectangle -> z)))
       return 1;
   
@@ -1141,27 +1258,41 @@ int collision_circle_polygon(struct vector3 *circle, struct vector2 *polygon){
       // distance between rect and  point computed
       if(dist < circle -> z){
 	// A collision happened or not
-	if(!((circle -> x + circle -> z < current -> x && circle -> x + circle -> z < next-> x &&
-              circle -> x - circle -> z < current -> x && circle -> x - circle -> z < next-> x) ||
-             (circle -> x + circle -> z > current -> x && circle -> x + circle -> z > next-> x &&
-              circle -> x - circle -> z > current -> x && circle -> x - circle -> z > next-> x))){
-	  if(!((circle -> y + circle -> z < current -> y && circle -> y + circle -> z < next-> y &&
-		circle -> y - circle -> z < current -> y && circle -> y - circle -> z < next-> y) ||
-	       (circle -> y + circle -> z > current -> y && circle -> y + circle -> z > next-> y &&
-		circle -> y - circle -> z > current -> y && circle -> y - circle -> z > next-> y))){
+	if(!((circle -> x + circle -> z < current -> x && circle -> x + 
+	      circle -> z < next-> x &&
+              circle -> x - circle -> z < current -> x && circle -> x - 
+	      circle -> z < next-> x) ||
+             (circle -> x + circle -> z > current -> x && circle -> x + 
+	      circle -> z > next-> x &&
+              circle -> x - circle -> z > current -> x && circle -> x - 
+	      circle -> z > next-> x))){
+	  if(!((circle -> y + circle -> z < current -> y && circle -> y + 
+		circle -> z < next-> y &&
+		circle -> y - circle -> z < current -> y && circle -> y - 
+		circle -> z < next-> y) ||
+	       (circle -> y + circle -> z > current -> y && circle -> y + 
+		circle -> z > next-> y &&
+		circle -> y - circle -> z > current -> y && circle -> y - 
+		circle -> z > next-> y))){
 	    return 1;
 	  }
         }
       }
     }
     else{ // We have a vertical segment
-      if(!((circle -> x - circle -> z < current -> x && circle -> x + circle -> z < current -> x) ||
-           (circle -> x - circle -> z > current -> x && circle -> x + circle -> z > current -> x))){
+      if(!((circle -> x - circle -> z < current -> x && circle -> x + 
+	    circle -> z < current -> x) ||
+           (circle -> x - circle -> z > current -> x && circle -> x + 
+	    circle -> z > current -> x))){
 	// A collision happened... or not?
-	if(!((circle -> y + circle -> z < current -> y && circle -> y + circle -> z < next-> y &&
-              circle -> y - circle -> z < current -> y && circle -> y - circle -> z < next-> y) ||
-             (circle -> y + circle -> z > current -> y && circle -> y + circle -> z > next-> y &&
-	      circle -> y - circle -> z > current -> y && circle -> y - circle -> z > next-> y))){
+	if(!((circle -> y + circle -> z < current -> y && circle -> y + 
+	      circle -> z < next-> y &&
+              circle -> y - circle -> z < current -> y && circle -> y - 
+	      circle -> z < next-> y) ||
+             (circle -> y + circle -> z > current -> y && circle -> y + 
+	      circle -> z > next-> y &&
+	      circle -> y - circle -> z > current -> y && circle -> y - 
+	      circle -> z > next-> y))){
           return 1; // COLLISION!
 	}
       }

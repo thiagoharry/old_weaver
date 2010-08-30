@@ -48,6 +48,8 @@
 #define erase_fullrectangle(a, b) _erase_rectangle(a, b, 1)
 #define film_fullpolygon(a, b, c) _film_fullpolygon(a, b, c, 0)
 #define erase_fullpolygon(a, b) _film_fullpolygon(a, b, NOT_IMPORTANT, 1)
+#define film_polygon(a, b, c) _film_polygon(a, b, c, 0)
+#define erase_polygon(a, b) _film_polygon(a, b, NOT_IMPORTANT, 1)
 #define MAX(x, y) (x) > (y) ? (x) : (y)
 #define MIN(x, y) (x) > (y) ? (y) : (x)
 
@@ -69,7 +71,7 @@ void _erase_rectangle(struct vector4 *, struct vector4 *, int);
 void film_fullrectangle(struct vector4 *, struct vector4 *,unsigned);
 
 
-void film_polygon(struct vector4 *, struct vector2 *, unsigned);
+void _film_polygon(struct vector4 *, struct vector2 *, unsigned, int);
 void _film_fullpolygon(struct vector4 *, struct vector2 *, unsigned, int);
 
 int collision_circle_circle(struct vector3 *, struct vector3 *);
