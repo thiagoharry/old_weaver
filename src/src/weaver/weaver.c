@@ -22,6 +22,7 @@
 #include <sys/time.h>
 #include <float.h>
 #include <signal.h>
+#include <limits.h>
 #include "weaver.h"
 #include "display.h"
 
@@ -811,6 +812,167 @@ void _film_fullpolygon(struct vector4 *camera, struct vector2 *polygon,
   
 }
 
+// This films a henagon
+void _film_henagon(struct vector4 *cam, struct vector2 *henagon, 
+		   unsigned color, int erase){
+  int x, y;
+  x = (int) (((henagon -> x - cam -> x) / cam -> w) * window_width);
+  y = (int) (((henagon -> y - cam -> y) / cam -> z) * window_height);
+  if(erase)
+    blit_surface(background, window, x, y, 1, 1, x, y);
+  else
+    draw_point(x, y, color);
+}
+
+void _film_limited_henagon(struct vector4 *cam, struct vector2 *henagon, 
+			   unsigned color, int erase){
+    int x, y;
+    x = (int) (((henagon -> x - cam -> x) / cam -> w));
+    x= (int) ((float) x * ((float) (long) cam -> next)  + 
+	      (long) (cam -> previous));
+    y = (int) (((henagon -> y - cam -> y) / cam -> z));
+    y = (int) ((float) y * ((float) (long) cam -> down)) + 
+      (long) (cam -> top);
+    if(erase)
+      blit_surface(background, window, x, y, 1, 1, x, y);
+    else
+      draw_point(x, y, color);
+}
+
+// Films an empty polygon with a not limited camera
+void _film_normal_polygon(struct vector4 *cam, struct vector2 *poly,
+			  unsigned color){
+  struct vector2 *current_vertex = poly;
+  struct vector2 *next;
+  int x1, x2, y1, y2;
+
+  do{
+    next = current_vertex -> next;
+
+    x1 = (int) (((current_vertex -> x - cam -> x) / cam -> w) * 
+		window_width);
+    y1 = (int) (((current_vertex -> y - cam -> y) / cam -> z) * 
+		window_height);
+    x2 = (int) (((next -> x - cam -> x) / cam -> w) * window_width);
+    y2 = (int) (((next -> y - cam -> y) / cam -> z) * window_height);
+
+    draw_line(x1, y1, x2, y2, color);
+
+    current_vertex = next;
+  } while(current_vertex != poly);
+}
+
+// This draws a polygon in the screen filming it with a limited camera.
+void _film_limited_polygon(struct vector4 *cam, struct vector2 *poly,
+			   unsigned color){
+  struct vector2 *current_vertex = poly;
+  struct vector2 *next;
+  int x1, x2, y1, y2;
+  int smallest_x = INT_MAX, smallest_y = INT_MAX;
+  surface *surf = new_surface((long) cam -> next, 
+			      (long) cam -> down);
+  
+  blit_surface(background, surf, (int) cam -> previous, (int) cam -> top,
+	       surf -> width, surf -> height, 0, 0);
+  draw_rectangle_mask(surf, 0, 0, surf -> width, surf -> height);
+  XSetForeground(_dpy, _mask_gc, ~0l);
+  XSetForeground(_dpy, _gc, color);
+  do{
+    x1 = (int) ((((current_vertex -> x - cam -> x) / cam -> w) *
+		 ((float) (long) cam -> next) +
+		 (long) (cam -> previous)));
+    if(x1 <= smallest_x)
+      smallest_x = x1;
+    y1 = (int) (((current_vertex -> y - cam -> y) / cam -> z) * 
+		((float) (long) cam -> down) +
+		(long) (cam -> top));
+    if(y1 < smallest_y)
+      smallest_y = y1;
+    current_vertex = current_vertex -> next;
+  }while(current_vertex != poly);
+
+  do{
+    next = current_vertex -> next;
+
+    x1 = (int) ((((current_vertex -> x - cam -> x) / cam -> w) *
+		 ((float) (long) cam -> next) +
+		 (long) (cam -> previous)));
+    x1 -= smallest_x;
+    y1 = (int) (((current_vertex -> y - cam -> y) / cam -> z) * 
+		((float) (long) cam -> down) +
+		(long) (cam -> top));
+    y1 -= smallest_y;
+    x2 = (int) ((((next -> x - cam -> x) / cam -> w) *
+		 ((float) (long) cam -> next) +
+		 (long) (cam -> previous)));
+    x2 -= smallest_x;
+    y2 = (int) (((next -> y - cam -> y) / cam -> z) * 
+		((float) (long) cam -> down) +
+		(long) (cam -> top));
+    y2 -= smallest_y;
+
+    XDrawLine(_dpy, surf -> mask, _mask_gc, x1, y1, x2, y2);
+    XDrawLine(_dpy, surf -> pix, _gc, x1, y1, x2, y2);
+
+    current_vertex = current_vertex -> next;
+  }while(current_vertex != poly);
+  draw_surface(surf, window, (int) cam -> previous, (int) cam -> top);
+  destroy_surface(surf);
+}
+
+//Erases an empty polygon with a not limited camera
+void _erase_normal_polygon(struct vector4 *cam, struct vector2 *poly){
+  struct vector2 *current_vertex = poly;
+  struct vector2 *next;
+  int x1, x2, y1, y2;
+  int smallest_x = INT_MAX, smallest_y = INT_MAX, biggest_x = INT_MIN, 
+    biggest_y = INT_MIN;
+  surface *surf;
+  // First we get the polygon width, height and position
+  do{
+    
+    x1 = (int) (((current_vertex -> x - cam -> x) / cam -> w) * 
+		window_width);
+    y1 = (int) (((current_vertex -> y - cam -> y) / cam -> z) * 
+		window_height);
+    if(x1 <= smallest_x) smallest_x = x1;
+    if(y1 <= smallest_y) smallest_y = y1;
+    if(x1 >= biggest_x) biggest_x = x1;
+    if(y1 >= biggest_y) biggest_y = y1;
+
+    current_vertex = current_vertex -> next;
+  }while(current_vertex != poly);
+  
+  // Preparing the buffer
+  biggest_y ++;
+  biggest_x ++;
+  surf = new_surface(biggest_x - smallest_x, biggest_y - smallest_y);
+  draw_rectangle_mask(surf, 0, 0, surf -> width, surf -> height);
+  blit_surface(background, surf, smallest_x, smallest_y,
+	       surf -> width, surf -> height, 
+	       0, 0);
+  XSetForeground(_dpy, _mask_gc, ~0l);
+  // Now we can draw it
+  do{
+    next = current_vertex -> next;
+    x1 = (int) (((current_vertex -> x - cam -> x) / cam -> w) * 
+		window_width) - smallest_x;
+    y1 = (int) (((current_vertex -> y - cam -> y) / cam -> z) * 
+		window_height) - smallest_y;
+    x2 = (int) (((next -> x - cam -> x) / cam -> w) * window_width) - 
+      smallest_x;
+    y2 = (int) (((next -> y - cam -> y) / cam -> z) * window_height) - 
+      smallest_y;
+
+    XDrawLine(_dpy, surf -> mask, _mask_gc, x1, y1, x2, y2);
+
+    current_vertex = current_vertex -> next;
+  }while(current_vertex != poly);
+
+  draw_surface(surf, window, smallest_x, smallest_y);
+  destroy_surface(surf);
+}
+
 // This films an empty polygon
 void _film_polygon(struct vector4 *camera, struct vector2 *polygon, 
 		   unsigned color, int erase){
@@ -826,36 +988,41 @@ void _film_polygon(struct vector4 *camera, struct vector2 *polygon,
 
   // This is a henagon. A polygon with only one vertex
   // They can be used as particles, so it's usefull to draw them
-  if(polygon -> next == polygon){
-    int limited_camera =0;
-    x1 = (int) (((polygon -> x - camera -> x) / camera -> w) * window_width);
-    y1 = (int) (((polygon -> y - camera -> y) / camera -> z) * window_height);
-    // If our camera is limited, we need some more calculations
-    if(camera -> previous != NULL && camera -> next != NULL){
-      limited_camera = 1;
-      x1 = (int) ((float) x1 * ((float) (long) camera -> next) / 
-		  (float) window_width) + (long) (camera -> previous);
-    }
-    if(camera -> top != NULL && camera -> down != NULL){
-      limited_camera = 1;
-      y1 = (int) ((float) y1 * ((float) (long) camera -> down) / 
-		  (float) window_height) + (long) (camera -> top);
-    }
-    if((!limited_camera) || (x1 < (long) camera -> previous + 
-			     (long) camera -> next && x1 > 
-			     (long) camera -> previous &&
-			     y1 < (long) camera -> top + 
-			     (long) camera -> down && y1 > 
-			     (long) camera -> top)){
-      if(!erase)
-	draw_point(x1, y1, color);
-      else
-	blit_surface(background, window, x1, y1, 1, 1, x1, y1);
-    }
-
-    // We draw the point only if it's inside the camera limits
+  else if(polygon -> next == polygon){
+    if(polygon -> x < camera -> x)
+      return;
+    if(polygon -> y < camera -> y)
+      return;
+    if(polygon -> x > camera -> x + camera -> w)
+      return;
+    if(polygon -> y > camera -> y + camera -> z)
+      return;
+    // If we are here, we need to draw the dot
+    // The camera is limited?
+    if(camera -> previous != NULL && camera -> next != NULL)
+      _film_limited_henagon(camera, polygon, color, erase);
+    else
+      _film_henagon(camera, polygon, color, erase);
     return;
   }  
+  else{
+    if(camera -> previous == NULL && camera -> next == NULL){
+      if(!erase){
+	_film_normal_polygon(camera, polygon, color);
+	return;
+      }
+      else{
+	_erase_normal_polygon(camera, polygon);
+	return;
+      }
+    }
+    else{
+       if(!erase){
+	 _film_limited_polygon(camera, polygon, color);
+	return;
+      }
+    }
+  }
 
   // Now the usual case. We have a polygon with more than one vertex.
   do{

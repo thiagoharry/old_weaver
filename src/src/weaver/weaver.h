@@ -21,6 +21,7 @@
 #define _WEAVER_H_
 
 #include <math.h>
+#include <sys/time.h>
 #include "display.h"
 #include "vector2.h"
 #include "vector3.h"
@@ -52,6 +53,13 @@
 #define erase_polygon(a, b) _film_polygon(a, b, NOT_IMPORTANT, 1)
 #define MAX(x, y) (x) > (y) ? (x) : (y)
 #define MIN(x, y) (x) > (y) ? (y) : (x)
+#define DEBUG_TIMER_START() { struct timeval _begin, _end;	\
+  gettimeofday(&_begin, NULL);
+#define DEBUG_TIMER_END() gettimeofday(&_end, NULL);		\
+  printf("%ld\n", (1000000 * (_end.tv_sec - _begin.tv_sec) +	\
+		   _end.tv_usec - _begin.tv_usec));		\
+  }
+
 
 // Functions
 void awake_the_weaver(void);
@@ -73,6 +81,12 @@ void film_fullrectangle(struct vector4 *, struct vector4 *,unsigned);
 
 void _film_polygon(struct vector4 *, struct vector2 *, unsigned, int);
 void _film_fullpolygon(struct vector4 *, struct vector2 *, unsigned, int);
+void _film_henagon(struct vector4 *, struct vector2 *, unsigned, int);
+void _film_limited_henagon(struct vector4 *, struct vector2 *, unsigned, int);
+void _film_normal_polygon(struct vector4 *, struct vector2 *, unsigned);
+void _erase_normal_polygon(struct vector4 *, struct vector2 *);
+void _film_limited_polygon(struct vector4 *, struct vector2 *, unsigned);
+void _erase_limited_polygon(struct vector4 *, struct vector2 *);
 
 int collision_circle_circle(struct vector3 *, struct vector3 *);
 int collision_circle_polygon(struct vector3 *, struct vector2 *);
