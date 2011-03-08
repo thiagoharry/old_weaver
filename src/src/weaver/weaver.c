@@ -817,7 +817,20 @@ void _film_polygon(struct vector4 *camera, struct vector2 *polygon,
   struct vector2 *current_vertex = polygon;
   struct vector2 *next;
   int x1, y1, x2, y2;
-  int limited_camera;
+  int limited_camera = 0;
+  surface *lim_surf = NULL;
+
+  // If the camera is limited, we'll work inside a surface first
+  if(camera -> previous != NULL && camera -> next != NULL){
+    limited_camera = 1;
+    lim_surf = new_surface((long) camera -> next, 
+			   (long) camera -> down);
+    blit_surface(background, lim_surf, (long) camera -> previous, 
+		 (long) camera -> top,
+		 lim_surf -> width, lim_surf -> height, 
+		 0, 0);
+    draw_rectangle_mask(lim_surf, 0, 0, lim_surf -> width, lim_surf -> height);
+  }
 
   // First we handle the degenerate cases
   // This is a "Empty Polygon". Don't draw anything.
@@ -827,17 +840,12 @@ void _film_polygon(struct vector4 *camera, struct vector2 *polygon,
   // This is a henagon. A polygon with only one vertex
   // They can be used as particles, so it's usefull to draw them
   if(polygon -> next == polygon){
-    int limited_camera =0;
     x1 = (int) (((polygon -> x - camera -> x) / camera -> w) * window_width);
     y1 = (int) (((polygon -> y - camera -> y) / camera -> z) * window_height);
     // If our camera is limited, we need some more calculations
-    if(camera -> previous != NULL && camera -> next != NULL){
-      limited_camera = 1;
+    if(limited_camera){
       x1 = (int) ((float) x1 * ((float) (long) camera -> next) / 
 		  (float) window_width) + (long) (camera -> previous);
-    }
-    if(camera -> top != NULL && camera -> down != NULL){
-      limited_camera = 1;
       y1 = (int) ((float) y1 * ((float) (long) camera -> down) / 
 		  (float) window_height) + (long) (camera -> top);
     }
@@ -860,8 +868,7 @@ void _film_polygon(struct vector4 *camera, struct vector2 *polygon,
   // Now the usual case. We have a polygon with more than one vertex.
   do{
     next = current_vertex -> next;
-    limited_camera = 0;
-
+    
     x1 = (int) (((current_vertex -> x - camera -> x) / camera -> w) * 
 		window_width);
     y1 = (int) (((current_vertex -> y - camera -> y) / camera -> z) * 
@@ -869,205 +876,27 @@ void _film_polygon(struct vector4 *camera, struct vector2 *polygon,
     x2 = (int) (((next -> x - camera -> x) / camera -> w) * window_width);
     y2 = (int) (((next -> y - camera -> y) / camera -> z) * window_height);
 
-    if(camera -> previous != NULL && camera -> next != NULL){
-      x1 = (int) ((float) x1 * ((float) (long) camera -> next) / 
-		  (float) window_width) + (long) (camera -> previous);
-      x2 = (int) ((float) x2 * ((float) (long) camera -> next) / 
-		  (float) window_width) + (long) (camera -> previous);
-      limited_camera ++;
-    }
-    if(camera -> top != NULL && camera -> down != NULL){
-      y1 = (int) ((float) y1 * ((float) (long) camera -> down) / 
-		  (float) window_height) + (long) (camera -> top);
-      y2 = (int) ((float) y2 * ((float) (long) camera -> down) / 
-		  (float) window_height) + (long) (camera -> top);
-      limited_camera ++;
-    }
-
-    // In fact, we must handle 4 cases: The 2 dots are inside the limit, 
-    //the 2 are outside, only the first is
-    // inside or only the second is inside.
     if(limited_camera){
-      if((x1 < (long) camera -> previous + (long) camera -> next && x1 > 
-	  (long) camera -> previous &&
-	  y1 < (long) camera -> top + (long) camera -> down && y1 > 
-	  (long) camera -> top)){
-	// The first dot is inside!
-	if(x2 < (long) camera -> previous + (long) camera -> next && x2 > 
-	   (long) camera -> previous &&
-	   y2 < (long) camera -> top + (long) camera -> down && y2 > 
-	   (long) camera -> top){
-	  // The 2 dots are inside!
-	  draw_line(x1, y1, x2, y2, color);
-	}
-	else{
-	  // (x2, y2) is outside
-	  if(x2 > (long) camera -> previous + (long) camera -> next){ 
-	    // x2 is far east
-	    float a = ((float) (y2 - y1)) / ((float) (x2 - x1)); // We already know that x2 != x1
-	    float b = y1 - a * x1;
-	    x2 = (int) ((long) camera -> previous + (long) camera -> next);
-	    y2 = a * (float) x2 + b;
-	    if(y2 > (long) camera -> top && y2 < (long) camera -> top + 
-	       (long) camera -> down)
-	      draw_line(x1, y1, x2, y2, color);
-	    else{
-	      if(y2 <= (long) camera -> top){
-		y2 = (long) camera -> top;
-		if(a != 0.0){
-		  x2 = (y2 - b) / a;
-		  draw_line(x1, y1, x2, y2, color);
-		}
-	      }
-	      else if(y2 >= (long) camera -> top + (long) camera -> down){
-		y2 = (long) camera -> top + (long) camera -> down;
-		if(a != 0.0){
-		  x2 = (y2 - b) / a;
-		  draw_line(x1, y1, x2, y2, color);
-		}
-	      }
-	    } // End of else
-	  }
-	  else if(x2 < (long) camera -> previous){ // x2 is far west
-	    float a = ((float) (y2 - y1)) / ((float) (x2 - x1)); 
-	    // We already know that x2 != x1
-	    float b = y1 - a * x1;
-	    x2 = (int) (long) camera -> previous;
-	    y2 = a * (float) x2 + b;
-	    if(y2 > (long) camera -> top && y2 < (long) camera -> top + 
-	       (long) camera -> down)
-	      draw_line(x1, y1, x2, y2, color);
-	    else{
-	      if(y2 <= (long) camera -> top){
-                y2 = (long) camera -> top;
-                if(a != 0.0){
-                  x2 = (y2 - b) / a;
-                  draw_line(x1, y1, x2, y2, color);
-                }
-              }
-              else if(y2 >= (long) camera -> top + (long) camera -> down){
-                y2 = (long) camera -> top + (long) camera -> down;
-                if(a != 0.0){
-                  x2 = (y2 - b) / a;
-                  draw_line(x1, y1, x2, y2, color);
-                }
-              }	      
-	    }
-	  }
-	  else{ // x2 is not outside the screen. But y2 is
-	    float a = ((float) (y2 - y1)) / ((float) (x2 - x1)); 
-	    // We already know that x2 != x1
-	    float b = (float) y1 - a * (float) x1;
-	    if(y2 <= (long) camera -> top){
-	      y2 = (long) camera -> top;
-	      if(a != 0.0){
-		x2 = (y2 - b) / a;
-		if(x2 > (long) camera -> previous && x2 < 
-		   (long) camera -> previous + (long) camera -> next)
-		  draw_line(x1, y1, x2, y2, color);
-	      }
-	    }
-	    else if(y2 >= (long) camera -> top + (long) camera -> down){
-	      y2 = (long) camera -> top + (long) camera -> down;
-	      if(a != 0.0){
-		x2 = (int) ((float) y2 - b) / a;
-		if(x2 > (long) camera -> previous && x2 < 
-		   (long) camera -> previous + (long) camera -> next)
-		  draw_line(x1, y1, x2, y2, color);
-	      }
-	    }
-
-	  }
-	}
+      x1 = (int) ((float) x1 * ((float) (long) camera -> next) / 
+		  (float) window_width);
+      x2 = (int) ((float) x2 * ((float) (long) camera -> next) / 
+		  (float) window_width);
+      y1 = (int) ((float) y1 * ((float) (long) camera -> down) / 
+		  (float) window_height);
+      y2 = (int) ((float) y2 * ((float) (long) camera -> down) / 
+		  (float) window_height);
+    }
+    
+    // If the camera is limited, we shall first work inside a surface
+    // with the right size.
+    if(limited_camera){
+      XSetForeground(_dpy, _mask_gc, ~0l);
+      XDrawLine(_dpy, lim_surf -> mask, _mask_gc, x1, y1, x2, y2);
+      if(!erase){
+	XSetForeground(_dpy, _gc, color);
+	XDrawLine(_dpy, lim_surf -> pix, _gc, x1, y1, x2, y2);
       }
-      else{
-	// The first dot is outside.
-	if(x2 < (long) camera -> previous + (long) camera -> next && x2 > 
-	   (long) camera -> previous &&
-           y2 < (long) camera -> top + (long) camera -> down && y2 > 
-	   (long) camera -> top){
-	  // Only the second dot is inside
-	  // (x1, y1) is outside
-	  if(x1 > (long) camera -> previous + (long) camera -> next){ 
-	    // x1 is far east
-	    float a = ((float) (y1 - y2)) / ((float) (x1 - x2)); 
-	    // We already know that x2 != x1
-	    float b = y2 - a * x2;
-	    x1 = (int) ((long) camera -> previous + (long) camera -> next);
-	    y1 = a * (float) x1 + b;
-	    if(y1 > (long) camera -> top && y1 < (long) camera -> top + 
-	       (long) camera -> down)
-	      draw_line(x1, y1, x2, y2, color);
-	    else{
-	      if(y1 <= (long) camera -> top){
-		y1 = (long) camera -> top;
-		if(a != 0.0){
-		  x1 = (y1 - b) / a;
-		  draw_line(x1, y1, x2, y2, color);
-		}
-	      }
-	      else if(y1 >= (long) camera -> top + (long) camera -> down){
-		y1 = (long) camera -> top + (long) camera -> down;
-		if(a != 0.0){
-		  x1 = (y1 - b) / a;
-		  draw_line(x1, y1, x2, y2, color);
-		}
-	      }
-	    } // End of else
-	  }
-	  else if(x1 < (long) camera -> previous){ // x2 is far west
-	    float a = ((float) (y1 - y2)) / ((float) (x1 - x2)); 
-	    // We already know that x2 != x1
-	    float b = y2 - a * x2;
-	    x1 = (int) (long) camera -> previous;
-	    y1 = a * (float) x1 + b;
-	    if(y1 > (long) camera -> top && y1 < (long) camera -> top + 
-	       (long) camera -> down)
-	      draw_line(x1, y1, x2, y2, color);
-	    else{
-	      if(y1 <= (long) camera -> top){
-                y1 = (long) camera -> top;
-                if(a != 0.0){
-                  x1 = (y1 - b) / a;
-                  draw_line(x1, y1, x2, y2, color);
-                }
-              }
-              else if(y1 >= (long) camera -> top + (long) camera -> down){
-                y1 = (long) camera -> top + (long) camera -> down;
-                if(a != 0.0){
-                  x1 = (y1 - b) / a;
-                  draw_line(x1, y1, x2, y2, color);
-                }
-              }	      
-	    }
-	  }
-	  else{
-	    // x1 is not outside the screen. But y1 is
-	    float a = ((float) (y1 - y2)) / ((float) (x1 - x2)); 
-	    // We already know that x2 != x1
-	    float b = y2 - a * x2;
-	    if(y1 <= (long) camera -> top){
-	      y1 = (long) camera -> top;
-	      if(a != 0.0){
-		x1 = (y1 - b) / a;
-		if(x1 > (long) camera -> previous && x1 < 
-		   (long) camera -> previous + (long) camera -> next)
-		  draw_line(x1, y1, x2, y2, color);
-	      }
-	    }
-	    else if(y1 >= (long) camera -> top + (long) camera -> down){
-	      y1 = (long) camera -> top + (long) camera -> down;
-	      if(a != 0.0){
-		x1 = (y1 - b) / a;
-		if(x1 > (long) camera -> previous && x1 < 
-		   (long) camera -> previous + (long) camera -> next)
-		  draw_line(x1, y1, x2, y2, color);
-	      }
-	    }
-	  }
-	}
-	// Else the 2 are outside and there's nothing to do.
-      }
+	 
     }
     else{
       // We don't have a limited camera. Much easier!
@@ -1112,6 +941,14 @@ void _film_polygon(struct vector4 *camera, struct vector2 *polygon,
     }
     current_vertex = current_vertex -> next;
   }while(current_vertex != polygon);
+
+  // Destroying the surface for limited cameras
+  if(limited_camera){
+    draw_surface(lim_surf, window, (long) camera -> previous, 
+		 (long) camera -> top);
+    destroy_surface(lim_surf);
+  }
+
 }
 
 // This detects collision between two rectangles
