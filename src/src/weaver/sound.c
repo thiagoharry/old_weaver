@@ -66,7 +66,9 @@ void handle_pcm_error(int status, snd_pcm_uframes_t frames){
 
 // This functions opens an Ogg Vorbis file and play it
 void play_sound(char *file){
-  if(!fork()){
+  if(_sound)
+    kill(_sound, 9);
+  if(!(_sound = fork())){
     _play_soundfile(file, "sound/");
     exit(0);
   }

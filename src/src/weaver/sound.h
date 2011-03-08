@@ -31,5 +31,6 @@ void play_music(char *);
 void stop_music(void);
 
 pid_t _music;
+pid_t _sound;
 
 #endif

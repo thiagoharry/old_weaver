@@ -36,10 +36,13 @@ void awake_the_weaver(void){
   gettimeofday(&current_time, NULL);
   fps = 50;
   _music = 0;
+  _sound = 0;
 }
 
 void may_the_weaver_sleep(void){
   stop_music();
+  if(_sound)
+    kill(_sound, 9);
   // It's causing a segmentation fault in some systems...
   // Why?
   //png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
