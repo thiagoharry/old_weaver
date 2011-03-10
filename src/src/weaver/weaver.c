@@ -826,13 +826,14 @@ void _film_polygon(struct vector4 *camera, struct vector2 *polygon,
   // If the camera is limited, we'll work inside a surface first
   if(camera -> previous != NULL && camera -> next != NULL){
     limited_camera = 1;
-    lim_surf = new_surface((long) camera -> next, 
-			   (long) camera -> down);
-    blit_surface(background, lim_surf, (long) camera -> previous, 
-		 (long) camera -> top,
-		 lim_surf -> width, lim_surf -> height, 
-		 0, 0);
-    draw_rectangle_mask(lim_surf, 0, 0, lim_surf -> width, lim_surf -> height);
+    /*lim_surf = new_surface((long) camera -> next, 
+      (long) camera -> down);
+      blit_surface(background, lim_surf, (long) camera -> previous, 
+      (long) camera -> top,
+      lim_surf -> width, lim_surf -> height, 
+      0, 0);
+      draw_rectangle_mask(lim_surf, 0, 0, lim_surf -> width, 
+      lim_surf -> height);*/
   }
 
   // First we handle the degenerate cases
@@ -868,7 +869,7 @@ void _film_polygon(struct vector4 *camera, struct vector2 *polygon,
     return;
   } // End if it's a henagon  
 
-  // Now the usual case. We have a polygon with more than one vertex.
+    // Now the usual case. We have a polygon with more than one vertex.
   do{
     next = current_vertex -> next;
     
@@ -879,7 +880,9 @@ void _film_polygon(struct vector4 *camera, struct vector2 *polygon,
     x2 = (int) (((next -> x - camera -> x) / camera -> w) * window_width);
     y2 = (int) (((next -> y - camera -> y) / camera -> z) * window_height);
 
-    if(limited_camera){
+    // If the camera is limited, we shall first work inside a surface
+    // with the right size.
+    if(limited_camera){      
       x1 = (int) ((float) x1 * ((float) (long) camera -> next) / 
 		  (float) window_width);
       x2 = (int) ((float) x2 * ((float) (long) camera -> next) / 
@@ -888,11 +891,28 @@ void _film_polygon(struct vector4 *camera, struct vector2 *polygon,
 		  (float) window_height);
       y2 = (int) ((float) y2 * ((float) (long) camera -> down) / 
 		  (float) window_height);
-    }
-    
-    // If the camera is limited, we shall first work inside a surface
-    // with the right size.
-    if(limited_camera){
+
+
+      if((x1 < 0 && x2 < 0) || (y1 < 0 && y2 < 0) ||
+	 (x1 >  (long) camera -> next && 
+	  x2 > (long) camera -> next) ||
+	 (y1 >  (long) camera -> down 
+	  && y2 > (long) camera -> down)){
+	current_vertex = current_vertex -> next;
+	continue;
+      }
+      
+      if(lim_surf == NULL){
+	lim_surf = new_surface((long) camera -> next, 
+			       (long) camera -> down);
+	blit_surface(background, lim_surf, (long) camera -> previous, 
+		     (long) camera -> top,
+		     lim_surf -> width, lim_surf -> height, 
+		     0, 0);
+	draw_rectangle_mask(lim_surf, 0, 0, lim_surf -> width, 
+			    lim_surf -> height);
+      }
+   
       XSetForeground(_dpy, _mask_gc, ~0l);
       XDrawLine(_dpy, lim_surf -> mask, _mask_gc, x1, y1, x2, y2);
       if(!erase){
@@ -944,14 +964,12 @@ void _film_polygon(struct vector4 *camera, struct vector2 *polygon,
     }
     current_vertex = current_vertex -> next;
   }while(current_vertex != polygon);
-
   // Destroying the surface for limited cameras
-  if(limited_camera){
+  if(limited_camera && lim_surf != NULL){
     draw_surface(lim_surf, window, (long) camera -> previous, 
 		 (long) camera -> top);
     destroy_surface(lim_surf);
   }
-
 }
 
 // This detects collision between two rectangles

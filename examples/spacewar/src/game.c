@@ -102,8 +102,9 @@ int game(int players){
   rotate_polygon(Ship2.right_wing, Ship2.x, Ship2.y, - M_PI / 4);
   rotate_polygon(Ship2.right_prop, Ship2.x, Ship2.y, - M_PI / 4);
   rotate_polygon(Ship2.left_prop, Ship2.x, Ship2.y, - M_PI / 4);
- 
-
+  printf("%f %f\n", Ship2.x, Ship2.y);
+  exit(0);
+  
   // Main loop
   for(;;){
 
