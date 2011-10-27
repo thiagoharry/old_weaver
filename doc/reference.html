@@ -1,0 +1,3247 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE  html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+           "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pt-br">
+  <head>
+    <title>
+      Weaver Reference Guide
+    </title>
+    <link rel="shortcut icon" href="weaver.ico" type="image/x-icon" />
+    <link rel="stylesheet" type="text/css" href="weaver.css" />
+    <style type="text/css">
+      <!--
+      .name
+      {
+      color: #000000;
+      text-decoration: none;
+      }
+
+         /*span
+         {
+         display:inline;
+         }*/
+
+      .terminal
+      {
+      background-color: #000000;
+      color: #00ff00;
+      border-right:   #fffbee 1px solid;
+      border-top:     #b2ab9e 1px solid;
+      border-left:    #a29b8e 1px solid;
+      border-bottom:  #f2ebde 1px solid;
+      }
+
+      .comentario
+      {
+      color: #ff0000;
+      }
+      
+      .precompil
+      {
+      color: #0000ff;
+      }
+
+      .palavra
+      {
+      color: #008800;
+      }
+
+      .tipo
+      {
+      color: #888800;
+      }
+      
+      .codigo
+      {
+      color: #000000;
+      background-color: #d2cbbe;
+      border-right:   #fffbee 1px solid;
+      border-top:     #b2ab9e 1px solid;
+      border-left:    #a29b8e 1px solid;
+      border-bottom:  #f2ebde 1px solid;
+      display: none;
+      }
+
+      .codigo_visivel
+      {
+      color: #000000;
+      background-color: #d2cbbe;
+      border-right:   #fffbee 1px solid;
+      border-top:     #b2ab9e 1px solid;
+      border-left:    #a29b8e 1px solid;
+      border-bottom:  #f2ebde 1px solid;
+      }
+
+
+      ul
+      {
+      width: 660px;
+      }
+
+      -->
+    </style>
+    <script type="text/javascript">
+      <!--
+          function playElement(i) {
+            var e = document.getElementById(i);
+            if (e) {
+              if(e.style.display == 'block'){
+                e.style.display = 'none';
+              }
+              else {
+                e.style.display = 'block';
+              }
+            }
+          } 
+          
+          //--></script>
+  </head>
+  <body>
+        <div class="content">
+         <a href="index.html#title">
+        <span class="button">
+          <span>
+            home
+          </span>
+          </span>
+        </a>
+        <a href="index.html#download_title">
+          <span class="button">
+            <span>
+              download
+            </span>
+          </span>
+        </a>
+        <a href="index.html#support_title">
+          <span class="button">
+            <span>
+              get support
+            </span>
+          </span>
+        </a>
+        <a href="index.html#documentation_title">
+          <span class="button">
+            <span>
+              documentation
+            </span>
+          </span>
+        </a>
+        <a href="index.html#games_title">
+          <span class="button">
+            <span>
+            weaver games
+            </span>
+          </span>
+        </a>
+        
+        <br/>
+    <hr/>
+    
+    <h1>
+      Weaver Reference Guide
+    </h1>
+
+    <p>
+      This page is hosting the Weaver Reference Guide. It shall list
+      all the relevant macros, global variables, data structures and
+      functions present in Weaver API.
+    </p>
+    <p>
+      If you wish to see the code of some of these elements, please
+      click in the title with the element's name.
+    </p>
+    <p>
+      All the source code present here is part of Weaver API,
+      copyrighted by Thiago "Harry" Leucz Astrizi and licensed under
+      GNU General Public Licence v3.
+    </p>
+    <h2>
+      Index
+    </h2>
+    <ol>
+      <li>
+        Data Structures
+        <ul>
+          <li>
+            <a href="#camera">
+              camera
+            </a>
+          </li>
+          <li>
+            <a href="#circle">
+              circle
+            </a>
+          </li>
+          <li>
+            <a href="#polygon">
+              polygon
+            </a>
+          </li>
+          <li>
+            <a href="#rectangle">
+              rectangle
+            </a>            
+          </li>
+	  <li>
+	    <a href="#surface">
+	      surface
+	    </a>
+	  </li>
+          <li>
+            <a href="#vector2">
+              struct vector2
+            </a>
+          </li>
+          <li>
+            <a href="#vector3">
+              struct vector3
+            </a>
+          </li>
+          <li>
+            <a href="#vector4">
+              struct vector4
+            </a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        Functions
+        <ul>
+	  <li>
+	    <a href="#apply_texture">
+	      apply_texture(a, b)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#awake_the_weaver">
+	      awake_the_weaver()
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#blit_masked_pixmap">
+	      blit_masked_pixmap(a, b, c, d, e, f, g, h, i, j, k)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#blit_surface">
+	      blit_surface(a, b, c, d, e, f, g, h)
+	    </a>
+	  </li>
+          <li>
+            <a href="#center_camera">
+              center_camera(a, b,c)
+            </a>
+          </li>
+	  <li>
+	    <a href="#clean_keyboard">
+	      clean_keyboard()
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#collision_circle_circle">
+	      collision_circle_circle(a, b)
+	    </a>
+	  </li>
+
+	  <li>
+	    <a href="#collision_circle_polygon">
+	      collision_circle_polygon(a, b)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#collision_circle_rectangle">
+	      collision_circle_rectangle(a, b)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#collision_polygon_circle">
+	      collision_polygon_circle(a, b)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#collision_polygon_polygon">
+	      collision_polygon_polygon(a, b)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#collision_polygon_rectangle">
+	      collision_polygon_rectangle(a, b)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#collision_rectangle_circle">
+	      collision_rectangle_circle(a, b)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#collision_rectangle_polygon">
+	      collision_rectangle_polygon(a, b)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#collision_rectangle_rectangle">
+	      collision_rectangle_rectangle(a, b)
+	    </a>
+	  </li>
+          <li>
+            <a href="#connect_vector2">
+              connect_vector2(a, b)
+            </a>
+          </li>
+          <li>
+            <a href="#destroy_camera">
+              destroy_camera(a)
+            </a>
+          </li>
+          <li>
+            <a href="#destroy_circle">
+              destroy_circle(a)
+            </a>
+          </li>
+          <li>
+            <a href="#destroy_polygon">
+              destroy_polygon(a)
+            </a>
+          </li>
+          <li>
+            <a href="#destroy_rectangle">
+              destroy_rectangle(a)
+            </a>
+          </li>
+	  <li>
+	    <a href="#destroy_surface">
+	      destroy_surface(a)
+	    </a>
+	  </li>
+          <li>
+            <a href="#destroy_vector2">
+              destroy_vector2(a)
+            </a>
+          </li>
+          <li>
+            <a href="#destroy_vector3">
+              destroy_vector3(a)
+            </a>
+          </li>
+          <li>
+            <a href="#destroy_vector4">
+              destroy_vector4(a)
+            </a>
+          </li>
+	  <li>
+	    <a href="#draw_circle">
+	      draw_circle(a, b, c, d)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#draw_ellipse">
+	      draw_ellipse(a, b, c, d, e)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#draw_line">
+	      draw_line(a, b, c, d, e)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#draw_point">
+	      draw_point(a, b, c)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#draw_rectangle">
+	      draw_rectangle(a, b, c, d, e)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#draw_rectangle_mask">
+	      draw_rectangle_mask(a, b, c, d, e)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#draw_surface">
+	      draw_surface(a, b, c, d)
+	    </a>
+	  </li>
+	  <!--<li>
+	    <a href="#erase_screen">
+	      erase_screen()
+	    </a>
+	  </li>-->
+	  <!--
+	  <li>
+	    <a href="#draw_text">
+	      draw_text(a, b, c, d, e)
+	    </a>
+	  </li>
+	  -->
+	  <li>
+	    <a href="#fill_circle">
+	      fill_circle(a, b, c, d)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#fill_ellipse">
+	      fill_ellipse(a, b, c, d, e)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#fill_rectangle">
+	      fill_rectangle(a, b, c, d, e)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#fill_screen">
+	      fill_screen(a)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#fill_surface">
+	      fill_surface(a, b)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#film_circle">
+	      film_circle(a, b, c)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#film_fullcircle">
+	      film_fullcircle(a, b, c)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#film_rectangle">
+	      film_rectangle(a, b, c)
+	    </a>	    
+	  </li>
+	  <li>
+	    <a href="#film_fullrectangle">
+	      film_fullrectangle(a, b, c)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#film_fullpolygon">
+	      film_fullpolygon(a, b, c)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#film_polygon">
+	      film_polygon(a, b, c)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#flush">
+	      flush()
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#get_input">
+	      get_input()
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#hide_cursor">
+	      hide_cursor()
+	    </a>
+	  </li>
+          <li>
+            <a href="#limit_camera">
+              limit_camera(a, b, c, d, e)
+            </a>
+          </li>
+	  <li>
+	    <a href="#may_the_weaver_sleep">
+	      may_the_weaver_sleep()
+	    </a>
+	  </li>
+          <li>
+            <a href="#move_circle">
+              move_circle(a, b, c)
+            </a>
+          </li>
+          <li>
+            <a href="#move_polygon">
+              move_polygon(a, b, c)
+            </a>
+          </li>
+          <li>
+            <a href="#new_camera">
+              new_camera(a, b, c, d)
+            </a>
+          </li>
+          <li>
+            <a href="#new_camera_h">
+              new_camera_h(a, b, c)
+            </a>
+          </li>
+          <li>
+            <a href="#new_camera_w">
+              new_camera_w(a, b, c)
+            </a>
+          </li>
+          <li>
+            <a href="#new_circle">
+              new_circle(a, b, c)
+            </a>
+          </li>
+	  <li>
+	    <a href="#new_image">
+	      new_image(a)
+	    </a>
+	  </li>
+          <li>
+            <a href="#new_polygon">
+              new_polygon(a, ...)
+            </a>
+          </li>
+          <li>
+            <a href="#new_rectangle">
+              new_rectangle(a, b, c, d)
+            </a>
+          </li>
+	  <li>
+	    <a href="#new_surface">
+	      new_surface(a, b)
+	    </a>
+	  </li>
+          <li>
+            <a href="#new_vector2">
+              new_vector2(a, b)
+            </a>
+          </li>
+          <li>
+            <a href="#new_vector3">
+              new_vector3(a, b, c)
+            </a>
+          </li>
+          <li>
+            <a href="#new_vector4">
+              new_vector4(a, b, c, d)
+            </a>
+          </li>
+	  <li>
+	    <a href="#play_music">
+	      play_music(a)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#play_sound">
+	      play_sound(a)
+	    </a>
+	  </li>
+          <li>
+            <a href="#rotate_circle">
+              rotate_circle(a, b, c, d)
+            </a>
+          </li>
+          <li>
+            <a href="#rotate_polygon">
+              rotate_polygon(a, b, c, d)
+            </a>
+          </li>
+	  <li>
+	    <a href="#stop_music">
+	      stop_music()
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#weaver_rest">
+	      weaver_rest(a)
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#zoom_camera">
+	      zoom_camera(a, b);
+	    </a>
+	  </li>
+        </ul>
+      </li>
+      <li>
+	Global Variables
+	<ul>
+	  <!--<li>
+	    <a href="#background">
+	      background
+	    </a>
+	  </li>-->
+	  <li>
+	    <a href="#current_time">
+	      current_time
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#fps">
+	      fps
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#keyboard">
+	      keyboard
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#mouse">
+	      mouse
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#transparent_color">
+	      transparent_color
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#window">
+	      window
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#window_height">
+	      window_height
+	    </a>
+	  </li>
+	  <li>
+	    <a href="#window_width">
+	      window_width
+	    </a>
+	  </li>
+	</ul>
+      </li>
+      <li>
+	<a href="#macros">
+	  Macros
+	</a>
+      </li>
+    </ol>
+    <h2>
+      Data Structures
+    </h2>
+    <h3>
+      <a class="name" id="camera"
+         href="javascript:playElement('code_camera')">
+        camera
+      </a>
+    </h3>
+    <pre class="codigo" id="code_camera">
+<span class="palavra">typedef</span> <span class="tipo">struct</span> vector4 camera;</pre>
+    <p>
+      A camera is a <a href="#vector4">struct vector4</a> that stores
+      information about what vector objects should be drawned in the
+      screen and where to draw them. The variables "x" and "y" stores
+      the camera coordinates. The "w" stores the camera's width and
+      "z" is the camera's height.
+    </p>
+    <p>
+      Normally a camera draws averything occuping the whole
+      screen. This behaviour can be changed storing the coordinates to
+      where to draw in the pointers "previous", "next", "top" and
+      "down". This is done when you call the
+      function <a href="#limit_camera">limit_camera</a>. 
+    </p>
+    <h3>
+      <a class="name" id="circle" href="javascript:playElement('code_circle')">
+        circle
+      </a>
+    </h3>
+    <pre class="codigo" id="code_circle">
+<span class="palavra">typedef</span> <span class="tipo">struct</span> vector3 circle;</pre>
+    <p>
+      A circle is in fact a <a href="#vector3">vector3</a>. The
+      coordinates of the circle's center are stored in the variables "x"
+      and "y". The circle's radius is stored in "z". 
+    </p>
+    <h3>
+      <a id="polygon" class="name" 
+         href="javascript:playElement('code_polygon')">
+        polygon
+      </a>
+    </h3>
+    <pre id="code_polygon" class="codigo">
+<span class="palavra">typedef</span> <span class="tipo">struct</span> vector2 polygon;</pre>
+    <p>
+      A polygon is in fact a <a href="#vector2">vector2</a>. But it
+      can be attached to other <a href="#vector2">vector2s</a>.
+    </p>
+    <p>
+      A polygon with 1 vertex (henagon) would be a
+      single <a href="#vector2">vector2</a>. Polygons with more vertices
+      would have one <a href="#vector2">vector2</a> for each vertex
+      where 2 adjacent vertices will always be connected by the *next and
+      *previous pointers. Their variables x and y will store the
+      vertex's coordinates.
+    </p>
+    <h3>
+      <a id="rectangle" class="name"
+         href="javascript:playElement('code_rectangle')">
+        rectangle
+      </a>
+    </h3>
+    <pre class="codigo" id="code_rectangle">
+<span class="palavra">typedef</span> <span class="tipo">struct</span> vector4 rectangle;</pre>
+    <p>
+      A rectangle represents a simple quadrilateral whose sides are
+      always paralel with the screen sides. In fact, it is an alias
+      for <a href="#vector4">struct vector4</a> because any rectangle
+      with these properties can be described using four variables. The
+      variables "x" and "y" store the coordinates of the rectangle's
+      upper left edge. The variable "w" is the width and "z" is the
+      height.
+    </p>
+    <h3>
+      <a class="name" id="surface"
+	 href="javascript:playElement('code_surface')">
+	surface
+      </a>
+    </h3>
+    <pre class="codigo" id="code_surface">
+<span class="palavra">typedef</span> <span class="tipo">struct</span> surface{
+  Pixmap pix;
+  <span class="tipo">int</span> width;
+  <span class="tipo">int</span> height;
+  Pixmap mask;
+} surface;</pre>
+    <p>
+      A surface represents an image, that can drawn or manipuled by
+      other functions. The surface's variables <b>width</b>
+      and <b>height</b> stores the image's width and height. The
+      pixmap <b>pix</b> stores a number necessary to access the image
+      in the X Server. And the pixmap <b>mask</b> stores a number
+      necessary to access a bitmap (a pixmap with only 2 colors) that
+      determines which areas in the image are transparent.
+    </p>
+    <p>
+      A new surface can be created by the
+      functions <a href="#new_surface">new_surface</a>
+      or <a href="#new_image">new_image</a>.
+    </p>
+    <h3>
+      <a class="name" id="vector2" 
+         href="javascript:playElement('code_vector2')">
+        struct vector2
+      </a>
+    </h3>
+    <pre class="codigo" id="code_vector2">
+<span class="tipo">struct</span> vector2{
+  <span class="tipo">float</span> x, y;
+  <span class="tipo">struct</span> vector2 *previous, *next;
+};</pre>
+    <p>
+      A vector is a structure able to store an ordered sequence of
+      data. A <strong>vector2</strong> is a structure able to store 2
+      ordered values. Both of them are floats.
+    </p>
+    <p>
+      They can represent anything that needs 2 floats to be
+      defined. The coordinates of a point, the strenght applied in a
+      body, the displacement of an object relative to a previous
+      position, and much more. It stores these values in the variables
+      "x" and "y".
+    </p>
+    <p>
+      They also have 2 pointers that can store
+      other <strong>vector2</strong>s address. So you can
+      use <strong>vector2</strong>s as nodes in a doubly-linked list.
+      The two generic pointers that every <strong>vector2</strong>
+      have are named "previous" and "next".
+    </p>
+    <h3>
+      <a class="name" id="vector3" 
+         href="javascript:playElement('code_vector3')">
+        struct vector3
+      </a>
+    </h3>
+    <pre id="code_vector3" class="codigo">
+<span class="tipo">struct</span> vector3{
+  <span class="tipo">float</span> x, y, z;
+  <span class="tipo">struct</span> vector3 *previous, *top, *next;
+};</pre>
+    <p>
+      A vector3 can be used to represent anything formed by 3
+      variables. A point in a 3D enviroment, information about
+      circles, strenght applied in a 3-dimentional body, and much
+      more. These values are stored in the variables "x", "y" and "z".
+    </p>
+    <p>
+      They also have pointers to connect with other vector3s. This can
+      form more advanced data structure this way, like trees and
+      graphs. These pointers are named "previous", "next" and "top".
+    </p>
+    <h3>
+      <a id="vector4" class="name"
+         href="javascript:playElement('code_vector4')">
+        struct vector4
+      </a>
+    </h3>
+    <pre id="code_vector4" class="codigo">
+<span class="tipo">struct</span> vector4{
+  <span class="tipo">float</span> w, x, y, z;
+  <span class="tipo">struct</span> vector4 *previous, *next, *top, *down;
+};</pre>
+    <p>
+      A vector4 can be used to represent anything formed by 4
+      variables. A point in the space-time, information about
+      ellipses, rectangles and much more. The information is stored in
+      the variables "w", "x", "y" and "z".
+    </p>
+    <p>
+      They also have pointers to connect with other vector4s. They can
+      form this way more advanced data structure. These pointers are
+      called "previous", "next", "top" and "down".
+    </p>
+    <h2>
+      Functions
+    </h2>
+    <h3>
+      <a class="name" id="apply_texture"
+	 href="javascript:playElement('code_apply_texture')">
+	void<br/>
+	apply_texture(surface *texture, surface *destiny)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_apply_texture">
+<span class="tipo">void</span> <b>apply_texture</b>(<span class="tipo">struct</span> surface *src, <span class="tipo">struct</span> surface *dest){
+  <span class="tipo">int</span> x, y;
+  <span class="palavra">for</span>(x = 0; x &lt; dest -> width; x += src -> width)
+    <span class="palavra">for</span>(y = 0; y &lt; dest -> height; y += src -> height)
+      <b>XCopyArea</b>(_dpy, src -> pix, dest -> pix, _gc, 0, 0, src -> width, src -> height, x, y);
+}</pre>
+    <p>
+      This function fills the second surface with a texture provided
+      by the first surface.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="awake_the_weaver"
+	 href="#awake_the_weaver">
+	void<br/>
+	awake_the_weaver(void)
+      </a>
+    </h3>
+    <p>
+      This is the first function that shall be called in a Weaver
+      Game. It initializes all the variables and data required to use
+      the other functions.
+    </p>
+    <p>
+      If you start a Weaver program with <b>awake_the_weaver</b>, you
+      should
+      call <a href="#may_the_weaver_sleep">may_the_weaver_sleep</a> to
+      free any memory reserved by <b>awake_the_weaver</b>.
+    </p>
+    <p>
+      Notice that if you use the Weaver API with the Weaver Framework,
+      these functions are positioned in your code automaticly.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="blit_masked_pixmap"
+	 href="javascript:playElement('code_blit_masked_pixmap')">
+	void<br/>
+	blit_masked_pixmap(Pixmap pix, Pixmap mask, surface *dest, int x_src, int y_src, int width,
+	int height, int x_dest, int y_dest)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_blit_masked_pixmap">
+<span class="tipo">void</span> <b>blit_masked_pixmap</b>(Pixmap pix, Pixmap mask, <span class="tipo">struct</span> surface *dest, <span class="tipo">int</span> x_src, 
+			<span class="tipo">int</span> y_src, <span class="tipo">int</span> width, <span class="tipo">int</span> height, <span class="tipo">int</span> x_mask, 
+			<span class="tipo">int</span> y_mask, <span class="tipo">int</span> x_dest, <span class="tipo">int</span> y_dest){
+  <b>XSetClipMask</b>(_dpy, _gc, mask);
+  <b>XSetClipOrigin</b>(_dpy, _gc, x_dest - x_mask, y_dest - y_mask);
+  <b>XCopyArea</b>(_dpy, pix, dest -> pix, _gc, x_src, y_src, width, height, x_dest, y_dest);
+  <b>XSetClipMask</b>(_dpy, _gc, None);
+}</pre>
+    <p>
+      Normally, when we blit a surface, we blir the surface's pixmap
+      using the surface's mask. But if you wish to blit a surface's
+      pixmap with some other surface's mask, you shoul use this
+      function.
+    </p>
+    <p>
+      It blits the Pixmap "pix" using the mask "mask" into the surface
+      "dest" passed as argument. But it doesn't blit all the "pix",
+      only the rectangular area defined by the rectangle whose upper
+      left vertex is in ("x_src", "y_src") and whose "width" and
+      "height" inside "pix". The result is pasted in the coordinate
+      ("x_dest", "y_dest") in the surface "dest".
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="blit_surface"
+	 href="javascript:playElement('code_blit_surface')">
+	void<br/>
+	blit_surface(surface *src, surface *dest, int x_src, int y_src, int width, int height, int x_dest, int y_dest)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_blit_surface">
+<span class="tipo">void</span> <b>blit_surface</b>(<span class="tipo">struct</span> surface *src, <span class="tipo">struct</span> surface *dest, 
+                  <span class="tipo">int</span> x_src, <span class="tipo">int</span> y_src, <span class="tipo">int</span> width, <span class="tipo">int</span> height, <span class="tipo">int</span> x_dest, <span class="tipo">int</span> y_dest){ 
+  <span class="palavra">if</span>(src -> mask != None){
+    <b>XSetClipMask</b>(_dpy, _gc, src -> mask);
+    <b>XSetClipOrigin</b>(_dpy, _gc, x_dest - x_src, y_dest - y_src);
+  }
+  <b>XCopyArea</b>(_dpy, src -> pix, dest -> pix, _gc, x_src, y_src, width, height, x_dest, y_dest);
+  <b>XSetClipMask</b>(_dpy, _gc, None);
+}</pre>
+    <p>
+      This function copies a rectangle whose upper left vertex is in
+      coordinate (x_src, y_src) and whose width and height is passed
+      as argument from the surface "src" and copies it in the surface
+      "dest".
+    </p>
+    <p>
+      Pixels with <a href="#transparent_color">transparent</a> values aren't
+      copied.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="center_camera"
+         href="javascript:playElement('code_center_camera')">
+        void<br/>
+        center_camera(camera *cam, float x, float y)
+      </a>
+    </h3> 
+    <pre class="codigo" id="code_center_camera">
+<span class="tipo">void</span> <b>center_camera</b>(<span class="tipo">struct</span> vector4 *camera, <span class="tipo">float</span> x, <span class="tipo">float</span> y){
+  camera -> x = x - (camera -> w / 2);
+  camera -> y = y - (camera -> z / 2);
+}</pre>
+    <p>
+      This centers the <a href="#camera">camera</a> in coordinate (x,
+      y). It doesn't change the camera's size, only it's position.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="clean_keyboard"
+	 href="javascript:playElement('code_clean_keyboard')">
+	void<br/>
+	clean_keyboard(void)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_clean_keyboard">
+<span class="precompil">#define</span> <b>clean_keyboard()</b> <b>_initialize_keyboard()</b></pre>
+    <p>
+      This function cleans the keyboard buffer. You can use it when
+      you wants to ignore keys pressed during a frame or doesn't want
+      to have keys previously pressed to interfere with future events.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="collision_circle_circle"
+	 href="javascript:playElement('code_collision_circle_circle')">
+	int<br/>
+	collision_circle_circle(circle *circ1, circle *circ2)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_collision_circle_circle">
+<span class="tipo">int</span> <b>collision_circle_circle</b>(<span class="tipo">struct</span> vector3 *circle1, <span class="tipo">struct</span> vector3 *circle2){
+  <span class="tipo">float</span> dx = circle2 -> x - circle1 -> x;
+  <span class="tipo">float</span> dy = circle2 -> y - circle1 -> y;
+  <span class="tipo">float</span> distance = dx * dx + dy * dy;
+  <span class="tipo">float</span> minimum = circle1 -> z + circle2 -> z;
+  
+  minimum *= minimum;
+  <span class="palavra">if</span>(distance &lt; minimum)
+    <span class="palavra">return</span> 1;
+  <span class="palavra">else</span>
+    <span class="palavra">return</span> 0;
+}</pre>
+    <p>
+      This function receives as argument two circles. If they are in
+      collision, the function returns 1. Else, it returns 0.
+    </p>
+    <h3>
+      <a class="name" id="collision_circle_polygon"
+	 href="javascript:playElement('code_collision_circle_polygon')">
+	int<br/>
+	collision_circle_polygon(circle *circ, polygon *poly)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_collision_circle_polygon">
+<span class="tipo">int</span> <b>collision_circle_polygon</b>(<span class="tipo">struct</span> vector3 *circle, <span class="tipo">struct</span> vector2 *polygon){
+  <span class="tipo">struct</span> vector2 *current, *next, *first;
+  <span class="tipo">float</span> a, b, dist;
+  
+  current = first = polygon;
+  next = current -> next;
+  
+  <span class="palavra">if</span>(next == current){ <span class="comentario">// We have a degenerate polygon with only one vertex</span>
+    dist = (current -> x - circle -> x);
+    dist *= dist; // dx * dx
+    dist += (current -> y - circle -> y) * (current -> y - circle -> y);
+    <span class="palavra">if</span>(<b>sqrt</b>(dist) &lt; circle -> z)
+      <span class="palavra">return</span> 1; <span class="comentario">// A collision happenned</span>
+    <span class="palavra">else</span>
+      <span class="palavra">return</span> 0; // No collision happening
+  }
+ 
+  <span class="comentario">// This loops a number of times equal the number of polygon's sides
+  // when the polygon isn's degenerated.</span>
+  <span class="palavra">do</span>{
+    <span class="comentario">// If it's not a vertical segment:</span>
+    <span class="palavra">if</span>(current -> x != next -> x){
+      a = (next -> y - current -> y) / (next -> x - current -> x);
+      b = current -> y - a * current -> x;
+      <span class="comentario">// Rect equation: ax + b = y</span>
+      dist = circle -> x * a - circle -> y + b;
+      <span class="palavra">if</span>(dist &lt; 0.0)
+        dist *= -1;
+      dist /= <b>sqrt</b>(a * a + 1);
+      <span class="comentario">// distance between rect and  point computed</span>
+      <span class="palavra">if</span>(dist &lt; circle -> z){
+	<span class="comentario">// A collision happened or not</span>
+	<span class="palavra">if</span>(!((circle -> x + circle -> z &lt; current -> x &amp;&amp; circle -> x + circle -> z &lt; next-> x &amp;&amp;
+              circle -> x - circle -> z &lt; current -> x &amp;&amp; circle -> x - circle -> z &lt; next-> x) ||
+             (circle -> x + circle -> z > current -> x &amp;&amp; circle -> x + circle -> z > next-> x &amp;&amp;
+              circle -> x - circle -> z > current -> x &amp;&amp; circle -> x - circle -> z > next-> x))){
+	  <span class="palavra">if</span>(!((circle -> y + circle -> z &lt; current -> y &amp;&amp; circle -> y + circle -> z &lt; next-> y &amp;&amp;
+		circle -> y - circle -> z &lt; current -> y &amp;&amp; circle -> y - circle -> z &lt; next-> y) ||
+	       (circle -> y + circle -> z > current -> y &amp;&amp; circle -> y + circle -> z > next-> y &amp;&amp;
+		circle -> y - circle -> z > current -> y &amp;&amp; circle -> y - circle -> z > next-> y))){
+	    <span class="palavra">return</span> 1;
+	  }
+        }
+      }
+    }
+    <span class="palavra">else</span>{ <span class="comentario">// We have a vertical segment</span>
+      <span class="palavra">if</span>(!((circle -> x - circle -> z &lt; current -> x &amp;&amp; circle -> x + circle -> z &lt; current -> x) ||
+           (circle -> x - circle -> z > current -> x &amp;&amp; circle -> x + circle -> z > current -> x))){
+	<span class="comentario">// A collision happened... or not?</span>
+	<span class="palavra">if</span>(!((circle -> y + circle -> z &lt; current -> y &amp;&amp; circle -> y + circle -> z &lt; next-> y &amp;&amp;
+              circle -> y - circle -> z &lt; current -> y &amp;&amp; circle -> y - circle -> z &lt; next-> y) ||
+             (circle -> y + circle -> z > current -> y &amp;&amp; circle -> y + circle -> z > next-> y &amp;&amp;
+	      circle -> y - circle -> z > current -> y &amp;&amp; circle -> y - circle -> z > next-> y))){
+          <span class="palavra">return</span> 1; <span class="comentario">// COLLISION!</span>
+	}
+      }
+    }
+    current = next;
+    next = current -> next;
+  }<span class="palavra">while</span>(current != first);
+  
+  <span class="palavra">return</span> 0;
+}</pre>
+    <p>
+      This function receives as argument a circle and a polygon. If
+      the 2 are colliding (exists at least 1 point of the polygon's
+      perimeter inside the circle), it returns 1. Otherwise, it
+      returns 0.
+    </p>
+    <p>
+      This function works obtaining the equation of the rect that
+      crosses all the points of each polygon's edge. If this rect
+      doesn't collide with the circle, there's no reason to do other
+      operations and returns 0. Otherwise, we must check if the
+      closest rect's point to the circle's center is in the polygon's
+      edge. If so, returns 1. Else, returns 0. Vertical segments are
+      treated differently to prevent division by 0.
+    </p>
+    <h3>
+      <a class="name" id="collision_circle_rectangle"
+	 href="javascript:playElement('code_collision_circle_rectangle')">
+	int<br/>
+	collision_circle_rectangle(circle *circ, rectangle *rect)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_collision_circle_rectangle">
+<span class="precompil">#define</span> <b>collision_circle_rectangle</b>(a, b) <b>collision_rectangle_circle</b>(b, a)</pre>
+    <p>
+      This function receives as argument respectively a circle and a
+      rectangle. If they are in collision, the function returns
+      1. Else, it returns 0.
+    </p>
+    <h3>
+      <a class="name" id="collision_polygon_circle"
+	 href="javascript:playElement('code_collision_polygon_circle')">
+	int<br/>
+	collision_polygon_circle(polygon *poly, rectangle *rect)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_collision_polygon_circle">
+<span class="precompil">#define</span> <b>collision_polygon_circle</b>(a, b) <b>collision_circle_polygon</b>(b, a)</pre>
+    <p>
+      This function receives as argument a polygon and a circle. If
+      the 2 are colliding (exists at least 1 point of the polygon's
+      perimeter inside the circle), it returns 1. Otherwise, it
+      returns 0.
+    </p>
+    <h3>
+      <a class="name" id="collision_polygon_polygon"
+	 href="javascript:playElement('code_collision_polygon_polygon')">
+	int<br/>
+	collision_polygon_polygon(polygon *p1, polygon *p2)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_collision_polygon_polygon">
+<span class="tipo">int</span> <b>collision_polygon_polygon</b>(<span class="tipo">struct</span> vector2 *poly1, <span class="tipo">struct</span> vector2 *poly2){
+  <span class="tipo">struct</span> vector2 *first, *current, *next;
+  <span class="tipo">struct</span> vector2 *first2, *current2, *next2;
+
+  current = first = poly1;
+  next = current -> next;
+  current2 = first2 = poly2;
+  next2 = current2 -> next;
+
+  <span class="palavra">if</span>(current == next){ <span class="comentario">// This polygon is a henagon</span>
+    <span class="palavra">if</span>(current2 == next2){ <span class="comentario">// We have 2 henagons!</span>
+      <span class="palavra">if</span>(current -> x == current2 -> x &amp;&amp;
+         current -> y == current2 -> y)
+        <span class="palavra">return</span> 1;
+      <span class="palavra">else</span>
+        <span class="palavra">return</span> 0;
+    }
+    <span class="palavra">else</span>{ <span class="comentario">// The second polygon is not a henagon</span>
+      <span class="tipo">float</span> a, b; <span class="comentario">// ax + b = y</span>
+      <span class="palavra">do</span>{
+        a = (next2 -> y - current2 -> y) / (next2 -> x - current2 -> x);
+        b = current2 -> y - a * current2 -> x;
+        <span class="palavra">if</span>(a * current -> x + b == current -> y)
+          <span class="palavra">return</span> 1; <span class="comentario">// Detected a collision (unlikely to happen with henagons).</span>
+        current2 = next2;
+        next2 = current2 -> next;
+      }<span class="palavra">while</span>(current2 != first2);
+    }
+  }
+  <span class="palavra">else</span>{ <span class="comentario">// The first polygon is not a henagon</span>
+    <span class="palavra">if</span>(current2 == next2){ <span class="comentario">// But in this case, the second is</span>
+      <span class="tipo">float</span> a, b;
+      <span class="palavra">do</span>{
+        a = (next -> y - current -> y) / (next -> x - current -> x);
+        b = current -> y - a * current -> x;
+        <span class="palavra">if</span>(a * current2 -> x + b == current2 -> y)
+          <span class="palavra">return</span> 1; <span class="comentario">// Collision detected.</span>
+        current = next;
+        next = current -> next;
+      }<span class="palavra">while</span>(current != first);
+    }
+    <span class="palavra">else</span>{ <span class="comentario">// The most common case. No henagons</span>
+      <span class="tipo">float</span> a1, a2, b1, b2, x, y;
+      a1 = a2 = b1 = b2 = y = 0.0;
+
+      <span class="palavra">do</span>{
+        <span class="palavra">do</span>{
+          <span class="palavra">if</span>(next -> x != current -> x){ <span class="comentario">// The first line is not vertical</span>
+            <span class="palavra">if</span>(next2 -> x != current2 -> x){ <span class="comentario">// The second line is not vertical</span>
+              a1 = (next -> y - current -> y) / (next -> x - current -> x);
+              b1 = current -> y - a1 * current -> x;
+              a2 = (next2 -> y - current2 -> y) / (next2 -> x - current2 -> x);
+              b2 = current2 -> y - a2 * current2 -> x;
+              <span class="palavra">if</span>(a1 != a2){ <span class="comentario">// Not paralells</span>
+                x = (b2 - b1) / (a1 - a2);
+                <span class="palavra">if</span>(!((x &lt; current -> x &amp;&amp; x &lt; next -> x) ||
+                     (x > current -> x &amp;&amp; x > next -> x)))
+                  <span class="palavra">return</span> 1; <span class="comentario">// Collision !</span>
+              }
+              <span class="palavra">else if</span>(b1 == b2)
+                <span class="palavra">return</span> 1;
+            }
+            <span class="palavra">else</span>{ <span class="comentario">// Only the second line is vertical</span>
+              y = a1 * current2 -> x + b1;
+              <span class="palavra">if</span>(!((y &lt; current -> y &amp;&amp; y &lt; next -> y) ||
+                   (y > current -> y &amp;&amp; y > next -> y)))
+                <span class="palavra">return</span> 1; <span class="comentario">// Collision !</span>
+            }
+          }
+          <span class="palavra">else</span>{ <span class="comentario">// The first line is vertical</span>
+            <span class="palavra">if</span>(next2 -> x != current2 -> x){ <span class="comentario">// But the second is not</span>
+              y = a2 * current -> x + b2;
+              <span class="palavra">if</span>(!((y &lt; current2 -> y &amp;&amp; y &lt; next2 -> y) ||
+                   (y > current2 -> y &amp;&amp; y > next2 -> y)))
+                <span class="palavra">return</span> 1; <span class="comentario">// Other collision case.</span>
+            }
+            <span class="palavra">else</span>{ <span class="comentario">// The 2 lines are vertical</span>
+              <span class="palavra">if</span>(current -> y == current2 -> y)
+                <span class="palavra">return</span> 1;
+            }
+          }
+        }<span class="palavra">while</span>(current2 != first2);
+        current = next;
+        next = current -> next;
+      }<span class="palavra">while</span>(current != first);
+    }
+  }
+
+  <span class="palavra">return</span> 0;
+}</pre>
+    <p>
+      This function receives as argument two polygons and return 1 if
+      the polygon's perimeters are collidig and 0 otherwise. It checks
+      for collisions in all edges.      
+    </p>
+    <h3>
+      <a class="name" id="collision_polygon_rectangle"
+	 href="javascript:playElement('code_collision_polygon_rectangle')">
+	int<br/>
+	collision_polygon_rectangle(polygon *poly, rectangle *rect)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_collision_polygon_rectangle">
+<span class="precompil">#define</span> <b>collision_polygon_rectangle</b>(a, b) <b>collision_rectangle_polygon</b>(b, a)</pre>
+    <p>
+      This function receives as argument a polygon and a rectangle. If
+      exists at least one point in the polygon's perimeter that is
+      inside the rectangle or in it's perimeter, then a collision is
+      detected and the function returns 1. Otherwise, the function
+      returns 0.
+    </p>
+    <h3>
+      <a class="name" id="collision_rectangle_circle"
+	 href="javascript:playElement('code_collision_rectangle_circle')">
+	int<br/>
+	collision_rectangle_circle(rectangle *rect, circle *circ)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_collision_rectangle_circle">
+<span class="tipo">int</span> <b>collision_rectangle_circle</b>(<span class="tipo">struct</span> vector4 *rectangle, <span class="tipo">struct</span> vector3 *circle){
+  <span class="palavra">if</span>(!((circle -> x + circle -> z &lt; rectangle -> x &amp;&amp; circle -> x - circle -> z &lt; rectangle -> x &amp;&amp;
+     circle -> x + circle -> z &lt; rectangle -> x + rectangle -> w &amp;&amp;
+      circle -> x - circle -> z &lt; rectangle -> x + rectangle -> w) ||
+     (circle -> x + circle -> z > rectangle -> x &amp;&amp; circle -> x - circle -> z > rectangle -> x &amp;&amp;
+     circle -> x + circle -> z > rectangle -> x + rectangle -> w &amp;&amp;
+      circle -> x - circle -> z > rectangle -> x + rectangle -> w)))
+    if(!((circle -> y + circle -> z &lt; rectangle -> y &amp;&amp; circle -> y - circle -> z &lt; rectangle -> y &amp;&amp;
+     circle -> y + circle -> z &lt; rectangle -> y + rectangle -> z &amp;&amp;
+	  circle -> y - circle -> z &lt; rectangle -> y + rectangle -> z) ||
+	 (circle -> y + circle -> z > rectangle -> y &amp;&amp; circle -> y - circle -> z > rectangle -> y &amp;&amp;
+     circle -> y + circle -> z > rectangle -> y + rectangle -> z &amp;&amp;
+	  circle -> y - circle -> z > rectangle -> y + rectangle -> z)))
+      <span class="palavra">return</span> 1;
+  
+  <span class="comentario">// If no collision were detected, no collision happened</span>
+  <span class="palavra">return</span> 0;
+}</pre>
+    <p>
+      This function receives as argument a rectangle and a circle. If
+      the two are colliding (their perimeter have at least one point
+      in common, or one is inside the other), the function returns
+      1. Otherwise, it returns 0.
+    </p>
+    <h3>
+      <a class="name" id="collision_rectangle_polygon"
+	 href="javascript:playElement('code_collision_rectangle_polygon')">
+	int<br/>
+	collision_rectangle_polygon(rectangle *rect, polygon *poly)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_collision_rectangle_polygon">
+<span class="tipo">int</span> <b>collision_rectangle_polygon</b>(<span class="tipo">struct</span> vector4 *r, <span class="tipo">struct</span> vector2 *p){
+  <span class="tipo">struct</span> vector2 *current, *next, *first;
+  <span class="tipo">float</span> x1, x2, y1, y2;
+
+  current = first = p;
+  next = current -> next;
+
+  <span class="palavra">if</span>(next == current){ <span class="comentario">// We have a degenerated polygon with a single vertex</span>
+    <span class="palavra">if</span>(p -> x >= r -> x &amp;&amp; p -> x &lt;= r -> x + r -> w)
+      <span class="palavra">if</span>(p -> y >= r -> y &amp;&amp; p -> y &lt;= r -> y + r -> z)
+	<span class="palavra">return</span> 1;
+    <span class="palavra">return</span> 0;
+  }
+
+  <span class="palavra">do</span>{ <span class="comentario">// Loops in all the polygon's vertices</span>
+    x1 = <b>MIN</b>(current -> x, next -> x);
+    x2 = <b>MAX</b>(current -> x, next -> x);
+    <span class="palavra">if</span>(!(x1 > r -> x + r -> w || x2 &lt; r -> x)){
+      y1 = <b>MIN</b>(current -> y, next -> y);
+      y2 = <b>MAX</b>(current -> y, next -> y);
+      <span class="palavra">if</span>(!(y1 > r -> y + r -> z || y2 &lt; r -> y)){ <span class="comentario">// The edge is next. Perhaps</span> 
+	                                                                          <span class="comentario">// it's colliding...</span>
+        <span class="palavra">if</span>(x1 == x2 || y1 == y2){ <span class="comentario">// We have a vertical or horizontal edge</span>
+	  <span class="palavra">return</span> 1; <span class="comentario">// It certainly collides in this case</span>
+	}
+	<span class="palavra">else</span>{ <span class="comentario">// We have a non-vertical edge</span>
+	  <span class="tipo">float</span> a = (next -> y - current -> y) / (next -> x - current -> x);
+	  <span class="tipo">float</span> b = current -> y - a * current -> x; 
+	  <span class="comentario">// Now we have an ax+b=y rect equation</span>
+	  <span class="palavra">if</span>((a * r -> x + b >= r -> y) &amp;&amp; (a * r -> x + b &lt;= r -> y + r -> z))
+	    <span class="palavra">return</span> 1; <span class="comentario">// Collided with the left side</span>
+	  <span class="palavra">if</span>((a * (r -> x + r -> w) + b >= r -> y) &amp;&amp; 
+	     (a * (r -> x + r -> w) + b &lt;= r -> y + r -> z))
+	    <span class="palavra">return</span> 1; <span class="comentario">// Collided with the right side</span>
+	  <span class="palavra">if</span>(((r -> y - b)/a >= r -> x) &amp;&amp; ((r -> y - b)/a &lt;= r -> x + r -> w))
+	    <span class="palavra">return</span> 1; <span class="comentario">// Collided with the top side</span>
+	  <span class="palavra">if</span>(((r -> y + r -> z - b)/a >= r -> x) &amp;&amp;
+	     ((r -> y + r -> z - b)/a &lt;= r -> x + r -> w))
+	    <span class="palavra">return</span> 1; // Collided with the down side
+      }
+    }
+    current = next;
+    next = current -> next;
+  }<span class="palavra">while</span>(current != first);
+  
+  <span class="palavra">return</span> 0;
+}</pre>
+    <p>
+      This function receives as argument a rectangle and a polygon. If
+      exists at least one point in the polygon's perimeter that is
+      inside the rectangle or in it's perimeter, then a collision is
+      detected and the function returns 1. Otherwise, the function
+      returns 0.
+    </p>
+    <h3>
+      <a class="name" id="collision_rectangle_rectangle"
+	 href="javascript:playElement('code_collision_rectangle_rectangle')">
+	int<br/>
+	collision_rectangle_rectangle(rectangle *rec1, rectangle *rec2)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_collision_rectangle_rectangle">
+<span class="tipo">int</span> <b>collision_rectangle_rectangle</b>(<span class="tipo">struct</span> vector4 *r1, <span class="tipo">struct</span> vector4 *r2){
+  <span class="tipo">float</span> dx = (r2 -> x - r1 -> x &lt; 0) ? (r1 -> x - r2 -> x) : (r2 -> x - r1 -> x);
+  <span class="palavra">if</span>((r1 -> x &lt; r2 -> x) ? (dx &lt;= r1 -> w) : (dx &lt;= r2 -> w)){
+    <span class="tipo">float</span> dy = (r2 -> y - r1 -> y &lt; 0) ? (r1 -> y - r2 -> y) : (r2 -> y - r1 -> y);
+    <span class="palavra">if</span>((r1 -> y &lt; r2 -> y) ? (dy &lt;= r1 -> z) : (dy &lt;= r2 -> z))
+      <span class="palavra">return</span> 1;
+  }
+  <span class="palavra">return</span> 0;
+}</pre>
+    <p>
+      This function detects collision between two rectangles passed as
+      argument. If the rctangle's perimeter have at least one point in
+      common or if there's one polygon inside the other, it returns
+      1. Otherwise, the function returns 0.
+    </p>
+    <h3>
+      <a class="name" id="connect_vector2" 
+         href="javascript:playElement('code_connect_vector2')">
+        void<br/>
+        connect_vector2(struct vector2 *first, struct vector2 *second)
+      </a>
+    </h3>
+    <pre id="code_connect_vector2" class="codigo">
+<span class="tipo">void</span> <b>connect_vector2</b>(<span class="tipo">struct</span> vector2 *a, <span class="tipo">struct</span> vector2 *b){
+  a -> next = b;
+  b -> previous = a;
+}</pre>
+    <p>
+      This function connects
+      two <a href="#vector2">vector2</a>s. The second vector's
+      address is stored in the first "next" pointer and the first
+      vector's address is stored in the second's "previous" pointer.
+    </p>
+    <p>
+      This function doesn't return any value.
+    </p>
+    <h3>
+      <a class="name" id="destroy_camera"
+         href="javascript:playElement('code_destroy_camera')">
+        void<br/>
+        destroy_camera(void *camera)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_destroy_camera">
+<span class="precompil">#define</span> <b>destroy_camera</b>(a) <b>free</b>(a)</pre>
+    <p>
+      This function can be used to free the space allocated by
+      a <a href="#camera">camera</a>. In fact, its an alias for
+      "free", but for readability reasons, don't use it in objects
+      that aren't cameras.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="destroy_circle"
+         href="javascript:playElement('code_destroy_circle')">
+        void<br/>
+        destroy_circle(void *circle)
+      </a>
+    </h3>
+    <pre id="code_destroy_circle" class="codigo">
+<span class="precompil">#define</span> <b>destroy_circle</b>(a) <b>free</b>(a)</pre>
+    <p>
+      This function can be used to free the space allocated by a
+      <a href="#circle">circle</a>. In fact, its an alias for "free",
+      but for readability reasons, don't use it in objects that aren't
+      circles.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="destroy_polygon"
+         href="javascript:playElement('code_destroy_polygon')">
+        void<br/>
+        destroy_polygon(struct vector2 *poly)
+      </a>
+    </h3>
+    <pre id="code_destroy_polygon" class="codigo">
+<span class="tipo">void</span> <b>destroy_polygon</b>(<span class="tipo">struct</span> vector2 *poly){
+  <span class="tipo">struct</span> vector2 *first_vector = poly;
+  <span class="tipo">struct</span> vector2 *current_vector, *temp;
+
+  current_vector = first_vector;
+  <span class="palavra">do</span>{
+    temp = current_vector;
+    current_vector = current_vector -> next;
+    <b>free</b>(temp);
+  }<span class="palavra">while</span>(current_vector != first_vector);
+}</pre>
+    <p>
+      This frees the memory alocated for
+      some <a href="#polygon">polygon</a>. Please, pass to the
+      function only well-formed polygons or a Segmentation Fault can
+      happen. All polygons generated
+      by <a href="#new_polygon">new_polygon</a> are well-formed.
+    </p>
+    <h3>
+      <a class="name" id="destroy_rectangle"
+         href="javascript:playElement('code_destroy_rectangle')">
+        void<br/>
+        destroy_rectangle(void *rectangle)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_destroy_rectangle">
+<span class="precompil">#define</span> <b>destroy_rectangle</b>(a) <b>free</b>(a)</pre>
+    <p>
+      This frees the space in memory allocated for
+      some <a href="#rectangle">rectangle</a>. In fact, it's an alias
+      for free function. But for readability reasons, avoid to use
+      this function in anythig that isn't
+      a <a href="#rectangle">rectangle</a>.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="destroy_surface"
+	 href="javascript:playElement('code_destroy_surface')">
+	void<br/>
+	destroy_surface(surface *surf)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_destroy_surface">
+<span class="tipo">void</span> <b>destroy_surface</b>(<span class="tipo">struct</span> surface *my_surf){
+  <b>XFreePixmap</b>(_dpy, my_surf -> pix);
+  <b>XFreePixmap</b>(_dpy, my_surf -> mask);
+  <b>free</b>(my_surf);
+}</pre>
+    <p>
+      This frees the space in memory allocated for
+      some <a href="#surface">surface</a>.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="destroy_vector2" 
+         href="javascript:playElement('code_destroy_vector2')">
+        void<br/>
+        destroy_vector2(void *vector)
+      </a>
+    </h3>
+    <pre id="code_destroy_vector2" class="codigo">
+<span class="precompil">#define</span> <b>destroy_vector2</b>(x) <b>free</b>(x)</pre>
+    <p>
+      This frees the space in memory allocated for
+      some <a href="#vector2">struct vector2</a>. In fact, it's an
+      alias for <b>free</b> function. But for readability reasons,
+      avoid to use this function in anythig that isn't
+      a <a href="#vector2">struct vector2</a>.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="destroy_vector3" 
+         href="javascript:playElement('code_destroy_vector3')">
+        void<br/>
+        destroy_vector3(void *vector)
+      </a>
+    </h3>
+    <pre id="code_destroy_vector3" class="codigo">
+<span class="precompil">#define</span> <b>destroy_vector3</b>(x) <b>free</b>(x)</pre>
+    <p>
+      This frees the space in memory allocated for
+      some <a href="#vector3">struct vector3</a>. In fact, it's an
+      alias for <b>free</b> function. But for readability reasons,
+      avoid to use this function in anythig that isn't
+      a <a href="#vector3">struct vector3</a>.
+    </p>
+    <h3>
+      <a class="name" id="destroy_vector4" 
+         href="javascript:playElement('code_destroy_vector4')">
+        void<br/>
+        destroy_vector4(void *vector)
+      </a>
+    </h3>
+    <pre id="code_destroy_vector4" class="codigo">
+<span class="precompil">#define</span> <b>destroy_vector4</b>(x) <b>free</b>(x)</pre>
+    <p>
+      This frees the space in memory allocated for
+      some <a href="#vector4">struct vector4</a>. In fact, it's an
+      alias for <b>free</b> function. But for readability reasons,
+      avoid to use this function in anythig that isn't
+      a <a href="#vector3">struct vector4</a>.
+    </p>
+    <h3>
+      <a class="name" id="draw_circle"
+	 href="javascript:playElement('code_draw_circle')">
+	void<br/>
+	draw_circle(unsigned x, unsigned y, unsigned radius, unsigned color)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_draw_circle">
+<span class="tipo">void</span> <b>draw_circle</b>(<span class="tipo">unsigned</span> x, <span class="tipo">unsigned</span> y, <span class="tipo">unsigned</span> r, <span class="tipo">unsigned</span> color){
+  <span class="tipo">unsigned</span> diameter = r + r;
+  <b>XSetForeground</b>(_dpy, _gc, color); 
+  <b>XDrawArc</b>(_dpy, _w, _gc, x-r, y-r, diameter, diameter, 0, 23040);
+  <b>XFlush</b>(_dpy);
+}</pre>
+    <p>
+      This function draws a circle in the screen. The circle's center
+      will be in the coordinate (x, y) and it's radius and color are
+      the values passed as argument.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="draw_ellipse"
+	 href="javascript:playElement('code_draw_ellipse')">
+	void<br/>
+	draw_ellipse(unsigned x, unsigned y, unsigned width, unsigned height, unsigned color)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_draw_ellipse">
+<span class="tipo">void</span> <b>draw_ellipse</b>(<span class="tipo">unsigned</span> x, <span class="tipo">unsigned</span> y, <span class="tipo">unsigned</span> width, <span class="tipo">unsigned</span> height, <span class="tipo">unsigned</span> color){
+  <b>XSetForeground</b>(_dpy, _gc, color);
+  <b>XDrawArc</b>(_dpy, _w, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+  <b>XFlush</b>(_dpy);
+}</pre>
+    <p>
+      This function draws in the screen an ellipse whose center is in
+      the coordinate (x, y), and whose maximum height, maximum width
+      and color are passed as arguments.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="draw_line"
+	 href="javascript:playElement('code_draw_line')">
+	void<br/>
+	draw_line(unsigned x1, unsigned y1, unsigned x2, unsigned y2, unsigned color)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_draw_line">
+<span class="tipo">void</span> <b>draw_line</b>(<span class="tipo">unsigned</span> x1, <span class="tipo">unsigned</span> y1, <span class="tipo">unsigned</span> x2, <span class="tipo">unsigned</span> y2, <span class="tipo">unsigned</span> color){
+  <b>XSetForeground</b>(_dpy, _gc, color);
+  <b>XDrawLine</b>(_dpy, _w, _gc, x1, y1, x2, y2);
+  <b>XFlush</b>(_dpy);
+}</pre>
+    <p>
+      This function receives two coordinates (x1, y1) and (x2, y2)
+      draws a lie in the screen that connects the two points. The
+      color used is the one passed as argument.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="draw_point"
+	 href="javascript:playElement('code_draw_point')">
+	void<br/>
+	draw_point(unsigned x, unsigned y, unsigned color)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_draw_point">
+<span class="tipo">void</span> <b>draw_point</b>(<span class="tipo">unsigned</span> x, <span class="tipo">unsigned</span> y, <span class="tipo">unsigned</span> color){
+  <b>XSetForeground</b>(_dpy, _gc, color);
+  <b>XDrawPoint</b>(_dpy, _w, _gc, x, y);
+  <b>XFlush</b>(_dpy);
+}</pre>
+    <p>
+      This function draws a point in the screen at coordinate (x, y)
+      using the color passed as argument.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="draw_rectangle"
+	 href="javascript:playElement('code_draw_rectangle')">
+	void<br/>
+	draw_rectangle(unsigned x, unsigned y, unsigned width, unsigned height, unsigned color)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_draw_rectangle">
+<span class="tipo">void</span> <b>draw_rectangle</b>(<span class="tipo">unsigned</span> x, <span class="tipo">unsigned</span> y, <span class="tipo">unsigned</span> width, <span class="tipo">unsigned</span> height, <span class="tipo">unsigned</span> color){
+  <b>XSetForeground</b>(_dpy, _gc, color);
+  <b>XDrawRectangle</b>(_dpy, _w, _gc, x, y, width, height);
+  <b>XFlush</b>(_dpy);
+}</pre>
+    <p>
+      This function draws in the screen a rectangle whose upper left
+      vertex is in coordinate (x, y) and whose width, height and color
+      are passed as arguments.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="draw_rectangle_mask"
+	 href="javascript:playElement('code_draw_rectangle_mask')">
+	void<br/>
+	draw_rectangle_mask(surface *surf, int x, int y, int width, int height)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_draw_rectangle_mask">
+<span class="tipo">void</span> <b>draw_rectangle_mask</b>(<span class="tipo">struct</span> surface *my_surf, <span class="tipo">int</span> x, <span class="tipo">int</span> y, <span class="tipo">int</span> width, <span class="tipo">int</span> height){
+  <b>XSetForeground</b>(_dpy, _mask_gc, 0l);
+  <b>XFillRectangle</b>(_dpy, my_surf -> mask, _mask_gc, x, y, width, height);
+  <b>XFlush</b>(_dpy);
+}</pre>
+    <p>
+      This function adds a transparent rectangular area in a
+      surface. The rectangle's upper left vertex is in coordinate (x,
+      y) (in the surface, not in the screen) and it's width and height
+      is also passed as argument.
+    </p>
+    <p>
+      This can be useful if you wish to make part of some sprite to
+      disappear.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="draw_surface"
+	 href="javascript:playElement('code_draw_surface')">
+	void<br/>
+	draw_surface(surface *origin, surface *destiny, int x, int y)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_draw_surface">
+<span class="precompil">#define</span> <b>draw_surface</b>(a, b, x, y) <b>blit_surface</b>(a, b, 0, 0, a -> width, a -> height, x, y)</pre>
+    <p>
+      This function draws a surface in another surface at the coordinate
+      (x, y).
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <!--
+    <h3>
+      <a class="name" id="draw_text"
+	 href="javascript:playElement('code_draw_text')">
+	void<br/>
+	draw_text(unsigned x, unsigned y, char *text, char *font, unsigned color)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_draw_text">
+<span class="tipo">void</span> <b>draw_text</b>(<span class="tipo">unsigned</span> x, <span class="tipo">unsigned</span> y, <span class="tipo">char</span> *text, <span class="tipo">char</span> *font, <span class="tipo">unsigned</span> color){
+  XFontStruct *new_font;
+
+  <b>XSetForeground</b>(_dpy, _gc, color);
+  new_font = <b>XLoadQueryFont</b>(_dpy, font);
+  <span class="palavra">if</span>(new_font != NULL){
+    <b>XDrawString</b>(_dpy, _w, _gc, x, y, text, <b>strlen</b>(text));
+  }
+  <span class="palavra">else</span>{
+    <b>printf</b>("Warning: Font %s not found.\n", font);
+  }
+    <b>XFlush</b>(_dpy);
+}</pre>
+    <p>
+      This function loads a font passed as argument. It accept only
+      PCF fonts installed in X11. Then, it draws the text passed with
+      the given font using the color passed as argument in position
+      (x, y).
+    </p>
+    <p>
+      If the font isn't found, o text is drawn and a warning message
+      is written in the standart output. The game isn't interrupted.
+    </p>
+    <p>
+      <b>
+	WARNING:
+      </b>
+      This function will change in a near future. A new and simpler
+      mechanism to load your fonts will be added. And it'll support
+      non-bitmapped fonts.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    -->
+    <!--<h3>
+      <a class="name" id="erase_screen"
+	 href="javascript:playElement('code_erase_screen')">
+	void<br/>
+	erase_screen(void)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_erase_screen">
+<span class="precompil">#define</span> <b>erase_screen</b>() <b>draw_surface</b>(background, window, 0, 0)</pre>
+    <p>
+      This function fills the screen with
+      the <a href="#background">background</a> content.
+    </p> -->
+    <h3>
+      <a class="name" id="fill_circle"
+	 href="javascript:playElement('code_fill_circle')">
+	void<br/>
+	fill_circle(unsigned x, unsigned y, unsigned radius, unsigned color)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_fill_circle">
+<span class="tipo">void</span> <b>fill_circle</b>(<span class="tipo">unsigned</span> x, <span class="tipo">unsigned</span> y, <span class="tipo">unsigned</span> r, <span class="tipo">unsigned</span> color){
+  <span class="tipo">unsigned</span> diameter = r + r;
+  <b>XSetForeground</b>(_dpy, _gc, color); 
+  <b>XDrawArc</b>(_dpy, _w, _gc, x-r, y-r, diameter, diameter, 0, 23040);
+  <b>XFillArc</b>(_dpy, _w, _gc, x-r, y-r, diameter, diameter, 0, 23040);
+  <b>XFlush</b>(_dpy);
+}</pre>
+    <p>
+      This function draws and fills with the passed color a circle
+      whose center is in the coordinate (x, y) and whose radius is the
+      value passed as argument.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="fill_ellipse"
+	 href="javascript:playElement('code_fill_ellipse')">
+	void<br/>
+	fill_ellipse(unsigned x, unsigned y, unsigned width, unsigned height, unsigned color)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_fill_ellipse">
+<span class="tipo">void</span> <b>fill_ellipse</b>(<span class="tipo">unsigned</span> x, <span class="tipo">unsigned</span> y, <span class="tipo">unsigned</span> width, <span class="tipo">unsigned</span> height, <span class="tipo">unsigned</span> color){
+  <b>XSetForeground</b>(_dpy, _gc, color);
+  <b>XDrawArc</b>(_dpy, _w, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+  <b>XFillArc</b>(_dpy, _w, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+  <b>XFlush</b>(_dpy);
+}</pre>
+    <p>
+      This function draws and fills an ellipse whose center is in
+      coordinate (x, y) and whose width, height and color are the
+      values passed as argument.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="fill_rectangle"
+	 href="javascript:playElement('code_fill_rectangle')">
+	void<br/>
+	fill_rectangle(unsigned x, unsigned y, unsigned width, unsigned height, unsigned color)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_fill_rectangle">
+<span class="tipo">void</span> <b>fill_rectangle</b>(<span class="tipo">unsigned</span> x, <span class="tipo">unsigned</span> y, <span class="tipo">unsigned</span> width, <span class="tipo">unsigned</span> height, <span class="tipo">unsigned</span> color){
+  <b>XSetForeground</b>(_dpy, _gc, color);
+  <b>XDrawRectangle</b>(_dpy, _w, _gc, x, y, width, height);
+  <b>XFillRectangle</b>(_dpy, _w, _gc, x, y, width, height);
+  <b>XFlush</b>(_dpy);
+}</pre>
+    <p>
+      This function draws and fills a rectangle whose upper left
+      vertex is in the coordinate (x, y) and whose width, height and
+      color are the values passed as argument.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="fill_screen"
+	 href="javascript:playElement('code_fill_screen')">
+	void<br/>
+	fill_screen(unsigned color)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_fill_screen">
+<span class="precompil">#define</span> <b>fill_screen</b>(x) <b>fill_rectangle</b>(0, 0, window_width, window_height, x)
+</pre>
+    <p>
+      This function fills all the screen with the color passed as
+      argument.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="fill_surface"
+	 href="javascript:playElement('code_fill_surface')">
+	void<br/>
+	fill_surface(surface *surf, unsigned color)
+      </a>
+    </h3>
+    <pre id="code_fill_surface" class="codigo">
+<span class="tipo">void</span> <b>fill_surface</b>(<span class="tipo">struct</span> surface *surf, <span class="tipo">unsigned</span> color){
+  <b>XSetForeground</b>(_dpy, _gc, color);
+  <b>XFillRectangle</b>(_dpy, surf -> pix, _gc, 0, 0, surf -> width, surf -> height);
+}</pre>
+    <p>
+      This function fills a surface with a solid color. Transparent
+      areas doesn't lose the transparency.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="film_circle"
+	 href="javascript:playElement('code_film_circle')">
+	void<br/>
+	film_circle(camera *cam, circle *circ, unsigned color)
+      </a>
+    </h3>
+    <pre id="code_film_circle" class="codigo">
+<span class="tipo">void</span> <b>film_circle</b>(<span class="tipo">struct</span> vector4 *camera, <span class="tipo">struct</span> vector3 *circle, <span class="tipo">unsigned</span> color){
+  <span class="tipo">int</span> x, y, height, width, limited_camera;
+  limited_camera = 0;
+
+  x = (<span class="tipo">int</span>) (((circle -> x - camera -> x) / camera -> w) * window_width);
+  y = (<span class="tipo">int</span>) (((circle -> y - camera -> y) / camera -> z) * window_height);
+  height = 2 * (<span class="tipo">int</span>) ((circle -> z / camera -> z) * window_height);
+  width = 2 * (<span class="tipo">int</span>) ((circle -> z / camera -> w) * window_width);
+  <span class="palavra">if</span>(camera -> previous != NULL || camera -> next != NULL){
+    limited_camera ++;
+    x = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) x * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> next) / (<span class="tipo">float</span>) window_width) + (<span class="tipo">long</span>) (camera -> previous);
+    width = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) width * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> next) / (<span class="tipo">float</span>) window_width);
+  }
+  <span class="palavra">if</span>(camera -> top != NULL || camera -> down != NULL){
+    limited_camera ++;
+    y = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) y * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> down) / (<span class="tipo">float</span>) window_height) + (<span class="tipo">long</span>) (camera -> top);
+    height = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) height * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> down) / (<span class="tipo">float</span>) window_height);
+  }
+  <span class="palavra">if</span>(limited_camera){
+    <span class="palavra">if</span>(circle -> x &lt; (<span class="tipo">long</span>) camera -> x + (<span class="tipo">long</span>) camera -> w + (<span class="tipo">long</span>) (2 * circle -> z) &amp;&amp; 
+       circle -> x > (<span class="tipo">long</span>) camera -> x - (<span class="tipo">long</span>) (2 * circle -> z) &amp;&amp;
+       circle -> y &lt; (<span class="tipo">long</span>) camera -> y + (<span class="tipo">long</span>) camera -> z + (<span class="tipo">long</span>) (2 * circle -> z) &amp;&amp; 
+       circle -> y > (<span class="tipo">long</span>) camera -> y - (<span class="tipo">long</span>) (2 * circle -> z)){
+      <span class="comentario">// Creating a temporary and transparent surface</span>
+      <span class="tipo">struct</span> surface *surf = <b>new_surface</b>((<span class="tipo">long</span>) camera -> next, (<span class="tipo">long</span>) camera -> down);
+      <b>XSetForeground</b>(_dpy, _mask_gc, 0l);
+      <b>XFillRectangle</b>(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width, surf -> height);
+    
+      <span class="comentario">// Drawing the circle in the surface</span>
+      <b>XSetForeground</b>(_dpy, _gc, color);
+      <b>XDrawArc</b>(_dpy, surf -> pix, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+    
+      <span class="comentario">// Drawing the circle in the transparency map</span>
+      <b>XSetForeground</b>(_dpy, _mask_gc, ~0l);
+      <b>XDrawArc</b>(_dpy, surf -> mask, _mask_gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+
+      <span class="comentario">// Blitting the surface in the screen</span>
+      <b>blit_surface</b>(surf, window, 0, 0, surf -> width, surf -> height, 
+	    	   (<span class="tipo">long</span>) camera -> previous, (<span class="tipo">long</span>) camera -> top);
+
+      <b>destroy_surface</b>(surf);
+    }
+  }
+  <span class="palavra">else</span>
+    <b>draw_ellipse</b>(x, y, width, height, color);
+}</pre>
+    <p>
+      This function draws a circle passed as argument using the
+      referential stored by the camera passed as the first argument
+      using the color passed as third argument.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="film_fullcircle"
+	 href="javascript:playElement('code_film_fullcircle')">
+	void<br/>
+	film_fullcircle(camera *cam, circle *circ, unsigned color)
+      </a>
+    </h3>
+    <pre id="code_film_fullcircle" class="codigo">
+<span class="tipo">void</span> <b>film_fullcircle</b>(<span class="tipo">struct</span> vector4 *camera, <span class="tipo">struct</span> vector3 *circle, <span class="tipo">unsigned</span> color){
+  <span class="tipo">int</span> x, y, height, width, limited_camera;
+  limited_camera = 0;
+
+  x = (<span class="tipo">int</span>) (((circle -> x - camera -> x) / camera -> w) * window_width);
+  y = (<span class="tipo">int</span>) (((circle -> y - camera -> y) / camera -> z) * window_height);
+  height = 2 * (<span class="tipo">int</span>) ((circle -> z / camera -> z) * window_height);
+  width = 2 * (<span class="tipo">int</span>) ((circle -> z / camera -> w) * window_width);
+  <span class="palavra">if</span>(camera -> previous != NULL || camera -> next != NULL){
+    limited_camera ++;
+    x = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) x * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> next) / (<span class="tipo">float</span>) window_width) + (<span class="tipo">long</span>) (camera -> previous);
+    width = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) width * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> next) / (<span class="tipo">float</span>) window_width);
+  }
+  <span class="palavra">if</span>(camera -> top != NULL || camera -> down != NULL){
+    limited_camera ++;
+    y = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) y * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> down) / (<span class="tipo">float</span>) window_height) + (<span class="tipo">long</span>) (camera -> top);
+    height = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) height * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> down) / (<span class="tipo">float</span>) window_height);
+  }
+  <span class="palavra">if</span>(limited_camera){
+    <span class="palavra">if</span>(circle -> x &lt; (<span class="tipo">long</span>) camera -> x + (<span class="tipo">long</span>) camera -> w + (<span class="tipo">long</span>) (2 * circle -> z) &amp;&amp; 
+       circle -> x > (<span class="tipo">long</span>) camera -> x - (<span class="tipo">long</span>) (2 * circle -> z) &amp;&amp;
+       circle -> y &lt; (<span class="tipo">long</span>) camera -> y + (<span class="tipo">long</span>) camera -> z + (<span class="tipo">long</span>) (2 * circle -> z) &amp;&amp; 
+       circle -> y > (<span class="tipo">long</span>) camera -> y - (<span class="tipo">long</span>) (2 * circle -> z)){
+      <span class="comentario">// Creating a temporary and transparent surface</span>
+      <span class="tipo">struct</span> surface *surf = <b>new_surface</b>((<span class="tipo">long</span>) camera -> next, (<span class="tipo">long</span>) camera -> down);
+      <b>XSetForeground</b>(_dpy, _mask_gc, 0l);
+      <b>XFillRectangle</b>(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width, surf -> height);
+      
+      <span class="comentario">// Drawing the circle in the surface</span>
+      <b>XSetForeground</b>(_dpy, _gc, color);
+      <b>XDrawArc</b>(_dpy, surf -> pix, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+      <b>XFillArc</b>(_dpy, surf -> pix, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+      
+      <span class="comentario">// Drawing the circle in the transparency map</span>
+      <b>XSetForeground</b>(_dpy, _mask_gc, ~0l);
+      <b>XDrawArc</b>(_dpy, surf -> mask, _mask_gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+      <b>XFillArc</b>(_dpy, surf -> mask, _mask_gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+
+      <span class="comentario">// Blitting the surface in the screen</span>
+      <b>blit_surface</b>(surf, window, 0, 0, surf -> width, surf -> height, 
+		   (<span class="tipo">long</span>) camera -> previous, (long) camera -> top);
+      <b>destroy_surface</b>(surf);
+    }
+  }
+  <span class="palavra">else</span>
+    <b>fill_ellipse</b>(x, y, width, height, color);
+}</pre>
+    <p>
+      This function draws and fills a circle passed as argument using
+      the referential stored by the camera passed as the first
+      argument and the color passed as third argument.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="film_rectangle"
+	 href="javascript:playElement('code_film_rectangle')">
+	void<br/>
+	film_rectangle(camera *cam, rectangle *rect, unsigned color)
+      </a>
+    </h3>
+    <pre id="code_film_rectangle" class="codigo">
+<span class="tipo">void</span> <b>film_rectangle</b>(<span class="tipo">struct</span> vector4 *camera, <span class="tipo">struct</span> vector4 *rectangle, <span class="tipo">unsigned</span> color){
+  <span class="tipo">int</span> x, y, height, width;
+  x = (<span class="tipo">int</span>) (((rectangle -> x - camera -> x) / camera -> w) * window_width);
+  y = (<span class="tipo">int</span>) (((rectangle -> y - camera -> y) / camera -> z) * window_height);
+  height = (<span class="tipo">int</span>) ((rectangle -> z / camera -> z) * window_height);
+  width = (<span class="tipo">int</span>) ((rectangle -> w / camera -> w) * window_width);
+
+  <span class="palavra">if</span>(camera -> previous != NULL || camera -> next != NULL){
+    limited_camera ++;
+    x = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) x * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> next) / 
+               (<span class="tipo">float</span>) window_width);
+    width = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) width * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> next) / 
+                   (<span class="tipo">float</span>) window_width);
+  }
+  <span class="palavra">if</span>(camera -> top != NULL || camera -> down != NULL){
+    limited_camera ++;
+    y = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) y * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> down) / 
+               (<span class="tipo">float</span>) window_height);
+    height = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) height * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> down) / 
+                    (<span class="tipo">float</span>) window_height);
+  }
+  <span class="palavra">if</span>(limited_camera){
+    <span class="palavra">if</span>(rectangle -> x + rectangle -> w > camera -> x &amp;&amp;
+       rectangle -> x &lt; camera -> x + camera -> w &amp;&amp;
+       rectangle -> y + rectangle -> z > camera -> y &amp;&amp;
+       rectangle -> y &lt; camera -> y + camera -> z){
+      <span class="comentario">// If we are here, the rectangle appears in the camera
+      // Creating a temporary and transparent surface</span>
+      <span class="tipo">struct</span> surface *surf = <b>new_surface</b>((<span class="tipo">long</span>) camera -> next, 
+                                         (<span class="tipo">long</span>) camera -> down);
+      <b>XSetForeground</b>(_dpy, _mask_gc, 0l);
+      <b>XFillRectangle</b>(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width, 
+                     surf -> height);
+      
+      <span class="comentario">// Drawing the rectangle in the surface</span>
+      <b>XSetForeground</b>(_dpy, _gc, color);
+      <b>XDrawRectangle</b>(_dpy, surf -> pix, _gc, x, y, width, height);
+      
+      <span class="comentario">// Drawing the circle in the transparency map</span>
+      <b>XSetForeground</b>(_dpy, _mask_gc, ~0l);
+      <b>XDrawRectangle</b>(_dpy, surf -> mask, _mask_gc, x, y, width, height);
+      
+      <span class="comentario">// Blitting the surface in the screen</span>
+      <b>blit_surface</b>(surf, window, 0, 0, surf -> width, surf -> height, 
+		   (<span class="tipo">long</span>) camera -> previous, (<span class="tipo">long</span>) camera -> top);
+      <b>destroy_surface</b>(surf);
+    }
+  }
+  <span class="palavra">else</span>
+  <b>draw_rectangle</b>(x, y, width, height, color);
+}</pre>
+    <p>
+      This function draws the rectangle passed as argument using the
+      referential stored in the camera (first argument) with the color
+      passed as the third argument.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="film_fullrectangle"
+	 href="javascript:playElement('code_film_fullrectangle')">
+	void<br/>
+	film_fullrectangle(camera *cam, rectangle *cam, unsigned color)
+      </a>
+    </h3>
+    <pre id="code_film_fullrectangle" class="codigo">
+<span class="tipo">void</span> <b>film_fullrectangle</b>(<span class="tipo">struct</span> vector4 *camera, <span class="tipo">struct</span> vector4 *rectangle, <span class="tipo">unsigned</span> color){
+  <span class="tipo">int</span> x, y, height, width;
+  x = (<span class="tipo">int</span>) (((rectangle -> x - camera -> x) / camera -> w) * window_width);
+  y = (<span class="tipo">int</span>) (((rectangle -> y - camera -> y) / camera -> z) * window_height);
+  height = (<span class="tipo">int</span>) ((rectangle -> z / camera -> z) * window_height);
+  width = (<span class="tipo">int</span>) ((rectangle -> w / camera -> w) * window_width);
+
+  <span class="palavra">if</span>(camera -> previous != NULL || camera -> next != NULL){
+    limited_camera ++;
+    x = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) x * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> next) / 
+               (<span class="tipo">float</span>) window_width);
+    width = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) width * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> next) / 
+                   (<span class="tipo">float</span>) window_width);
+  }
+  <span class="palavra">if</span>(camera -> top != NULL || camera -> down != NULL){
+    limited_camera ++;
+    y = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) y * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> down) / 
+               (<span class="tipo">float</span>) window_height);
+    height = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) height * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> down) / 
+                    (<span class="tipo">float</span>) window_height);
+  }
+
+  <span class="palavra">if</span>(limited_camera){
+    <span class="palavra">if</span>(rectangle -> x + rectangle -> w > camera -> x &amp;&amp;
+       rectangle -> x &lt; camera -> x + camera -> w &amp;&amp;
+       rectangle -> y + rectangle -> z > camera -> y &amp;&amp;
+       rectangle -> y &lt; camera -> y + camera -> z){
+      <span class="comentario">// If we are here, the rectangle appears in the camera
+      // Creating a temporary and transparent surface</span>
+      <span class="tipo">struct</span> surface *surf = <b>new_surface</b>((<span class="tipo">long</span>) camera -> next, 
+                                         (<span class="tipo">long</span>) camera -> down);
+      <b>XSetForeground</b>(_dpy, _mask_gc, 0l);
+      <b>XFillRectangle</b>(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width, 
+                     surf -> height);
+      
+      <span class="comentario">// Drawing the rectangle in the surface</span>
+      <b>XSetForeground</b>(_dpy, _gc, color);
+      <b>XDrawRectangle</b>(_dpy, surf -> pix, _gc, x, y, width, height);
+      <b>XFillRectangle</b>(_dpy, surf -> pix, _gc, x, y, width, height);
+      
+      <span class="comentario">// Drawing the circle in the transparency map</span>
+      <b>XSetForeground</b>(_dpy, _mask_gc, ~0l);
+      <b>XDrawRectangle</b>(_dpy, surf -> mask, _mask_gc, x, y, width, height);
+      <b>XFillRectangle</b>(_dpy, surf -> mask, _mask_gc, x, y, width, height);
+
+      <span class="comentario">// Blitting the surface in the screen</span>
+      <b>blit_surface</b>(surf, window, 0, 0, surf -> width, surf -> height, 
+		   (<span class="tipo">long</span>) camera -> previous, (<span class="tipo">long</span>) camera -> top);
+      <b>destroy_surface</b>(surf);
+    }
+  }
+  <span class="palavra">else</span>
+  <b>fill_rectangle</b>(x, y, width, height, color);
+}</pre>
+    <p>
+      This function draws and fills the rectangle passed as second
+      argument using the referential stored in the camera (first
+      argument) with the color passed as the third argument.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="film_fullpolygon"
+	 href="javascript:playElement('code_film_fullpolygon')">
+	void<br/>
+	film_fullpolygon(camera *cam, polygon *poly, unsigned color)
+      </a>
+    </h3>
+    <pre id="code_film_fullpolygon" class="codigo">
+<span class="tipo">void</span> <b>film_fullpolygon</b>(<span class="tipo">struct</span> vector4 *camera, <span class="tipo">struct</span> vector2 *polygon, <span class="tipo">unsigned</span> color){
+  <span class="tipo">struct</span> vector2 *current_vertex = polygon;
+  XPoint *points;
+  <span class="tipo">int</span> number_of_points = 0;
+  
+  <b>XSetFillRule</b>(_dpy, _gc, WindingRule);
+
+  <span class="palavra">if</span>(polygon == NULL || polygon -> next == polygon)
+    <span class="palavra">return</span>;
+
+  <span class="palavra">if</span>(camera -> previous != NULL || camera -> next != NULL)
+    limited_camera = 1;
+
+  <span class="comentario">// Discovering the number of points</span>
+  <span class="palavra">do</span>{
+    number_of_points ++;
+    current_vertex = current_vertex -> next;
+  }<span class="palavra">while</span>(current_vertex != polygon);
+
+  <span class="comentario">// Allocating space for the XPoints</span>
+  points = (XPoint *) <b>malloc</b>(<span class="palavra">sizeof</span>(XPoint) * number_of_points);
+
+  <span class="comentario">//Getting thew points coordinates</span>
+  number_of_points = 0;
+  current_vertex = polygon;
+  <span class="palavra">do</span>{
+    points[number_of_points].x =  (<span class="tipo">int</span>) (((current_vertex -> x - camera -> x) / camera -> w) * window_width);
+    points[number_of_points].y =  (<span class="tipo">int</span>) (((current_vertex -> y - camera -> y) / camera -> z) * window_height);
+    number_of_points ++;
+    current_vertex = current_vertex -> next;
+  }<span class="palavra">while</span>(current_vertex != polygon);
+<span class="comentario">// Correcting values if we are under a limited camera</span>
+  <span class="palavra">if</span>(limited_camera){
+    number_of_points = 0;
+    current_vertex = polygon;
+    <span class="palavra">do</span>{
+      points[number_of_points].x = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) points[number_of_points].x * 
+                                          ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> next) / 
+                                          (<span class="tipo">float</span>) window_width);
+      points[number_of_points].y = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) points[number_of_points].y * 
+                                          ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> down) / 
+                                          (<span class="tipo">float</span>) window_height);
+
+      number_of_points ++;
+      current_vertex = current_vertex -> next;
+    }<span class="palavra">while</span>(current_vertex != polygon);
+    
+    <span class="comentario">// Creating a temporary and transparent surface</span>
+    <span class="tipo">struct</span> surface *surf = <b>new_surface</b>((<span class="tipo">long</span>) camera -> next, 
+                                       (<span class="tipo">long</span>) camera -> down);
+    <b>XSetFillRule</b>(_dpy, _mask_gc, WindingRule);
+    <b>XSetForeground</b>(_dpy, _mask_gc, 0l);
+    <b>XFillRectangle</b>(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width, 
+                   surf -> height);
+      
+    <span class="comentario">// Drawing the polygon in the surface</span>
+    <b>XSetForeground</b>(_dpy, _gc, color);
+    <b>XFillPolygon</b>(_dpy, surf -> pix, _gc, points, number_of_points, Complex, 
+               CoordModeOrigin);
+    
+      
+    <span class="comentario">// Drawing the polygon in the transparency map</span>
+    <b>XSetForeground</b>(_dpy, _mask_gc, ~0l);
+    <b>XFillPolygon</b>(_dpy, surf -> mask, _mask_gc, points, number_of_points, 
+                 Complex, CoordModeOrigin);
+
+    <span class="comentario">// Blitting the surface in the screen</span>
+    <b>blit_surface</b>(surf, window, 0, 0, surf -> width, surf -> height, 
+                 (<span class="tipo">long</span>) camera -> previous, (<span class="tipo">long</span>) camera -> top);
+    <b>destroy_surface</b>(surf);
+  }
+  <span class="palavra">else</span>{
+    <b>XSetForeground</b>(_dpy, _gc, color);
+    <b>XFillPolygon</b>(_dpy, _w, _gc, points, number_of_points, Complex, CoordModeOrigin);
+  }
+  <b>free</b>(points);
+}</pre>
+    <p>
+      This functions draws and fills the polygon passad as argument
+      using the coordinates stored in the camera (first argument) with
+      the color passed as third argument.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="film_polygon"
+	 href="javascript:playElement('code_film_polygon')">
+	void<br/>
+	film_polygon(camera *cam, polygon *poly, unsigned color)
+      </a>
+    </h3>
+    <p>
+      This functions draws the polygon passed as second argument using
+      the coordinates stored in the camera (first argument) with the
+      color passed as the third argument.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="flush"
+	 href="javascript:playElement('code_flush')">
+	void<br/>
+	flush(void)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_flush">
+ <span class="tipo">void</span> <b>flush</b>(<span class="tipo">void</span>){
+  XdbeSwapInfo info;
+  info.swap_window = _w;
+  info.swap_action = XdbeCopied;
+  <b>XdbeSwapBuffers</b>(_dpy, &amp;info, 1);
+  <b>XFlush</b>(_dpy);
+}</pre>
+    <p>
+      Usually, when you draw something in the screen, the changes
+      aren't applied immediately. The screen is updated only when the
+      functions <b>flush</b> or <a href="#weaver_rest">weaver_rest</a>
+      are called. The first can be called anywhere, while the second
+      should be called only once inside a main loop.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="get_input"
+	 href="javascript:playElement('code_get_input')">
+	void<br/>
+	get_input(void)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_get_input">
+<span class="tipo">void</span> <b>get_input</b>(<span class="tipo">void</span>){
+  XEvent event;
+  KeySym pressed_key, released_key;
+  mouse.changed = 0;
+  
+  <span class="palavra">while</span>(<b>XPending</b>(_dpy)){
+    <b>XNextEvent</b>(_dpy, &amp;event);
+    
+    <span class="palavra">if</span>(event.type == KeyPress){ <span class="comentario">// KEYBOARD EVENT</span>
+      keyboard[ANY] += 1;
+      pressed_key = <b>XLookupKeysym</b>(&amp;event.xkey, 0);
+      
+      <span class="comentario">// Treating special cases first</span> 
+      <span class="palavra">if</span>(pressed_key == LEFT_SHIFT || pressed_key == RIGHT_SHIFT)
+	keyboard[SHIFT] += 1;
+      <span class="palavra">if</span>(pressed_key == LEFT_CTRL || pressed_key == RIGHT_CTRL)
+	keyboard[CTRL] += 1;
+      <span class="palavra">if</span>(pressed_key == LEFT_ALT || pressed_key == RIGHT_ALT)
+	keyboard[ALT] += 1;
+
+      keyboard[pressed_key] += 1; <span class="comentario">//Default behaviour</span>
+    }
+    <span class="palavra">else if</span>(event.type == KeyRelease){
+      released_key = <b>XLookupKeysym</b>(&amp;event.xkey, 0);
+      keyboard[ANY] = 0;
+      
+      <span class="comentario">// Some special cases</span>
+      <span class="palavra">if</span>(released_key == LEFT_SHIFT || released_key == RIGHT_SHIFT)
+	keyboard[SHIFT] = 0;
+      <span class="palavra">if</span>(released_key == LEFT_CTRL || released_key == RIGHT_CTRL)
+	keyboard[CTRL] = 0;
+      <span class="palavra">if</span>(released_key == LEFT_ALT || released_key == RIGHT_ALT)
+	keyboard[ALT] = 0;
+
+      
+      keyboard[released_key] = 0; <span class="comentario">// Default behaviour</span>  
+    }
+    <span class="palavra">else if</span>(event.type == ButtonPress){ <span class="comentario">//MOUSE EVENT</span>
+      <span class="palavra">if</span>(! mouse.pressed){
+	mouse.pressed = 1;
+	mouse.changed = 1;
+      }
+      mouse.x = event.xbutton.x;
+      mouse.y = event.xbutton.y;
+    }
+    <span class="palavra">else if</span>(event.type == ButtonRelease){
+      <span class="palavra">if</span>(mouse.pressed){
+	mouse.pressed = 0;
+	mouse.changed = 1;
+      }
+      mouse.x = event.xbutton.x;
+      mouse.y = event.xbutton.y;
+    }
+    <span class="palavra">else if</span>(event.type == MotionNotify){
+      mouse.x = event.xmotion.x;
+      mouse.y = event.xmotion.y;
+    }
+  }
+}</pre>
+    <p>
+      This function is responsible for store information about the
+      input. Which keys were pressed, if the mouse changed, which keys
+      were released, if the player clicked with the mouse...
+    </p>
+    <p>
+      As games are event-oriented programs, this function probably
+      will be called every main loop iteration.
+    </p>
+    <p>
+      Basically, this function updates
+      the <a href="#keyboard">keyboard</a>
+      and <a href="#mouse">mouse</a> variables.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="hide_cursor"
+	 href="javascript:playElement('code_hide_cursor')">
+	void<br/>
+	hide_cursor(void)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_hide_cursor">
+<span class="tipo">void</span> <b>hide_cursor</b>(<span class="tipo">void</span>){
+  Colormap cmap;
+  Cursor no_ptr;
+  XColor black, dummy;
+  <span class="tipo">static char</span> bm_no_data[] = {0, 0, 0, 0, 0, 0, 0, 0};
+  Pixmap bm_no;
+
+  cmap = <b>DefaultColormap</b>(_dpy, <b>DefaultScreen</b>(_dpy));
+  <b>XAllocNamedColor</b>(_dpy, cmap, "black", &amp;black, &amp;dummy);
+  bm_no = <b>XCreateBitmapFromData</b>(_dpy, _w, bm_no_data, 8, 8);
+  no_ptr = <b>XCreatePixmapCursor</b>(_dpy, bm_no, bm_no, &amp;black, &amp;black, 0, 0);
+
+  <b>XDefineCursor</b>(_dpy, _w, no_ptr);
+  <b>XFreeCursor</b>(_dpy, no_ptr);
+  <span class="palavra">if</span>(bm_no != None)
+    <b>XFreePixmap</b>(_dpy, bm_no);
+  <b>XFreeColors</b>(_dpy, cmap, &amp;black.pixel, 1, 0);
+}</pre>
+    <p>
+      This function hides the cursor in the screen. In fact, it works
+      setting the cursor to an ampty bitmap.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="limit_camera"
+         href="javascript:playElement('code_limit_camera')">
+        void<br/>
+        limit_camera(camera *cam, int x, int y, int width, int height)
+      </a>
+    </h3>
+    <pre id="code_limit_camera" class="codigo">
+<span class="tipo">void</span> <b>limit_camera</b>(<span class="tipo">struct</span> vector4 *camera, <span class="tipo">int</span> x, <span class="tipo">int</span> y, <span class="tipo">int</span> width, <span class="tipo">int</span> height){
+  camera -> previous = (<span class="tipo">struct</span> vector4 *) (<span class="tipo">long</span>) x;
+  camera -> top = (<span class="tipo">struct</span> vector4 *) (<span class="tipo">long</span>) y;
+  camera -> next = (<span class="tipo">struct</span> vector4 *) (<span class="tipo">long</span>) width;
+  camera -> down = (<span class="tipo">struct</span> vector4 *) (<span class="tipo">long</span>) height;
+}</pre>
+    <p>
+      By default, a <a href="#camera">camera</a> will draw all the
+      visible elements using the whole screen. This function changes
+      the default and limits the are in wich a given camera can draw.  
+    </p>
+    <p>
+      This functions makes the <a href="#camera">camera</a> "cam"
+      draws only in the rectangle whose upper left vertex is the pixel
+      ("x", "y") in the screen and whose width is "width" pixels and
+      whose height is "height" pixels.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="may_the_weaver_sleep"
+	 href="#may_the_weaver_sleep">
+	void<br/>
+	may_the_weaver_sleep(void)
+      </a>
+    </h3>
+    <p>
+      This function frees all the memory allocated and all the changes
+      made by the <a href="#awake_the_weaver">awake_the_weaver</a>
+      function. When you finish to use all the Weaver resourses, you
+      should call this function.
+    </p>
+    <p>
+      When you use the Weaver Framework, this function is placed
+      automaticly in the end of the main function.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="move_circle"
+         href="javascript:playElement('code_move_circle')">
+        void<br/>
+        move_circle(circle *circ, float x, float y)
+      </a>
+    </h3>
+    <pre id="code_move_circle" class="codigo">
+<span class="precompil">#define</span> <b>move_circle</b>(circ, a, b)                 \
+  circ -> x += a;                               \
+  circ -> y += b;</pre>
+    <p>
+      This moves the <a href="#circle">circle</a> "circ" at "x" units
+      in the X-axis and "y" units in the Y-axis.
+    </p>
+    <p>
+      It's the programmer's responsability to check for overflows. If an
+      overflow happens, probably the circle will teleport itself for some
+      strange location. 
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="move_polygon"
+         href="javascript:playElement('code_move_polygon')">
+        void<br/>
+        move_polygon(struct vector2 *poly, float x, float y)
+      </a>
+    </h3>
+    <pre id="code_move_polygon" class="codigo">
+<span class="tipo">void</span> move_polygon(<span class="tipo">struct</span> vector2 *poly, <span class="tipo">float</span> x, <span class="tipo">float</span> y){
+  <span class="tipo">struct</span> vector2 *first_vertex, *current_vertex;
+  first_vertex = current_vertex = poly;
+  <span class="palavra">do</span>{
+    current_vertex -> x += x;
+    current_vertex -> y += y;
+    current_vertex = current_vertex -> next;
+  }<span class="palavra">while</span>(current_vertex != first_vertex);
+}</pre>
+    <p>
+      This moves the <a href="#polygon">polygon</a> "poly" "x" coordinates in the X-axis and
+      "y" coordinates in the Y-axis. It works moving all the vertices
+      of a polygon. 
+    </p>
+    <p>
+      Overflow checking is the programmer's responsability. If an overflow
+      happens, a weird undefined behaviour can happen. Probably the
+      polygon will become huge and/or deformed for some moments or
+      permanently. 
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="new_camera"
+         href="javascript:playElement('code_new_camera')">
+        camera *<br/>
+        new_camera(float x, float y, float width, float height)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_new_camera">
+<span class="precompil">#define</span> <b>new_camera</b>(x, y, width, height) <b>new_vector4</b>(width, x, y, height)</pre>
+    <p>
+      This allocates space in memory for a
+      new <a href="#camera">camera</a> and returns a pointer to it's
+      address. If the process fails, the function returns NULL
+      instead. 
+    </p>
+    <p>
+      The arguments represent a rectangle that's the are covered by
+      the camera. The (x, y) are the rectangle's coordinates and the
+      other arguments are the rectangle's width and height.
+    </p>
+    <p>
+      Every memory allocated for a camera should be freed
+      with <b>free</b> or <a href="#destroy_camera">destroy_camera</a>
+      functions.  
+    </p>
+    <h3>
+      <a class="name" id="new_camera_h"
+         href="javascript:playElement('code_new_camera_h')">
+        camera *<br/>
+        new_camera_h(float x, float y, float height)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_new_camera_h">
+<span class="precompil">#define</span> <b>new_camera_h</b>(x, y, height) <b>new_vector4</b>(height *        \
+                                     ((<span class="tipo">float</span>) window_width /   \
+                                     (<span class="tipo">float</span>) window_height),   \
+                                     x, y, height)</pre>
+    <p>
+      This allocates space for a new <a href="#camera">camera</a>
+      positioned in the coordinates (x, y) and whose height is passed
+      as the third argument. The camera's width is calculed
+      automaticly according with the screen's resolution. This
+      prevents images distortions. 
+    </p>
+    <p>
+      Every memory allocated for a camera should be freed
+      with <b>free</b> or <a href="#destroy_camera">destroy_camera</a>
+      functions.
+    </p>
+    <h3>
+      <a class="name" id="new_camera_w"
+         href="javascript:playElement('code_new_camera_w')">
+        camera *<br/>
+        new_camera_w(float x, float y, float width)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_new_camera_w">
+<span class="precompil">#define</span> <b>new_camera_w</b>(x, y, width) <b>new_vector4</b>(width, x, y, width *    \
+                                             ((<span class="tipo">float</span>) window_height / \
+                                             (<span class="tipo">float</span>) window_width))</pre>
+    <p>
+      This allocates space for a new <a href="#camera">camera</a> positioned in the
+      coordinates (x, y) and whose width is passed as the third
+      argument. The camera's height is calculed automaticly according
+      with your screen's resolution. This prevents images distortions.
+    </p>
+    <p>
+      Every memory allocated for a camera should be freed
+      with <b>free</b> or <a href="#destroy_camera">destroy_camera</a>
+      functions.  
+    </p>
+    <h3>
+      <a class="name" id="new_circle" 
+         href="javascript:playElement('code_new_circle')">
+        circle *<br/>
+        new_circle(float x, float y, float radius)
+      </a>
+    </h3>
+        <pre id="code_new_circle" class="codigo">
+<span class="precompil">#define</span> <b>new_circle</b>(x, y, z) <b>new_vector3</b>(x, y, z)</pre>
+    <p>
+      This allocates space in memory for a
+      new <a href="#circle">circle</a> and return a pointer to it's
+      address. If no more memory is available, it returns NULL
+      instead.
+    </p>
+    <p>
+      Every allocated circle shall be destroyed
+      with <a href="#destroy_circle">destroy_circle</a> or <b>free</b>.
+    </p>
+    <h3>
+      <a class="name" id="new_image"
+	 href="javascript:playElement('code_new_image')">
+	surface *<br/>
+	new_image(char *image_name)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_new_image">
+<span class="tipo">struct</span> surface *new_image(<span class="tipo">char</span> *file){
+  <span class="tipo">int</span> rc;
+  <span class="tipo">double</span> default_display_exponent;
+  FILE *infile;
+  <span class="tipo">char</span> *path = (<span class="tipo">char</span> *) <b>malloc</b>(<b>strlen</b>(file)+60);
+  path[0] = '\0';
+
+  struct surface *my_surf;
+  _display_exponent = default_display_exponent = 2.2;
+  
+  <b>strcat</b>(path, "/usr/share/games/DUMMY/images/");
+  <b>strcat</b>(path, file);
+  <span class="palavra">if</span>(!(infile = <b>fopen</b>(path, "rb"))){
+    path[0] = '\0';
+    <b>strcat</b>(path, "images/");
+    <b>strcat</b>(path, file);
+    <span class="palavra">if</span>(!(infile = <b>fopen</b>(path, "rb")))
+      <span class="palavra">return</span> NULL;
+  }
+
+  <span class="palavra">if</span>((rc = <b>_readpng_init</b>(infile, (<span class="tipo">long</span> *) &amp;_image_width, (<span class="tipo">long</span> *) &amp;_image_height)) != 0)
+    <span class="palavra">return</span> NULL;
+
+  <span class="palavra">if</span>(<b>_readpng_get_bgcolor</b>(&amp;_bg_red, &amp;_bg_green, &amp;_bg_blue) > 1){
+    <span class="palavra">return</span> NULL;
+  }
+  image_data = <b>_readpng_get_image</b>(_display_exponent, &amp;_image_channels,
+                                 &amp;_image_rowbytes);
+  my_surf = <b>new_surface</b>(_image_width, _image_height);
+  <b>_display_image</b>(my_surf, 0, 0);
+  <b>fclose</b>(infile);
+  <b>png_destroy_read_struct</b>(&amp;_png_ptr, &amp;_info_ptr, NULL);
+  <b>free</b>(image_data);
+  
+  <span class="palavra">return</span> my_surf;
+}</pre>
+    <p>
+      First this function search in the directory
+      "/usr/share/games/YOURGAME/images" for the PNG image that you
+      passed as argument. If the game is installed, it should find the
+      image. Else, it searches for the directory "images/" in your
+      current directory and try to find it there.
+    </p>
+    <p>
+      If no image is found, or some error happens while decoding the
+      image, the function returns NULL. Else, it returns
+      a <a href="#surface">surface</a> with the given image. The
+      transparency mask is built according with the value
+      of <a href="transparent">transparent</a> variable. If a given
+      pixel has the same value than this variable, the function
+      considers it transparent.
+    </p>
+    <p>
+      This function stills doesn't support the alpha channel in PNG
+      images.
+    </p>
+    <h3>
+      <a class="name" id="new_polygon"
+         href="javascript:playElement('code_new_polygon')">
+        polygon *<br/>
+        new_polygon(int vertices, ...)
+      </a>
+    </h3>
+    <pre id="code_new_polygon" class="codigo">
+<span class="tipo">struct</span> vector2 *<b>new_polygon</b>(<span class="tipo">int</span> number_of_vertices, ...){
+  <span class="tipo">struct</span> vector2 *new_vector = NULL;
+  <span class="tipo">struct</span> vector2 *first_vector = NULL, *previous_vector;
+  <span class="tipo">va_list</span> args;
+  <span class="tipo">float</span> x, y;
+  <span class="tipo">int</span> vertices = number_of_vertices;
+
+  previous_vector = NULL;
+
+  <b>va_start</b>(args, number_of_vertices);
+  <span class="palavra">for</span>(;number_of_vertices > 0; number_of_vertices --){
+    x = (<span class="tipo">float</span>) <b>va_arg</b>(args, <span class="tipo">double</span>);
+    y = (<span class="tipo">float</span>) <b>va_arg</b>(args, <span class="tipo">double</span>);
+    new_vector = <b>new_vector2</b>(x, y);
+    <span class="palavra">if</span>(new_vector == NULL){
+      <span class="palavra">if</span>(previous_vector != NULL){
+        previous_vector -> next = first_vector;
+        first_vector -> previous = previous_vector;
+        <b>destroy_polygon</b>(first_vector);
+      }
+      <span class="palavra">return</span> new_vector;
+    }
+    <span class="palavra">if</span>(previous_vector != NULL)
+      <b>connect_vector2</b>(previous_vector, new_vector);
+    <span class="palavra">else</span>
+      first_vector = new_vector;
+    previous_vector = new_vector;
+  }
+  <span class="palavra">if</span>(vertices > 0){
+    new_vector -> next = first_vector;
+    first_vector -> previous = new_vector;
+  }
+  <span class="palavra">return</span> first_vector;
+}</pre>
+    <p>
+      This function allocates the space in memory for a new
+      <a href="#polygon">polygon</a>. If there's no space, the
+      function gives up and return NULL.
+    </p>
+    <p>
+      The first argument is the number o vertices. Then, the function
+      expects to find 2*N other arguments, being N the number of
+      vertices, because each vertex have 2 float numbers that
+      represent it's coordinates.
+    </p>
+    <p>
+      The order in wich you pass the coordinates is important. This is
+      the order in which the vertices will be drawn and
+      connected. Here's some examples:
+    </p>
+    <pre class="codigo_visivel">
+<b>new_polygon</b>(0); <span class="comentario">// Nonsense. Returns NULL</span>
+<b>new_polygon</b>(1, 2.0, 3.0); <span class="comentario">// A single point in coordinate(2.0, 3.0)</span>
+<b>new_polygon</b>(5, 0.0, 0.0, -1.0, 1.0, 1.0, 2.0, 3.0, 1.0, 2.0, 0.0); <span class="comentario">// Pentagon</span>
+<b>new_polygon</b>(5, 0.0, 0.0, 1.0, 2.0, 2.0, 0.0, -1.0, 1.0, 3.0, 1.0); <span class="comentario">// Pentagram</span>
+</pre>
+    <p>
+      This way, you can create simple or complex, concave or convex
+      polygons. To free the memory allocated,
+      use <a href="#destroy_polygon">destroy_polygon</a>. The
+      function <b>free</b> doesn't work here because a polygon isn't (in
+      most cases) a single <a href="#vector2">vector2</a>, but a set
+      of interconnected vectors.
+    </p>
+    <h3>
+      <a class="name" id="new_rectangle"
+         href="javascript:playElement('code_new_rectangle')">
+        rectangle *<br/>
+        new_rectangle(float x, float y, float width, float height)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_new_rectangle">
+<span class="precompil">#define</span> <b>new_rectangle</b>(x, y, w, z) <b>new_vector4</b>(w, x, y, z)</pre>
+    <p>
+      This function allocates space for a
+      new <a href="#rectangle">rectangle</a> with the width and height
+      passed as arguments and whose upper left vertex is in the
+      coordinate (x, y) also passed as argument. The function returns
+      a pointer for the new rectangle. If the process fails, it
+      returns NULL instead.
+    </p>
+    <p>
+      Every allocated rectangle should be freed with <b>free</b> or
+      <a href="#destroy_rectangle">destroy_rectangle</a> functions. 
+    </p>
+    <h3>
+      <a class="name" id="new_surface"
+	 href="javascript:playElement('code_new_surface')">
+	struct surface *<br/>
+	new_surface(int width, int height)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_new_surface">
+<span class="tipo">struct</span> surface *<b>new_surface</b>(<span class="tipo">int</span> width, <span class="tipo">int</span> height){
+  <span class="tipo">struct</span> surface *my_surf = (<span class="tipo">struct</span> surface *) <b>malloc</b>(<b>sizeof</b>(<span class="tipo">struct</span> surface));
+  <span class="palavra">if</span>(my_surf != NULL){
+    my_surf -> pix = <b>XCreatePixmap</b>(_dpy, _w, width, height, _depth);
+    my_surf -> width = width;
+    my_surf -> height = height;
+    my_surf -> mask = <b>XCreatePixmap</b>(_dpy, _w, width, height, (<span class="tipo">unsigned</span> long) 1);
+    <span class="palavra">if</span>(_mask_gc == None)
+        _mask_gc = <b>XCreateGC</b>(_dpy, my_surf -> mask, 0, NULL);
+    <b>XSetForeground</b>(_dpy, _mask_gc, ~0l);
+    <b>XFillRectangle</b>(_dpy, my_surf -> mask, _mask_gc, 0, 0, my_surf -> width, my_surf -> height);
+  }
+  <span class="tipo">return</span> my_surf;
+}</pre>
+    <p>
+      This function receives as argument a width and height in pixels
+      and returns a pointer to an empty <a href="#surface">surface</a>
+      with the given size.
+    </p>
+    <p>
+      If the function fails while allocating new space in the memory,
+      the function returns NULL instead.
+    </p>
+    <h3>
+      <a class="name" id="new_vector2"
+         href="javascript:playElement('code_new_vector2')">
+        struct vector2 *<br/>
+        new_vector2(float x, float y)
+      </a>
+    </h3>
+    <pre id="code_new_vector2" class="codigo">
+<span class="tipo">struct</span> vector2 *<b>new_vector2</b>(<span class="tipo">float</span> x, <span class="tipo">float</span> y){
+  <span class="tipo">struct</span> vector2 *vector;
+  vector = (<span class="tipo">struct</span> vector2 *) <b>malloc</b>(<b>sizeof</b>(<span class="tipo">struct</span> vector2));
+  if(vector != NULL){
+    vector -> x = x;
+    vector -> y = y;
+    vector -> previous = vector -> next = NULL;
+  }
+  <span class="palavra">return</span> vector;
+}</pre>
+    <p>
+      This creates a new <a href="#vector2">struct vector2</a> whose
+      "x" and "y" values are defined by the values passed as
+      arguments. The pointers "previous" and "next" are set to
+      NULL. Then, it returns a pointer for the new vector. If this
+      process fails for some reason, it returns NULL.
+    </p>
+    <p>
+      Every created vector shall be destroyed
+      with <strong>free</strong> or
+      <a href="#destroy_vector2">destroy_vector2</a> functions.
+    </p>
+    <h3>
+      <a class="name" id="new_vector3"
+         href="javascript:playElement('code_new_vector3')">
+        struct vector3 *<br/>
+        new_vector3(float x, float y, float z)
+      </a>
+    </h3>
+    <pre id="code_new_vector3" class="codigo">
+<span class="tipo">struct</span> vector3 *new_vector3(<span class="tipo">float</span> x, <span class="tipo">float</span> y, <span class="tipo">float</span> z){
+  <span class="tipo">struct</span> vector3 *new_vector;
+  new_vector = (<span class="tipo">struct</span> vector3 *) <b>malloc</b>(<b>sizeof</b>(<span class="tipo">struct</span> vector3));
+  <span class="palavra">if</span>(new_vector != NULL){
+    new_vector -> previous = new_vector -> next = new_vector -> top = NULL;
+    new_vector -> x = x;
+    new_vector -> y = y;
+    new_vector -> z = z;
+  }
+  <span class="palavra">return</span> new_vector;
+}</pre>
+    <p>
+      This creates a new <a href="#vector3">struct vector3</a> whose
+      "x", "y" and "z" values are defined by those passed as
+      arguments. The pointers "previous", "next" and "top" are set to
+      NULL. Then, it returns a pointer for the new vector. If this
+      process fails, the function returns NULL.
+    </p>
+    <p>
+      Every created <a href="#vector3">vector3</a> shall be destroyed
+      with <b>free</b> or
+      <a href="#destroy_vector3">destroy_vector3</a> functions. 
+    </p>
+    <h3>
+      <a id="new_vector4" class="name"
+         href="javascript:playElement('code_new_vector4')">
+        struct vector4 *<br/>
+        new_vector4(float w, float x, float y, float z)
+      </a>
+    </h3>
+    <pre id="code_new_vector4" class="codigo">
+<span class="tipo">struct</span> vector4 *<b>new_vector4</b>(<span class="tipo">float</span> w, <span class="tipo">float</span> x, <span class="tipo">float</span> y, <span class="tipo">float</span> z){
+  <span class="tipo">struct</span> vector4 *vector;
+  vector = (<span class="tipo">struct</span> vector4 *) <b>malloc</b>(<b>sizeof</b>(<span class="tipo">struct</span> vector4));
+  <span class="palavra">if</span>(vector != NULL){
+    vector -> previous = vector -> next = vector -> top =
+      vector -> down = NULL;
+    vector -> w = w;
+    vector -> x = x;
+    vector -> y = y;
+    vector -> z = z;
+  }
+  <span class="palavra">return</span> vector;
+}</pre>
+    <p>
+      This creates a new <a href="#vector4">struct vector4</a> whose
+      "w", "x", "y" and "z" values are defined by those passed as
+      arguments. The pointers "previous", "next", "top" and "down" are
+      set to NULL. Then, it returns a pointer for the new vector. If
+      this process fails, the function returns NULL.
+    </p>
+    <p>
+      Every created <a href="#vector4">vector4</a> shall be destroyed
+      with <b>free</b>
+      or <a href="#destroy_vector4">destroy_vector4</a> functions.
+    </p>
+    <h3>
+      <a class="name" id="play_music"
+	 href="javascript:playElement('code_play_music')">
+	void<br/>
+	play_music(char *file)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_play_music">
+<span class="tipo">void</span> <b>play_music</b>(<span class="tipo">char</span> *file){
+  <span class="palavra">if</span>(_music)
+    <b>kill</b>(_music, 9);
+  <span class="palavra">if</span>(!(_music = fork())){
+    <span class="palavra">for</span>(;;)
+      <b>_play_soundfile</b>(file, "music/");
+  }
+}</pre>
+    <p>
+      This function creates a new thread that plays an Ogg Vorbis
+      file.
+    </p>
+    <p>
+      The new thread searches for the file in
+      "/usr/share/games/YOURGAME/music/". If the game is installed,
+      the file is probably there. If not, it searches for the sound
+      inside the "music" directory in your current directory.
+    </p>
+    <p>
+      The new thread never stops to play the music. When the music is
+      over, it stars to play it again from the beginning. If you wish
+      to stop the music, use the <a href="#stop_music">stop_music</a>
+      function.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="play_sound"
+	 href="javascript:playElement('code_play_sound')">
+	void<br/>
+	play_sound(char *file)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_play_sound">
+<span class="tipo">void</span> <b>play_sound</b>(<span class="tipo">char</span> *file){
+  <span class="palavra">if</span>(!<b>fork</b>()){
+    <b>_play_soundfile</b>(file, "sound/");
+    <b>exit</b>(0);
+  }
+}</pre>
+    <p>
+      This function creates a new thread that plays an Ogg Vorbis
+      file.
+    </p>
+    <p>
+      The new thread searches for the file in
+      "/usr/share/games/YOURGAME/sound/". If the game is installed,
+      the file is probably there. If not, it searches for the sound
+      inside the "sound" directory in your current directory.
+    </p>
+    <p>
+      The new thread open doesn't communicate with the main
+      program. The sound is played until the end, even if the main
+      program finishes before. This function was created to handle
+      only minor sound effects, nothing long like a music.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="rotate_circle" 
+         href="javascript:playElement('code_rotate_circle')">
+        void<br/>
+        rotate_circle(struct vector3 *circ, float x, float y, float rad)
+      </a>
+    </h3>
+    <pre id="code_rotate_circle" class="codigo">
+<span class="tipo">void</span> <b>rotate_circle</b>(<span class="tipo">struct</span> vector3 *circ, <span class="tipo">float</span> x, <span class="tipo">float</span> y, <span class="tipo">float</span> rad){
+  <span class="tipo">long double</span> new_x, new_y;
+  new_x = (<span class="tipo">long double</span>) circ -> x - (<span class="tipo">long double</span>) x;
+  new_y = (<span class="tipo">long double</span>) circ -> y - (<span class="tipo">long double</span>) y;
+  new_x = new_x * <b>cosl</b>((<span class="tipo">long double</span>) rad) - new_y * <b>sinl</b>((<span class="tipo">long double</span>) rad);
+  new_y = ((<span class="tipo">long double</span>) circ -> x - (<span class="tipo">long double</span>) x) * 
+    <b>sinl</b>((<span class="tipo">long double</span>) rad) + new_y * <b>cosl</b>((<span class="tipo">long double</span>) rad);
+  circ -> x = (<span class="tipo">float</span>) (new_x + (<span class="tipo">long double</span>) x);
+  circ -> y = (<span class="tipo">float</span>) (new_y + (<span class="tipo">long double</span>) y);
+}</pre>
+    <p>
+      This applies a linear transformation in the circle's center
+      coordinates. This makes the circle "circ" rotates around the
+      axis (x, y) at "rad" radians.
+    </p>
+    <p>
+      It's the programmer's responsability to check for
+      overflows. If an overflow happens, probably the circle will
+      teleport itself for some strange location. 
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="rotate_polygon"
+         href="javascript:playElement('code_rotate_polygon')">
+        void<br/>
+        rotate_polygon(struct vector2 *poly, float x, float y, float rad)
+      </a>
+    </h3>
+    <pre id="code_rotate_polygon" class="codigo">
+<span class="tipo">void</span> <b>rotate_polygon</b>(<span class="tipo">struct</span> vector2 *poly, <span class="tipo">float</span> x, <span class="tipo">float</span> y, <span class="tipo">float</span> rad){
+  <span class="tipo">long double</span> new_x, new_y;
+  <span class="tipo">struct</span> vector2 *first_vector, *current_vector;
+  first_vector = current_vector = poly;
+  <span class="palavra">do</span>{
+    new_x = (<span class="tipo">long double</span>) current_vector -> x - (<span class="tipo">long double</span>) x;
+    new_y = (<span class="tipo">long double</span>) current_vector -> y - (<span class="tipo">long double</span>) y;
+    new_x =  new_x * <b>cosl</b>((<span class="tipo">long double</span>) rad) - new_y * <b>sinl</b>((<span class="tipo">long double</span>) rad);
+    new_y = ((<span class="tipo">long double</span>) current_vector -> x - (<span class="tipo">long double</span>) x) * 
+      <b>sinl</b>((<span class="tipo">long double</span>) rad) + new_y * <b>cosl</b>((<span class="tipo">long double</span>) rad);
+    current_vector -> x = (<span class="tipo">float</span>) (new_x + (<span class="tipo">long double</span>) x);
+    current_vector -> y = (<span class="tipo">float</span>) (new_y + (<span class="tipo">long double</span>) y);
+    current_vector = current_vector -> next;
+  }<span class="palavra">while</span>(current_vector != first_vector);
+}</pre>
+    <p>
+      Rotates the <a href="#polygon">polygon</a> "poly" at "rad"
+      radians in the axis (x, y). It changes all the coordinates of
+      polygon's vertices doing a linear transformation.
+    </p>
+    <p>
+      It's the programmer's responsability to check for overflows. If
+      an overflow happens, probably the polygon will be severely
+      deformed temporarily or permanently.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="stop_music"
+	 href="javascript:playElement('code_stop_music')">
+	void<br/>
+	stop_music(void)
+      </a>
+    </h3>
+    <pre class="codigo" id="code_stop_music">
+<span class="tipo">void</span> <b>stop_music</b>(<span class="tipo">void</span>){
+  <span class="palavra">if</span>(_music)
+    <b>kill</b>(_music, 9);
+}</pre>
+    <p>
+      This function checks if there's some music playing. If so, it
+      sends a signal that kills the thread that is playing the music.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="weaver_rest"
+	 href="javascript:playElement('code_weaver_rest')">
+	void<br/>
+	weaver_rest(long nanoseconds)
+      </a>
+    </h3>
+    <pre id="code_weaver_rest" class="codigo">
+<span class="tipo">void</span> <b>weaver_rest</b>(<span class="tipo">long</span> nanoseconds){
+  XdbeSwapInfo info;
+  info.swap_window = _w;
+  info.swap_action = XdbeCopied;
+  <span class="tipo">struct</span> timespec req = {0, nanoseconds}; 
+  <b>nanosleep</b>(&amp;req, NULL);
+  _b_frame.tv_sec = current_time.tv_sec;
+  _b_frame.tv_usec = current_time.tv_usec;
+  <b>gettimeofday</b>(&amp;current_time, NULL);
+  fps = 1000000 / (1000000 * (current_time.tv_sec - _b_frame.tv_sec) + current_time.tv_usec - _b_frame.tv_usec);
+  <span class="palavra">if</span>(fps == 0) fps = 1;
+  <b>XdbeSwapBuffers</b>(_dpy, &amp;info, 1);
+}</pre>
+    <p>
+      This function pauses the program for the number of nanoseconds
+      passed as argument. It's very usefull to prevent your program to
+      consume 100% of your CPU cicles inside the main loop.
+    </p>
+    <p>
+      If you use the Weaver framework, this function is positioned
+      inside the program's main loop automaticly.
+    </p>
+    <p>
+      Remember that 1,000,000,000 nanoseconds = 1 second.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h3>
+      <a class="name" id="zoom_camera"
+	 href="javascript:playElement('code_zoom_camera')">
+	void<br/>
+	zoom_camera(struct vector4 *camera, float zoom)
+      </a>
+    </h3>
+    <pre id="code_zoom_camera" class="codigo">
+<span class="tipo">void</span> <b>zoom_camera</b>(<span class="tipo">struct</span> vector4 *cam, <span class="tipo">float</span> zoom){
+  <span class="tipo">float</span> x, y;
+  <span class="comentario">// Storing the central point</span>
+  x = cam -> x + (cam -> w / 2);
+  y = cam -> y + (cam -> z / 2);
+  <span class="comentario">// Zooming</span>
+  cam -> w /= zoom;
+  cam -> z /= zoom;
+  <span class="comentario">// Restoring the central point</span>
+  cam -> x = x - (cam -> w / 2);
+  cam -> y = y - (cam -> z / 2);
+}</pre>
+    <p>
+      This function is used to zooms in and out a camera. The second
+      argument passed is how bigger you wish the images. A 2.0 shows
+      all the objects with double size. A 0.5 makes everything
+      half-sized.
+    </p>
+    <p>
+      Please, don't pass 0 or negative numbers to the function.
+    </p>
+    <p>
+      This function returns nothing.
+    </p>
+    <h2>
+      Global Variables
+    </h2>
+    <!--<h3>
+      <a class="name" id="background" href="#background">
+	surface *background;
+      </a>
+    </h3>
+    <p>
+      When you erase some element in the screen, the element is
+      replaced by pixels from the background surface.
+    </p>
+    <p>
+      By default, the background is entirely black.
+    </p>-->
+    <h3>
+      <a class="name" id="current_time" href="#current_time">
+	struct timeval current_time
+      </a>
+    </h3>
+    <p>
+      This variable stores the current time with microsecond
+      precision. To get the current time in seconds,
+      access <b>current_time -> tv_sec</b>; and to get the
+      microsecond count, access <b>current_time -> tv_usec</b>.
+    </p>
+    <p>
+      This variable is initialized
+      in <a href="#awake_the_weaver">awake_the_weaver</a> function and
+      it's always updated in the
+      <a href="#weaver_rest">weaver_rest</a> function.
+    </p>
+    <h3>
+      <a class="name" id="fps" href="#fps">
+	int fps
+      </a>
+    </h3>
+    <p>
+      This variable stores in how many frames per second the game is
+      running. It's updated automaticly
+      by <a href="#weaver_rest">weaver_rest</a> function.
+    </p>
+    <h3>
+      <a class="name" id="keyboard" href="#keyboard">
+	int keyboard[KEYS]
+      </a>
+    </h3>
+    <p>
+      This is the keyboard buffer. It's a vector with as many
+      positions as recogniseable keys in your keyboard. By default,
+      all positions have the value 0. When you presses a key, the
+      key's correspondent position in the vector has it's value
+      incremented by 1, each frame. When you release the key, it's
+      value becames 0.
+    </p>
+    <p>
+      This variable is updated every turn
+      by <a href="#get_input">get_input</a> function.
+    </p>
+    <h3>
+      <a class="name" id="mouse" href="#mouse">
+	struct{ int pressed, changed, x, y; } mouse
+      </a>
+    </h3>
+    <p>
+      This variable stores your mouse's information. By default,
+      "pressed" and "changed" values are 0. And "x", "y" always stores
+      the mouse's coordinates. In the frame where you change the
+      mouse's position, "changed" value becomes 1. In the frame where
+      you click with the mouse, "clicked" value becomes 1.
+    </p>
+    <p>
+      This variable is updated every turn
+      by <a href="#get_input">get_input</a> function.
+    </p>
+    <h3>
+      <a class="name" id="transparent_color" href="#transparent_color">
+	unsigned long transparent_color
+      </a>
+    </h3>
+    <p>
+      By default this variable value is 0x00029a. When you create a
+      new surface from a PNG image, for example, all the pixels with
+      this value will be considered transparent. You can change this
+      variable to other values if you wish. This variable is
+      initialized in <a href="#awake_the_weaver">awake_the_weaver</a>
+      function.
+    </p>
+    <h3>
+      <a class="name" id="window" href="#window">
+	surface *window
+      </a>
+    </h3>
+    <p>
+      This surface represents our
+      window. Every <a href="#surface">surface</a> blitted in the
+      window surface is blitted in the screen.
+    </p>
+    <p>
+      This is an unusual surface because you can't use it's mask. A
+      window doesn't have a mask pixmap. This variable is initialized
+      in <a href="#awake_the_weaver">awake_the_weaver</a> function.
+    </p>
+    <h3>
+      <a class="name" id="window_height" href="#window_height">
+	int window_height
+      </a>
+    </h3>
+    <p>
+      This variable stores the window height in pixels. This variable is initialized
+      in <a href="#awake_the_weaver">awake_the_weaver</a> function.
+    </p>
+    <h3>
+      <a class="name" id="window_width" href="#window_width">
+	int window_width
+      </a>
+    </h3>
+    <p>
+      This variable stores the window width in pixels. This variable is initialized
+      in <a href="#awake_the_weaver">awake_the_weaver</a> function.
+    </p>
+    <h2 id="macros">
+      Macros
+    </h2>
+    <pre class="codigo_visivel">
+<span class="comentario">// Defining colors...</span>
+<span class="precompil">#define</span> NOT_IMPORTANT       0x000000
+<span class="precompil">#define</span> BLACK               0x000000
+<span class="precompil">#define</span> BLUE                0x0000ff
+<span class="precompil">#define</span> GREEN               0x00ff00
+<span class="precompil">#define</span> CYAN                0x00ffff
+<span class="precompil">#define</span> BROWN               0x964b00
+<span class="precompil">#define</span> BEIGE               0xf5f5dc
+<span class="precompil">#define</span> RED                 0xff0000
+<span class="precompil">#define</span> YELLOW              0xffff00
+<span class="precompil">#define</span> WHITE               0xffffff
+
+<span class="comentario">// Number of keys watched</span>
+#define KEYS 0xffff+0x4
+
+<span class="comentario">// Position of each key</span>
+<span class="precompil">#define</span> UP          XK_Up
+<span class="precompil">#define</span> RIGHT       XK_Right
+<span class="precompil">#define</span> DOWN        XK_Down
+<span class="precompil">#define</span> LEFT        XK_Left
+<span class="precompil">#define</span> PLUS        XK_KP_Add
+<span class="precompil">#define</span> MINUS       XK_KP_Subtract
+<span class="precompil">#define</span> SHIFT       KEYS-1
+<span class="precompil">#define</span> CTRL        KEYS-2
+<span class="precompil">#define</span> ESC         XK_Escape
+<span class="precompil">#define</span> A           XK_a
+<span class="precompil">#define</span> S           XK_s
+<span class="precompil">#define</span> D           XK_d
+<span class="precompil">#define</span> W           XK_w
+<span class="precompil">#define</span> ENTER       XK_Return
+<span class="precompil">#define</span> LEFT_CTRL   XK_Control_L
+<span class="precompil">#define</span> RIGHT_CTRL  XK_Control_R
+<span class="precompil">#define</span> F1          XK_F1
+<span class="precompil">#define</span> ANY         KEYS-3
+<span class="precompil">#define</span> ALT         KEYS-4
+<span class="precompil">#define</span> F2          XK_F2
+<span class="precompil">#define</span> F3          XK_F3
+<span class="precompil">#define</span> F4          XK_F4
+<span class="precompil">#define</span> F5          XK_F5
+<span class="precompil">#define</span> F6          XK_F6
+<span class="precompil">#define</span> F7          XK_F7
+<span class="precompil">#define</span> F8          XK_F8
+<span class="precompil">#define</span> F9          XK_F9
+<span class="precompil">#define</span> F10         XK_F10
+<span class="precompil">#define</span> F11         XK_F11
+<span class="precompil">#define</span> F12         XK_F12
+<span class="precompil">#define</span> BACKSPACE   XK_BackSpace
+<span class="precompil">#define</span> TAB         XK_Tab
+<span class="precompil">#define</span> PAUSE       XK_Pause
+<span class="precompil">#define</span> DELETE      XK_Delete
+<span class="precompil">#define</span> SCROLL_LOCK XK_Scroll_Lock
+<span class="precompil">#define</span> HOME        XK_Home
+<span class="precompil">#define</span> PAGE_UP     XK_Page_Up
+<span class="precompil">#define</span> PAGE_DOWN   XK_Page_Down
+<span class="precompil">#define</span> END         XK_End
+<span class="precompil">#define</span> INSERT      XK_Insert
+<span class="precompil">#define</span> NUM_LOCK    XK_Num_Lock
+<span class="precompil">#define</span> ZERO        XK_KP_0
+<span class="precompil">#define</span> ONE         XK_KP_1
+<span class="precompil">#define</span> TWO         XK_KP_2
+<span class="precompil">#define</span> THREE       XK_KP_3
+<span class="precompil">#define</span> FOUR        XK_KP_4
+<span class="precompil">#define</span> FIVE        XK_KP_5
+<span class="precompil">#define</span> SIX         XK_KP_6
+<span class="precompil">#define</span> SEVEN       XK_KP_7
+<span class="precompil">#define</span> EIGHT       XK_KP_8
+<span class="precompil">#define</span> NINE        XK_KP_9
+<span class="precompil">#define</span> LEFT_SHIFT  XK_Shift_L
+<span class="precompil">#define</span> RIGHT_SHIFT XK_Shift_R
+<span class="precompil">#define</span> CAPS_LOCK   XK_Caps_Lock
+<span class="precompil">#define</span> LEFT_ALT    XK_Alt_L
+<span class="precompil">#define</span> RIGHT_ALT   XK_Alt_R
+<span class="precompil">#define</span> Q           XK_q
+<span class="precompil">#define</span> E           XK_e
+<span class="precompil">#define</span> R           XK_r
+<span class="precompil">#define</span> T           XK_t
+<span class="precompil">#define</span> Y           XK_y
+<span class="precompil">#define</span> U           XK_u
+<span class="precompil">#define</span> I           XK_i
+<span class="precompil">#define</span> O           XK_o
+<span class="precompil">#define</span> P           XK_p
+<span class="precompil">#define</span> F           XK_f
+<span class="precompil">#define</span> G           XK_g
+<span class="precompil">#define</span> H           XK_h
+<span class="precompil">#define</span> J           XK_j
+<span class="precompil">#define</span> K           XK_k
+<span class="precompil">#define</span> L           XK_l
+<span class="precompil">#define</span> Z           XK_z
+<span class="precompil">#define</span> X           XK_x
+<span class="precompil">#define</span> C           XK_c
+<span class="precompil">#define</span> V           XK_v
+<span class="precompil">#define</span> B           XK_b
+<span class="precompil">#define</span> N           XK_n
+<span class="precompil">#define</span> M           XK_m</pre>
+    <hr/>
+    <p>
+      <a href="http://validator.w3.org/check?uri=referer">
+        <img src="http://www.w3.org/Icons/valid-xhtml11-blue"
+             alt="XHTML 1.1 válido!" height="31" width="88"/>
+      </a>
+      <a href="http://jigsaw.w3.org/css-validator/check/referer">
+        <img style="border:0;width:88px;height:31px"
+             src="http://jigsaw.w3.org/css-validator/images/vcss-blue"
+             alt="CSS válido!" />
+      </a>
+    </p>
+    </div>
+       <script type="text/javascript">
+      var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+      document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+    </script>
+    <script type="text/javascript">
+      try {
+      var pageTracker = _gat._getTracker("UA-11960088-1");
+      pageTracker._trackPageview();
+      } catch(err) {}
+    </script>
+  </body>
+</html>
