@@ -801,17 +801,23 @@
     </h3>
     <pre class="codigo" id="code_apply_texture">
 <span class="tipo">void</span> <b>apply_texture</b>(<span class="tipo">struct</span> surface *src, <span class="tipo">struct</span> surface *dest){
-  <span class="tipo">int</span> x, y;
+  <span class="tipo">int</span> x, y, counter = 0;
+    <span class="palavra">if</span>(src -> width &lt; 1 || src -> height &lt; 1)
+    <span class="palavra">return</span>;
   <span class="palavra">for</span>(x = 0; x &lt; dest -> width; x += src -> width)
-    <span class="palavra">for</span>(y = 0; y &lt; dest -> height; y += src -> height)
+    <span class="palavra">for</span>(y = 0; y &lt; dest -> height; y += src -> height){
+      counter ++;
       <b>XCopyArea</b>(_dpy, src -> pix, dest -> pix, _gc, 0, 0, src -> width, src -> height, x, y);
+      <span class="palavra">if</span>(counter > 1000){ <b>XFlush</b>(_dpy); counter = 0; }
+    }
   <b>XFlush</b>(_dpy);
 }</pre>
     <p>
       This function fills the second surface with a texture provided
       by the first surface. The two surfaces should be initialized
       with <a href="#new_image">new_image</a>
-      or <a href="#new_surface">new_surface</a>.
+      or <a href="#new_surface">new_surface</a>. If a surface without
+      width or height is used as a texture, the function does nothing.
     </p>
     <p>
       This function returns nothing.
