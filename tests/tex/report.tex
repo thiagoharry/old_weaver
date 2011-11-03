@@ -27,7 +27,7 @@ cpu family	: 6
 model		: 23
 model name	: Intel(R) Celeron(R) CPU          900  @ 2.20GHz
 stepping	: 10
-cpu MHz		: 2194.498
+cpu MHz		: 2194.574
 cache size	: 1024 KB
 fdiv_bug	: no
 hlt_bug		: no
@@ -38,7 +38,7 @@ fpu_exception	: yes
 cpuid level	: 13
 wp		: yes
 flags		: fpu vme de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss tm pbe nx lm constant_tsc up arch_perfmon pebs bts aperfmperf pni dtes64 monitor ds_cpl tm2 ssse3 cx16 xtpr pdcm xsave lahf_lm
-bogomips	: 4388.99
+bogomips	: 4389.14
 clflush size	: 64
 cache_alignment	: 64
 address sizes	: 36 bits physical, 48 bits virtual
@@ -48,42 +48,42 @@ power management:
 \subsection{Memory Info}
 \begin{verbatim}
 MemTotal:        1990264 kB
-MemFree:          322000 kB
-Buffers:          100280 kB
-Cached:          1163888 kB
+MemFree:          841500 kB
+Buffers:           67420 kB
+Cached:           788656 kB
 SwapCached:            0 kB
-Active:           569184 kB
-Inactive:         944880 kB
-Active(anon):     318224 kB
-Inactive(anon):    44212 kB
-Active(file):     250960 kB
-Inactive(file):   900668 kB
+Active:           320772 kB
+Inactive:         692236 kB
+Active(anon):     225956 kB
+Inactive(anon):    29712 kB
+Active(file):      94816 kB
+Inactive(file):   662524 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 HighTotal:       1115476 kB
-HighFree:           1612 kB
+HighFree:         159340 kB
 LowTotal:         874788 kB
-LowFree:          320388 kB
+LowFree:          682160 kB
 SwapTotal:             0 kB
 SwapFree:              0 kB
-Dirty:               552 kB
+Dirty:               688 kB
 Writeback:             0 kB
-AnonPages:        249900 kB
-Mapped:            78524 kB
-Shmem:            112544 kB
-Slab:             122384 kB
-SReclaimable:      75244 kB
-SUnreclaim:        47140 kB
-KernelStack:        2032 kB
-PageTables:         5156 kB
+AnonPages:        156924 kB
+Mapped:            65140 kB
+Shmem:             98744 kB
+Slab:             103276 kB
+SReclaimable:      56124 kB
+SUnreclaim:        47152 kB
+KernelStack:        1912 kB
+PageTables:         4728 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:      995132 kB
-Committed_AS:     944404 kB
+Committed_AS:     748448 kB
 VmallocTotal:     122880 kB
-VmallocUsed:       33076 kB
-VmallocChunk:      56812 kB
+VmallocUsed:       33232 kB
+VmallocChunk:      47228 kB
 HardwareCorrupted:     0 kB
 HugePages_Total:       0
 HugePages_Free:        0
@@ -97,11 +97,22 @@ DirectMap4M:      892928 kB
 \subsection{apply\_surface(a,b)}
 Function used for filling a surface with a texture
 stored in other surface.
+In this test, \emph{a} is a $1\times1$ surface
+and \emph{b} is a square surface with $x$ pixels.
 
 \includegraphics{tests/tex/apply_surface.eps}
 
 As this function has a linear theoretical
 complexity, the time, in nanosseconds is 
-approximated by the function $f(x)=5.21x$
+approximated by the function $f(x)=8.51x$
+in this computer.
+\subsection{awake\_the\_weaver()}
+Function used to initialize the Weaver API.
+
+\includegraphics{tests/tex/awake_the_weaver.eps}
+
+As this function has a constant theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=54669.72$
 in this computer.
 \end{document}

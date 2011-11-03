@@ -34,6 +34,11 @@ while (( $j < 101 )); do
     make &> /dev/null
     j=$(($j+1))
 done
+
+echo "set output \"apply_surface.eps\"" > ../gnuplot_instructions.txt
+echo "set terminal postscript eps enhanced;" >> ../gnuplot_instructions.txt
+echo "plot \"data.txt\" with lines;" >> ../gnuplot_instructions.txt
+
 echo "\subsection{apply\_surface(a,b)}" >> ../tex/report.tex
 echo "Function used for filling a surface with a texture" >> ../tex/report.tex
 echo "stored in other surface." >> ../tex/report.tex

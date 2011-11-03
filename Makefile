@@ -86,7 +86,16 @@ install: test_dependencies
 uninstall:
 	rm -rf ${SCRIPT_DIR}/weaver
 	rm -rf ${DATA_DIR}
-test:
+test: test_dependencies
+	tests/test_start.sh
+	tests/test_apply_surface.sh
+	tests/test_awake_the_weaver.sh
+	tests/test_end.sh
+test_awake_the_weaver: test_dependencies
+	tests/test_start.sh
+	tests/test_awake_the_weaver.sh
+	tests/test_end.sh
+test_apply_surface: test_dependencies
 	tests/test_start.sh
 	tests/test_apply_surface.sh
 	tests/test_end.sh
@@ -97,3 +106,4 @@ clean:
 	find . -name "*.dvi" -exec rm -f {} \;
 	find . -name "*.log" -exec rm -f {} \;
 	find . -name "*.aux" -exec rm -f {} \;
+	find . -name "*.eps" -exec rm -f {} \;	

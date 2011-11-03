@@ -21,7 +21,7 @@
 WEAVER=/usr/share/weaver
 # If weaver isn't installed, it should work too
 if ! [ -a ${WEAVER} ]; then
-    WEAVER=${0:0:$((${#0}-5))}
+    WEAVER=${0:0:$((${#0}-6))}
 fi
 VERSION=1.2-unstable
 
@@ -128,18 +128,32 @@ function update_weaver(){
 # This function creates a new Weaver Project, whose name is passed as 
 # argument
 function weaver_create(){
+    mkdir $1 
+    if [[ ${WEAVER} == "/usr/share/weaver" ]]; then
+	cp -r ${WEAVER}/{fonts,images,LICENSE,Makefile,music,sound,src} $1
+    else
+	mkdir $1/{fonts,images,music,sound}
+	cp -r ${WEAVER}/src/{LICENSE,Makefile} $1
+	cp -r ${WEAVER}/src/src $1
+    fi
     # Creating a new Weaver project
     rm -f $1/reserved_words
     NAME=$(grep "^$(whoami):" /etc/passwd | cut -d : -f 5 | sed s/,.*//)       
     YEAR=$(date +%Y)
     PROJ_NAME=$(basename $1)
-    sed s/dummy/"${PROJ_NAME}"/ ${WEAVER}/Makefile > $1/Makefile &&
-    sed s/DUMMY/"${PROJ_NAME}"/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.c &&
-    sed s/DUMMY/"${PROJ_NAME}"/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.h &&
+    sed s/dummy/"${PROJ_NAME}"/ ${1}/Makefile > $1/Makefile~ &&
+    mv $1/Makefile{~,} &&
+    sed s/DUMMY/"${PROJ_NAME}"/ ${1}/src/game.c | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.c~ &&
+    mv $1/src/game.c{~,} &&
+    sed s/DUMMY/"${PROJ_NAME}"/ ${1}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.h~ &&
+    mv $1/src/game.h{~,} &&
     echo "#endif" >> $1/src/game.h &&
-    sed s/DUMMY/"${PROJ_NAME}"/ ${WEAVER}/src/weaver/sound.c > $1/src/weaver/sound.c &&
-    sed s/DUMMY/"${PROJ_NAME}"/ ${WEAVER}/src/weaver/image.c > $1/src/weaver/image.c &&
-    sed s/DUMMY/"${PROJ_NAME}"/ ${WEAVER}/src/weaver/font.c > $1/src/weaver/font.c &&
+    sed s/DUMMY/"${PROJ_NAME}"/ ${1}/src/weaver/sound.c > $1/src/weaver/sound.c~ &&
+    mv $1/src/weaver/sound.c{~,} &&
+    sed s/DUMMY/"${PROJ_NAME}"/ ${1}/src/weaver/image.c > $1/src/weaver/image.c~ &&
+    mv $1/src/weaver/image.c{~,} &&
+    sed s/DUMMY/"${PROJ_NAME}"/ ${1}/src/weaver/font.c > $1/src/weaver/font.c~ &&
+    mv $1/src/weaver/font.c{~,} &&
     echo $1 > $1/.web &&
     echo $1 > $1/src/.web &&
     echo $1 > $1/src/weaver/.web &&
@@ -180,9 +194,7 @@ else
 	else
 	    update_weaver $1
 	fi
-    elif mkdir $1 2> /dev/null && cp -r ${WEAVER}/* $1 2> /dev/null; then
-	weaver_create $1
     else
-	echo "Sorry, your project could not be created." 
+	weaver_create $1
     fi
 fi
