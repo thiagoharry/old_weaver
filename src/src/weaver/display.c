@@ -28,14 +28,15 @@
 // Flushes the buffer in the screen
 void flush(void){
   XdbeSwapInfo info;
-  info.swap_window = _w;
-  info.swap_action = XdbeCopied;
-  XdbeSwapBuffers(_dpy, &info, 1);
-  XFlush(_dpy);
+  info.swap_window = _w;           // Window for which to swap buffers
+  info.swap_action = XdbeCopied;   // Action to be performed
+  XdbeSwapBuffers(_dpy, &info, 1); // Swap 1 window
+  XFlush(_dpy);                    // Flushes the output buffer
 }
 
 // This function adds mask bits in a surface
-void draw_rectangle_mask(struct surface *my_surf, int x, int y, int width, int height){
+void draw_rectangle_mask(struct surface *my_surf, int x, int y, int width, 
+			 int height){
   XSetForeground(_dpy, _mask_gc, 0l);
   XFillRectangle(_dpy, my_surf -> mask, _mask_gc, x, y, width, height);
 }

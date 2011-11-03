@@ -805,13 +805,19 @@
   <span class="palavra">for</span>(x = 0; x &lt; dest -> width; x += src -> width)
     <span class="palavra">for</span>(y = 0; y &lt; dest -> height; y += src -> height)
       <b>XCopyArea</b>(_dpy, src -> pix, dest -> pix, _gc, 0, 0, src -> width, src -> height, x, y);
+  <b>XFlush</b>(_dpy);
 }</pre>
     <p>
       This function fills the second surface with a texture provided
-      by the first surface.
+      by the first surface. The two surfaces should be initialized
+      with <a href="#new_image">new_image</a>
+      or <a href="#new_surface">new_surface</a>.
     </p>
     <p>
       This function returns nothing.
+    </p>
+    <p>
+      This function exists since version 0.1.
     </p>
     <h3>
       <a class="name" id="awake_the_weaver"

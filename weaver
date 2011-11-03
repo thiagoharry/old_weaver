@@ -20,145 +20,155 @@
 #WEAVER=/home/bcc/tla06/weaver/src
 WEAVER=/usr/share/weaver 
 
-if [ -a .web ]; then # We're invoking weaver from inside a Weaver Directory
-    if [ -z $1 ]; then # No arguments. Clean recursively the directory
-        find . -name "*~" -exec rm -f {} \;
-        find . -name "*\#" -exec rm -f {} \;
-        find . -name "*.o" -exec rm -f {} \;
+# This function cleans the current directory recursively, erasing temporary
+# files
+function clean_directory(){
+    find . -name "*~" -exec rm -f {} \;
+    find . -name "*\#" -exec rm -f {} \;
+    find . -name "*.o" -exec rm -f {} \;
+}
+
+# This function prints a help message when the user is inside a Weaver
+# Directory
+function weaver_directory_help(){
+    echo "       \\                You are inside a Weaver Directory." 
+    echo "        \\______/        The following command uses are available:"
+    echo "        /\\____/\\"
+    echo "       / /\\__/\\ \\       weaver"
+    echo "    __/_/_/\\/\\_\\_\\___     Erases recursively temporary files."
+    echo "      \\ \\ \\/\/ / /"
+    echo "       \\ \\/__\\/ /       weaver NAME"
+    echo "        \\/____\\/          Creates NAME.c and NAME.h, updating"
+    echo "        /      \\          the Makefile and headers"
+    echo "       /"
+}
+
+# This function prints a help message when the user is outside a 
+# Weaver Directory
+function weaver_help(){
+        echo "    .  .     You are outside a Weaver Directory."
+        echo "   .|  |.    The following command uses are available:"
+        echo "   ||  ||"
+        echo "   \\\\()//  weaver"
+        echo "   .={}=.      Print this message and exits."
+        echo "  / /\`'\\ \\"
+        echo "  \` \\  / '  weaver PROJECT_NAME"
+        echo "     \`'        Creates a new Weaver Directory with a new"
+	echo "                project."
+}
+
+# This function creates a new "module", new  ".c" and ".h" files in the
+# src/ directory whith the name passed as argument. The Makefiles and
+# header files are also updated
+function create_module(){
+    if [ -a src/${1}.c ]; then
+	echo "You already have source files with these names."
+    else
+	# Project root address
+        ADDR=$(echo $(pwd) | sed s/$(head -n 1 .web).*//)$(head -n 1 .web)
+	# Project name
+        PROJ=$(head -n 1 .web)
+	# User name
+	NAME=$(grep "^$(whoami):" /etc/passwd | cut -d : -f 5 | sed s/,.*//)
+	# Current year
+	YEAR=$(date +%Y)
+	cd $ADDR
+	# Creating the files
+	sed s/DUMMY/${PROJ}/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi/Copyright" (C) "${YEAR}\ "${NAME}"/ | head -n 18 > src/${1}.c
+	echo "#include \"${1}.h\"" >> src/${1}.c
+	echo >> src/${1}.h
+	sed s/DUMMY/${PROJ}/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ | sed s/_GAME_H_/_$(echo ${1} | tr [:lower:] [:upper:])_H_/ > src/${1}.h
+	# Updating header files
+	for i in src/*.h; do
+	    name=$(basename $i)
+	    name=${name:0:${#name}-2}
+	    sed s/\#define\ _$(echo $name | tr [:lower:] [:upper:])_H_/\#define\ _$(echo $name | tr [:lower:] [:upper:])_H_"\n"\#include\ \"${1}.h\"/ $i > $i~
+	    mv $i~ $i
+	    echo "#include \"${name}.h\"" >> src/${i}.h
+	done
+	echo "#endif" >> src/${i}.h
+	# Updating Makefiles
+	sed s/PROG_OBJ=/PROG_OBJ=${1}.o\ / Makefile | sed s:PROG_HEAD=:PROG_HEAD=src/${1}.h\ : > Makefile~
+        sed s/\#GAME_END/${1}.o:" src\/"${1}".c \${PROG_HEAD}\n\t\${CC} -c src\/"${1}".c\n"\#GAME_END/ Makefile~ > Makefile
+        rm Makefile~
+    fi
+}
+
+
+if [ -a .web ]; then 
+    if [ -z $1 ]; then
+	# Calling weaver without arguments in a Weaver Directory
+        clean_directory
     else
         if [[ $1 == "--help" ]]; then
-	    # --help invoked. Printing instructions...
-            echo "       \\                    weaver: remove files ended with '~' or '#'" 
-            echo "        \\______/"
-            echo "        /\\____/\\           weaver EXT: Creates new EXT.c and EXT.h files."
-            echo "       / /\\__/\\ \\       "
-            echo "    __/_/_/\\/\\_\\_\\___  "
-            echo "      \\ \\ \\/\/ / /"
-            echo "       \\ \\/__\\/ /"
-            echo "        \\/____\\/"
-            echo "        /      \\"
-            echo "       /"
+	    # Using weaver --help in a Weaver Directory
+	    weaver_directory_help
             exit
         else
-            if [ -a ${1}.c ]; then
-		echo "The module $1 already exists. Please, choose another \
-name"
-            else
-		# Creating new files ${1}.{c,h}
-                ADDR=$(echo $(pwd) | sed s/$(head -n 1 .web).*//)$(head -n 1 .web)
-                PROJ=$(head -n 1 .web)
-		NAME=$(grep "^$(whoami):" /etc/passwd | cut -d : -f 5 | sed s/,.*//)
-                
-                YEAR=$(date +%Y)
-                cd $ADDR
-		for i in $(ls src/*.h); do
-		    name=$(basename $i)
-		    name=${name:0:${#name}-2}
-		    sed s/\#define\ _$(echo $name | tr [:lower:] [:upper:])_H_/\#define\ _$(echo $name | tr [:lower:] [:upper:])_H_"\n"\#include\ \"${1}.h\"/ $i > $i~
-		    mv $i~ $i
-		done
-		sed s/DUMMY/${PROJ}/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi/Copyright" (C) "${YEAR}\ "${NAME}"/ | head -n 18 > src/${1}.c
-		echo "#include \"${1}.h\"" >> src/${1}.c
-		echo >> src/${1}.h
-                sed s/DUMMY/${PROJ}/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ | sed s/_GAME_H_/_$(echo ${1} | tr [:lower:] [:upper:])_H_/ > src/${1}.h
-                sed s/PROG_OBJ=/PROG_OBJ=${1}.o\ / Makefile | sed s:PROG_HEAD=:PROG_HEAD=src/${1}.h\ : > Makefile~
-                sed s/\#GAME_END/${1}.o:" src\/"${1}".c \${PROG_HEAD}\n\t\${CC} -c src\/"${1}".c\n"\#GAME_END/ Makefile~ > Makefile
-                rm Makefile~
-
-		sed s/\#define\ _$(echo ${1} | tr [:lower:] [:upper:])_H_/\#define\ _$(echo ${1} | tr [:lower:] [:upper:])_H_"\n#include \"weaver\/weaver.h\""/ src/${1}.h > src/${1}.h~
-		mv src/${1}.h~ src/${1}.h
-		for i in $(ls src/*.h); do
-		    name=$(basename $i)
-		    if [ $name == ${1}.h ]; then
-			continue
-		    fi
-		    sed s/\#define\ _$(echo ${1} | tr [:lower:] [:upper:])_H_/\#define\ _$(echo ${1} | tr [:lower:] [:upper:])_H_"\n#include \"${name}\""/ src/${1}.h > src/${1}.h~
-		    mv src/${1}.h~ src/${1}.h
-		done
-            fi
+	    # Calling weaver with arguments in a Weaver Directory
+       	    create_module $1
         fi
     fi
 else
-    # We are not inside a Weaver Directory
-    if [ -z $1 ]; then
-	# No arguments! Print instructions
-        echo "    .  .     weaver PROJECT_NAME"
-        echo "   .|  |."
-        echo "   ||  ||"
-        echo "   \\\\()//  You must pass the name of the new"
-        echo "   .={}=.    project as argument."
-        echo "  / /\`'\\ \\"
-        echo "  \` \\  / ' "
-        echo "     \`'"
-        exit
-    else 
-        if [[ $1 == "--help" ]]; then
-	    # --help invoked
-            echo "    .  .     weaver PROJECT_NAME"
-            echo "   .|  |."
-            echo "   ||  ||"
-            echo "   \\\\()//  You must pass the name of the new"
-            echo "   .={}=.    project as argument."
-            echo "  / /\`'\\ \\"
-            echo "  \` \\  / ' "
-            echo "     \`'"
-            exit
-        elif [[ $1 == "--version" ]]; then
+    if [[  -z $1  ||  $1 == "--help" ]]; then
+	# Called without arguments
+	weaver_help
+    elif [[ $1 == "--version" ]]; then
 	    # --version invoked
-            echo "WEAVER -- Version Alpha"    
-        else
-	    if grep "^[ ]*"$1"[ ]*$" ${WEAVER}/reserved_words &> /dev/null; then 
+        echo "WEAVER -- Version Alpha"    
+    else
+	if grep "^[ ]*"$1"[ ]*$" ${WEAVER}/reserved_words &> /dev/null; then 
 		# Trying to create a project with a reserved name
-		echo $1" is a reserved name. Please, choose another name for your project."
-	    elif [ -a $1/.web ]; then #Project  exists. Update it with the current Weaver version
+	    echo $1" is a reserved name. Please, choose another name for your project."
+	elif [ -a $1/.web ]; then #Project  exists. Update it with the current Weaver version
 		# Take the old information about the year and copyright holder
-		YEAR=$(grep "Copyright (C) " $1/src/game.c | sed s/^" "*// | sed s/" "+/" "/ | cut -d ' ' -f 3)
-		COUNT=$(( $(echo $YEAR | grep -o "," | wc -l | sed s/\ //g) + 1 ))
-		if [ $(echo $YEAR | cut -d , -f $COUNT) != $(date +%Y) ]; then
-		    YEAR=${YEAR}","$(date +%Y)
-
-		fi
-		NAME=$(grep "Copyright (C) " $1/src/game.c | sed s/^" "*// | sed s/" "+/" "/ | cut -d ' ' -f 4-)
+	    YEAR=$(grep "Copyright (C) " $1/src/game.c | sed s/^" "*// | sed s/" "+/" "/ | cut -d ' ' -f 3)
+	    COUNT=$(( $(echo $YEAR | grep -o "," | wc -l | sed s/\ //g) + 1 ))
+	    if [ $(echo $YEAR | cut -d , -f $COUNT) != $(date +%Y) ]; then
+		YEAR=${YEAR}","$(date +%Y)
 		
+	    fi
+	    NAME=$(grep "Copyright (C) " $1/src/game.c | sed s/^" "*// | sed s/" "+/" "/ | cut -d ' ' -f 4-)
+	    
 		# Updating Weaver API
-		cp -r ${WEAVER}/reserved_words $1 2> /dev/null
-                cp -r ${WEAVER}/src/weaver $1/src 2> /dev/null
-
+	    cp -r ${WEAVER}/reserved_words $1 2> /dev/null
+            cp -r ${WEAVER}/src/weaver $1/src 2> /dev/null
+	    
 		# Updating year and copyright holder
-		for i in $(ls $1/src/*.{c,h}); do 
-		    file=$(basename $i)
-		    sed s/Copyright\ \(C\)\ .*$/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ $1/src/$file > $1/src/${file}~
-		    mv $1/src/$file~ $1/src/$file
-		done
-
+	    for i in $(ls $1/src/*.{c,h}); do 
+		file=$(basename $i)
+		sed s/Copyright\ \(C\)\ .*$/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ $1/src/$file > $1/src/${file}~
+		mv $1/src/$file~ $1/src/$file
+	    done
+	    
 		# Correcting some names in some source code files
+            sed s/DUMMY/$1/ ${WEAVER}/src/weaver/sound.c > $1/src/weaver/sound.c
+            sed s/DUMMY/$1/ ${WEAVER}/src/weaver/image.c > $1/src/weaver/image.c
+            sed s/DUMMY/$1/ ${WEAVER}/src/weaver/font.c > $1/src/weaver/font.c
+        else 
+	    if mkdir $1 2> /dev/null && cp -r ${WEAVER}/* $1 2> /dev/null; then
+		    # Creating a new Weaver project
+		rm -f $1/reserved_words
+		NAME=$(grep "^$(whoami):" /etc/passwd | cut -d : -f 5 | sed s/,.*//)
+                
+                YEAR=$(date +%Y)
+                sed s/dummy/$1/ ${WEAVER}/Makefile > $1/Makefile
+                sed s/DUMMY/$1/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.c
+                sed s/DUMMY/$1/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.h
+		echo "#endif" >> $1/src/game.h
                 sed s/DUMMY/$1/ ${WEAVER}/src/weaver/sound.c > $1/src/weaver/sound.c
                 sed s/DUMMY/$1/ ${WEAVER}/src/weaver/image.c > $1/src/weaver/image.c
-                sed s/DUMMY/$1/ ${WEAVER}/src/weaver/font.c > $1/src/weaver/font.c
-            else 
-		if mkdir $1 2> /dev/null && cp -r ${WEAVER}/* $1 2> /dev/null; then
-		    # Creating a new Weaver project
-		    rm -f $1/reserved_words
-		    NAME=$(grep "^$(whoami):" /etc/passwd | cut -d : -f 5 | sed s/,.*//)
-                    
-                    YEAR=$(date +%Y)
-                    sed s/dummy/$1/ ${WEAVER}/Makefile > $1/Makefile
-                    sed s/DUMMY/$1/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.c
-                    sed s/DUMMY/$1/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.h
-                    sed s/DUMMY/$1/ ${WEAVER}/src/weaver/sound.c > $1/src/weaver/sound.c
-                    sed s/DUMMY/$1/ ${WEAVER}/src/weaver/image.c > $1/src/weaver/image.c
-		    sed s/DUMMY/$1/ ${WEAVER}/src/weaver/font.c > $1/src/weaver/font.c
-                    echo $1 > $1/.web
-                    echo $1 > $1/src/.web
-                    echo $1 > $1/src/weaver/.web
-                    echo $1 > $1/images/.web
-                    echo $1 > $1/sound/.web
-		    echo $1 > $1/fonts/.web
-		    echo $1 > $1/music/.web
-		else
-		    echo "Sorry, your project could not be created." 
-		fi
-            fi
-	fi
+		sed s/DUMMY/$1/ ${WEAVER}/src/weaver/font.c > $1/src/weaver/font.c
+                echo $1 > $1/.web
+                echo $1 > $1/src/.web
+                echo $1 > $1/src/weaver/.web
+                echo $1 > $1/images/.web
+                echo $1 > $1/sound/.web
+		echo $1 > $1/fonts/.web
+		echo $1 > $1/music/.web
+	    else
+		echo "Sorry, your project could not be created." 
+	    fi
+        fi
     fi
 fi

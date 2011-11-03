@@ -43,6 +43,12 @@ void may_the_weaver_sleep(void){
   stop_music();
   if(_sound)
     kill(_sound, 9);
+  XFreeGC(_dpy, _gc);
+  free(window);
+  destroy_surface(background);
+  XdbeDeallocateBackBufferName(_dpy, _b);  
+  XCloseDisplay(_dpy);
+
   // It's causing a segmentation fault in some systems...
   // Why?
   //png_destroy_read_struct(&png_ptr, &info_ptr, NULL);
@@ -568,7 +574,18 @@ void film_circle(struct vector4 *camera, struct vector3 *circle,
 void film_fullcircle(struct vector4 *camera, struct vector3 *circle, 
 		     unsigned color){
   int x, y, height, width, limited_camera;
+  int inside = 0;
   limited_camera = 0;
+  
+  // If the circle is outside the camera, return
+  if(circle -> x + circle -> z > camera -> x && 
+     circle -> x - circle -> z < camera -> x + camera -> w &&
+     circle -> y + circle -> z > camera -> y &&
+     circle -> y - circle -> z < camera -> y + camera -> z)
+    inside = 1;
+  if(!inside)
+    return;
+  inside = 0;
 
   x = (int) (((circle -> x - camera -> x) / camera -> w) * window_width);
   y = (int) (((circle -> y - camera -> y) / camera -> z) * window_height);
@@ -589,6 +606,19 @@ void film_fullcircle(struct vector4 *camera, struct vector3 *circle,
 		    (float) window_height);
   }
   if(limited_camera){
+    // If the circle is entirely inside the camera, we don't need to use 
+    // aux surfaces
+    if(circle -> x > camera -> x + circle -> z &&
+       circle -> x < camera -> x + camera -> w - circle -> z &&
+       circle -> y > camera -> y + circle -> z &&
+       circle -> y < camera -> y + camera -> z - circle -> z){
+      fill_ellipse((long) camera -> previous + x - width / 2, 
+		   (long) camera -> top + y - height / 2, width, height, color);
+      /*XDrawArc(_dpy, surf -> pix, _gc, x - width / 2, y - height / 2, width, 
+	       height, 0, 23040);
+      XFillArc(_dpy, surf -> pix, _gc, x - width / 2, y - height / 2, width, 
+      height, 0, 23040);*/
+    }
     if(circle -> x < (long) camera -> x + (long) camera -> w + 
        (long) (2 * circle -> z) && 
        circle -> x > (long) camera -> x - (long) (2 * circle -> z) &&
@@ -634,6 +664,23 @@ void _film_fullpolygon(struct vector4 *camera, struct vector2 *polygon,
   int limited_camera = 0, number_of_points = 0;
   float smallest_x = FLT_MAX, smallest_y = FLT_MAX;
   float biggest_x  = FLT_MIN, biggest_y  = FLT_MIN;
+  int inside = 0; // The polygon is entirely inside the camera?
+
+  do{
+    if(current_vertex -> x > camera -> x && 
+       current_vertex -> x < camera -> x + camera -> w &&
+       current_vertex -> y > camera -> y &&
+       current_vertex -> y < camera -> y + camera -> z){
+      inside = 1;
+      current_vertex = polygon;
+      break;
+    }      
+    current_vertex = current_vertex -> next;
+  }while(current_vertex != polygon);
+  if(!inside)
+    return;
+  inside = 0;
+
 
   if(!erase)
     XSetFillRule(_dpy, _gc, WindingRule);
@@ -651,7 +698,7 @@ void _film_fullpolygon(struct vector4 *camera, struct vector2 *polygon,
   // the extreme points
   do{
     number_of_points ++;
-    if(erase){
+    if(erase || limited_camera){
       if(current_vertex -> x < smallest_x)
 	smallest_x = current_vertex -> x;
       if(current_vertex -> y < smallest_y)
@@ -663,6 +710,13 @@ void _film_fullpolygon(struct vector4 *camera, struct vector2 *polygon,
     }
     current_vertex = current_vertex -> next;
   }while(current_vertex != polygon);
+  if(limited_camera){
+    // Check if the polygon is entirely inside the camera
+    if(smallest_x > camera -> x && smallest_y > camera -> y &&
+       biggest_x < camera -> x + camera -> w &&
+       biggest_y < camera -> y + camera -> z)
+      inside = 1;
+  }
   
   // Allocating space for the XPoints
   points = (XPoint *) malloc(sizeof(XPoint) * number_of_points);
@@ -686,6 +740,28 @@ void _film_fullpolygon(struct vector4 *camera, struct vector2 *polygon,
   }while(current_vertex != polygon);
   // Correcting values if we are under a limited camera
   if(limited_camera){
+    /*
+      If the polygon in entirely inside the camera, we don't
+      need to use auxiliar surfaces.
+    */
+    if(inside && !erase){      
+      int i;
+      for(i = 0; i < number_of_points; i ++){
+	points[i].x = (int) ((float) points[i].x * 
+			     ((float) (long) camera -> next) / 
+			     (float) window_width) + 
+	  (long) camera -> previous;
+	points[i].y = (int) ((float) points[i].y * 
+			     ((float) (long) camera -> down) / 
+			     (float) window_height) +
+	  (long) camera -> top;
+      }
+      XSetForeground(_dpy, _gc, color);
+      XFillPolygon(_dpy, window -> pix, _gc, points, number_of_points, 
+		   Complex, CoordModeOrigin);
+      return;
+    }
+    
     int width = (int) ((float) ((int) (((biggest_x - smallest_x)/
 					camera -> w) * window_width)) * 
 		       ((float) (long) camera -> next) / 
@@ -785,7 +861,7 @@ void _film_fullpolygon(struct vector4 *camera, struct vector2 *polygon,
       destroy_surface(surf);
     }
   }
-  else{
+  else{ // Camera is not limited
     if(erase){
       int x = (int) (((smallest_x - camera -> x)/
 		      camera -> w) * window_width);
@@ -822,19 +898,24 @@ void _film_polygon(struct vector4 *camera, struct vector2 *polygon,
   int x1, y1, x2, y2;
   int limited_camera = 0;
   surface *lim_surf = NULL;
+  int inside = 0; // The polygon really will need to be drawn?
+  
+  do{
+    if(current_vertex -> x > camera -> x && 
+       current_vertex -> x < camera -> x + camera -> w &&
+       current_vertex -> y > camera -> y &&
+       current_vertex -> y < camera -> y + camera -> z){
+      inside = 1;
+      break;
+    }      
+    current_vertex = current_vertex -> next;
+  }while(current_vertex != polygon);
+  if(!inside)
+    return;
 
   // If the camera is limited, we'll work inside a surface first
-  if(camera -> previous != NULL && camera -> next != NULL){
+  if(camera -> previous != NULL && camera -> next != NULL)
     limited_camera = 1;
-    /*lim_surf = new_surface((long) camera -> next, 
-      (long) camera -> down);
-      blit_surface(background, lim_surf, (long) camera -> previous, 
-      (long) camera -> top,
-      lim_surf -> width, lim_surf -> height, 
-      0, 0);
-      draw_rectangle_mask(lim_surf, 0, 0, lim_surf -> width, 
-      lim_surf -> height);*/
-  }
 
   // First we handle the degenerate cases
   // This is a "Empty Polygon". Don't draw anything.
@@ -844,14 +925,18 @@ void _film_polygon(struct vector4 *camera, struct vector2 *polygon,
   // This is a henagon. A polygon with only one vertex
   // They can be used as particles, so it's usefull to draw them
   if(polygon -> next == polygon){
+
     x1 = (int) (((polygon -> x - camera -> x) / camera -> w) * window_width);
     y1 = (int) (((polygon -> y - camera -> y) / camera -> z) * window_height);
+
     // If our camera is limited, we need some more calculations
     if(limited_camera){
-      x1 = (int) ((float) x1 * ((float) (long) camera -> next) / 
-		  (float) window_width) + (long) (camera -> previous);
-      y1 = (int) ((float) y1 * ((float) (long) camera -> down) / 
-		  (float) window_height) + (long) (camera -> top);
+      x1 = (int) ((float) x1 * (((float) (long) camera -> next) / 
+				(float) window_width)) + 
+	(long) (camera -> previous);
+      y1 = (int) ((float) y1 * (((float) (long) camera -> down) / 
+				(float) window_height)) + 
+	(long) (camera -> top);
     }
     if((!limited_camera) || (x1 < (long) camera -> previous + 
 			     (long) camera -> next && x1 > 
@@ -902,6 +987,25 @@ void _film_polygon(struct vector4 *camera, struct vector2 *polygon,
 	continue;
       }
       
+      /*
+	If the line is completely inside the camera, we should
+	be able to draw directly in the screen. It should improve
+	performance.
+      */
+      {
+	if(!erase && x1 > 0 && x2 > 0 && 
+	   x1 < (long) camera -> next && x2 < (long) camera -> next &&
+	   y1 > 0 && y2 > 0 &&
+	   y1 < (long) camera -> down && y2 < (long) camera -> down){
+	  draw_line(x1 + (long) camera -> previous, 
+		    y1 + (long) camera -> top, 
+		    x2 + (long) camera -> previous, 
+		    y2 + (long) camera -> top, color);
+	  current_vertex = current_vertex -> next;
+	  continue;
+	}
+      }
+
       if(lim_surf == NULL){
 	lim_surf = new_surface((long) camera -> next, 
 			       (long) camera -> down);
