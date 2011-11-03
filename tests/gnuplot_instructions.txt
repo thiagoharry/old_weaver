@@ -1,0 +1,3 @@
+set output "apply_surface.eps"
+set terminal postscript eps enhanced;
+plot "data.txt" with lines;

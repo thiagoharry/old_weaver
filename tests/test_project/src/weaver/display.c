@@ -118,15 +118,10 @@ void blit_masked_surface(Pixmap pix, Pixmap mask, struct surface *dest, int x_sr
 
 // This function fills a surface with a texture defined in other surface
 void apply_texture(struct surface *src, struct surface *dest){
-  int x, y, counter = 0;
-  if(src -> width == 0 || src -> height == 0)
-    return;
+  int x, y;
   for(x = 0; x < dest -> width; x += src -> width)
-    for(y = 0; y < dest -> height; y += src -> height){
-      counter ++;
+    for(y = 0; y < dest -> height; y += src -> height)
       XCopyArea(_dpy, src -> pix, dest -> pix, _gc, 0, 0, src -> width, src -> height, x, y);
-      if(counter > 1000) XFlush(_dpy);
-    }
   XFlush(_dpy);
 }
 

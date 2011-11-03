@@ -1,7 +1,7 @@
 SCRIPT_DIR=/usr/bin
 DATA_DIR=/usr/share/weaver
 
-test:
+test_dependencies:
 ############################### GCC TEST ######################################
 # Note that if GCC test fails, there's no sense in running the other tests
 	@echo "Testing dependencies..."
@@ -67,7 +67,7 @@ test:
 	else \
 	echo "Your system misses requirements to became a Weaver habitat.";\
 	rm ERROR; false; fi
-install: test
+install: test_dependencies
 	install -D -m 0755 weaver ${SCRIPT_DIR}/weaver
 	install -d ${DATA_DIR}/images
 	install -d ${DATA_DIR}/fonts
@@ -86,3 +86,7 @@ install: test
 uninstall:
 	rm -rf ${SCRIPT_DIR}/weaver
 	rm -rf ${DATA_DIR}
+test:
+	tests/test_start.sh
+	tests/test_apply_surface.sh
+	tests/test_end.sh
