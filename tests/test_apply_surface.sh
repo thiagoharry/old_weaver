@@ -37,6 +37,8 @@ done
 echo "\subsection{apply\_surface(a,b)}" >> ../tex/report.tex
 echo "Function used for filling a surface with a texture" >> ../tex/report.tex
 echo "stored in other surface." >> ../tex/report.tex
+echo "In this test, \emph{a} is a \$1\times1\$ surface" >> ../tex/report.tex
+echo "and \emph{b} is a square surface with \$x\$ pixels." >> ../tex/report.tex
 gnuplot ../gnuplot_instructions.txt
 mv apply_surface.eps ../tex
 VALUE=$(tail -n 1 data.txt | cut -d " " -f 2)

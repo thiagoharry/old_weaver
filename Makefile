@@ -90,3 +90,10 @@ test:
 	tests/test_start.sh
 	tests/test_apply_surface.sh
 	tests/test_end.sh
+clean:
+	find . -name "*~" -exec rm -f {} \;
+	find . -name "*\#" -exec rm -f {} \;
+	find . -name "*.o" -exec rm -f {} \;
+	find . -name "*.dvi" -exec rm -f {} \;
+	find . -name "*.log" -exec rm -f {} \;
+	find . -name "*.aux" -exec rm -f {} \;

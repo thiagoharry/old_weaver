@@ -1,3 +1,0 @@
-set output "apply_surface.eps"
-set terminal eps;
-plot "data.txt" with lines;
