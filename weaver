@@ -19,6 +19,7 @@
 
 #WEAVER=/home/bcc/tla06/weaver/src
 WEAVER=/usr/share/weaver 
+VERSION=1.2-unstable
 
 # This function cleans the current directory recursively, erasing temporary
 # files
@@ -94,6 +95,54 @@ function create_module(){
     fi
 }
 
+# This function updates a Weaver Directory putting the newest Weaver
+# files there
+function update_weaver(){
+    YEAR=$(grep "Copyright (C) " $1/src/game.c | sed s/^" "*// | sed s/" "+/" "/ | cut -d ' ' -f 3)
+    COUNT=$(( $(echo $YEAR | grep -o "," | wc -l | sed s/\ //g) + 1 ))
+    if [ $(echo $YEAR | cut -d , -f $COUNT) != $(date +%Y) ]; then
+	YEAR=${YEAR}","$(date +%Y)
+    fi
+    NAME=$(grep "Copyright (C) " $1/src/game.c | sed s/^" "*// | sed s/" "+/" "/ | cut -d ' ' -f 4-)	
+    # Updating Weaver API
+    cp -r ${WEAVER}/reserved_words $1 2> /dev/null
+    cp -r ${WEAVER}/src/weaver $1/src 2> /dev/null
+	
+    # Updating year and copyright holder
+    for i in $(ls $1/src/*.{c,h}); do 
+	file=$(basename $i)
+	sed s/Copyright\ \(C\)\ .*$/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ $1/src/$file > $1/src/${file}~
+	mv $1/src/$file~ $1/src/$file
+    done
+	
+    # Correcting some names in some source code files
+    sed s/DUMMY/$1/ ${WEAVER}/src/weaver/sound.c > $1/src/weaver/sound.c
+    sed s/DUMMY/$1/ ${WEAVER}/src/weaver/image.c > $1/src/weaver/image.c
+    sed s/DUMMY/$1/ ${WEAVER}/src/weaver/font.c > $1/src/weaver/font.c
+}
+
+# This function creates a new Weaver Project, whose name is passed as 
+# argument
+function weaver_create(){
+    # Creating a new Weaver project
+    rm -f $1/reserved_words
+    NAME=$(grep "^$(whoami):" /etc/passwd | cut -d : -f 5 | sed s/,.*//)       
+    YEAR=$(date +%Y)
+    sed s/dummy/$1/ ${WEAVER}/Makefile > $1/Makefile
+    sed s/DUMMY/$1/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.c
+    sed s/DUMMY/$1/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.h
+    echo "#endif" >> $1/src/game.h
+    sed s/DUMMY/$1/ ${WEAVER}/src/weaver/sound.c > $1/src/weaver/sound.c
+    sed s/DUMMY/$1/ ${WEAVER}/src/weaver/image.c > $1/src/weaver/image.c
+    sed s/DUMMY/$1/ ${WEAVER}/src/weaver/font.c > $1/src/weaver/font.c
+    echo $1 > $1/.web
+    echo $1 > $1/src/.web
+    echo $1 > $1/src/weaver/.web
+    echo $1 > $1/images/.web
+    echo $1 > $1/sound/.web
+    echo $1 > $1/fonts/.web
+    echo $1 > $1/music/.web
+}
 
 if [ -a .web ]; then 
     if [ -z $1 ]; then
@@ -111,64 +160,24 @@ if [ -a .web ]; then
     fi
 else
     if [[  -z $1  ||  $1 == "--help" ]]; then
-	# Called without arguments
+	# Called without arguments or with --help
 	weaver_help
     elif [[ $1 == "--version" ]]; then
-	    # --version invoked
-        echo "WEAVER -- Version Alpha"    
+	# --version invoked
+        echo "WEAVER -- Version ${VERSION}"    
+    elif grep "^[ ]*"$1"[ ]*$" ${WEAVER}/reserved_words &> /dev/null; then 
+        # Trying to create a project with a reserved name
+	echo $1" is a reserved name. Please, give other name for the project."
+    elif [ -a $1/.web ]; then
+	# The project exists. Update it
+	if [[ ${1:$((${#1}-1))} == "/" ]]; then		    
+	    update_weaver ${1:0:$((${#1}-1))}
+	else
+	    update_weaver $1
+	fi
+    elif mkdir $1 2> /dev/null && cp -r ${WEAVER}/* $1 2> /dev/null; then
+	weaver_create $1
     else
-	if grep "^[ ]*"$1"[ ]*$" ${WEAVER}/reserved_words &> /dev/null; then 
-		# Trying to create a project with a reserved name
-	    echo $1" is a reserved name. Please, choose another name for your project."
-	elif [ -a $1/.web ]; then #Project  exists. Update it with the current Weaver version
-		# Take the old information about the year and copyright holder
-	    YEAR=$(grep "Copyright (C) " $1/src/game.c | sed s/^" "*// | sed s/" "+/" "/ | cut -d ' ' -f 3)
-	    COUNT=$(( $(echo $YEAR | grep -o "," | wc -l | sed s/\ //g) + 1 ))
-	    if [ $(echo $YEAR | cut -d , -f $COUNT) != $(date +%Y) ]; then
-		YEAR=${YEAR}","$(date +%Y)
-		
-	    fi
-	    NAME=$(grep "Copyright (C) " $1/src/game.c | sed s/^" "*// | sed s/" "+/" "/ | cut -d ' ' -f 4-)
-	    
-		# Updating Weaver API
-	    cp -r ${WEAVER}/reserved_words $1 2> /dev/null
-            cp -r ${WEAVER}/src/weaver $1/src 2> /dev/null
-	    
-		# Updating year and copyright holder
-	    for i in $(ls $1/src/*.{c,h}); do 
-		file=$(basename $i)
-		sed s/Copyright\ \(C\)\ .*$/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ $1/src/$file > $1/src/${file}~
-		mv $1/src/$file~ $1/src/$file
-	    done
-	    
-		# Correcting some names in some source code files
-            sed s/DUMMY/$1/ ${WEAVER}/src/weaver/sound.c > $1/src/weaver/sound.c
-            sed s/DUMMY/$1/ ${WEAVER}/src/weaver/image.c > $1/src/weaver/image.c
-            sed s/DUMMY/$1/ ${WEAVER}/src/weaver/font.c > $1/src/weaver/font.c
-        else 
-	    if mkdir $1 2> /dev/null && cp -r ${WEAVER}/* $1 2> /dev/null; then
-		    # Creating a new Weaver project
-		rm -f $1/reserved_words
-		NAME=$(grep "^$(whoami):" /etc/passwd | cut -d : -f 5 | sed s/,.*//)
-                
-                YEAR=$(date +%Y)
-                sed s/dummy/$1/ ${WEAVER}/Makefile > $1/Makefile
-                sed s/DUMMY/$1/ ${WEAVER}/src/game.c | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.c
-                sed s/DUMMY/$1/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ > $1/src/game.h
-		echo "#endif" >> $1/src/game.h
-                sed s/DUMMY/$1/ ${WEAVER}/src/weaver/sound.c > $1/src/weaver/sound.c
-                sed s/DUMMY/$1/ ${WEAVER}/src/weaver/image.c > $1/src/weaver/image.c
-		sed s/DUMMY/$1/ ${WEAVER}/src/weaver/font.c > $1/src/weaver/font.c
-                echo $1 > $1/.web
-                echo $1 > $1/src/.web
-                echo $1 > $1/src/weaver/.web
-                echo $1 > $1/images/.web
-                echo $1 > $1/sound/.web
-		echo $1 > $1/fonts/.web
-		echo $1 > $1/music/.web
-	    else
-		echo "Sorry, your project could not be created." 
-	    fi
-        fi
+	echo "Sorry, your project could not be created." 
     fi
 fi
