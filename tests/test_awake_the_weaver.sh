@@ -38,7 +38,8 @@ echo "" >> ../tex/report.tex
 echo "\includegraphics{tests/tex/awake_the_weaver.eps}" >> ../tex/report.tex
 echo "" >> ../tex/report.tex
 echo "As this function has a constant theoretical" >> ../tex/report.tex
-echo "complexity, the time, in nanosseconds is " >> ../tex/report.tex
+echo "complexity, the time, in nanosseconds spent " >> ../tex/report.tex
+echo "by this function is " >> ../tex/report.tex
 echo "approximated by the function \$f(x)=${media}\$" >> ../tex/report.tex
 echo "in this computer." >> ../tex/report.tex
 cd -

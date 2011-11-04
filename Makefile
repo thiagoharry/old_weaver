@@ -89,7 +89,8 @@ uninstall:
 test: test_dependencies
 	tests/test_start.sh
 	tests/test_apply_surface.sh
-	tests/test_awake_the_weaver.sh
+	tests/test_awake_the_weaver.s
+	tests/test_may_the_weaver_sleep.sh
 	tests/test_end.sh
 test_awake_the_weaver: test_dependencies
 	tests/test_start.sh
@@ -99,6 +100,10 @@ test_apply_surface: test_dependencies
 	tests/test_start.sh
 	tests/test_apply_surface.sh
 	tests/test_end.sh
+test_may_the_weaver_sleep: test_dependencies
+	tests/test_start.sh
+	tests/test_may_the_weaver_sleep.sh
+	tests/test_end.sh
 clean:
 	find . -name "*~" -exec rm -f {} \;
 	find . -name "*\#" -exec rm -f {} \;
@@ -106,4 +111,6 @@ clean:
 	find . -name "*.dvi" -exec rm -f {} \;
 	find . -name "*.log" -exec rm -f {} \;
 	find . -name "*.aux" -exec rm -f {} \;
-	find . -name "*.eps" -exec rm -f {} \;	
+	find . -name "*.eps" -exec rm -f {} \;
+	find . -name "*.pdf" -exec rm -f {} \;
+	rm -rf tests/test_project

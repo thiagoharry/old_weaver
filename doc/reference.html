@@ -2357,11 +2357,23 @@
     </p>
     <h3>
       <a class="name" id="may_the_weaver_sleep"
-	 href="#may_the_weaver_sleep">
+	 href="javascript:playElement('code_may_the_weaver_sleep')">
 	void<br/>
 	may_the_weaver_sleep(void)
       </a>
     </h3>
+    <pre class="codigo" id="code_may_the_weaver_sleep">
+<span class="tipo">void</span> <b>may_the_weaver_sleep</b>(<span class="tipo">void</span>){
+  <b>stop_music</b>();
+  <span class="palavra">if</span>(_sound)
+    <b>kill</b>(_sound, 9);
+  <b>XFreeGC</b>(_dpy, _gc);
+  <b>free</b>(window);
+  <b>destroy_surface</b>(background);
+  <b>XdbeDeallocateBackBufferName</b>(_dpy, _b);  
+  <b>XCloseDisplay</b>(_dpy);
+}
+</pre>
     <p>
       This function frees all the memory allocated and all the changes
       made by the <a href="#awake_the_weaver">awake_the_weaver</a>
@@ -2373,7 +2385,7 @@
       automaticly in the end of the main function.
     </p>
     <p>
-      This function returns nothing.
+      This function returns nothing. It exists since version 0.1.
     </p>
     <h3>
       <a class="name" id="move_circle"
