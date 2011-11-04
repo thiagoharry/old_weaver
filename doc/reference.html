@@ -801,14 +801,12 @@
     </h3>
     <pre class="codigo" id="code_apply_texture">
 <span class="tipo">void</span> <b>apply_texture</b>(<span class="tipo">struct</span> surface *src, <span class="tipo">struct</span> surface *dest){
-  <span class="tipo">int</span> x, y, counter = 0;
+  <span class="tipo">int</span> x, y;
     <span class="palavra">if</span>(src -> width &lt; 1 || src -> height &lt; 1)
     <span class="palavra">return</span>;
   <span class="palavra">for</span>(x = 0; x &lt; dest -> width; x += src -> width)
     <span class="palavra">for</span>(y = 0; y &lt; dest -> height; y += src -> height){
-      counter ++;
       <b>XCopyArea</b>(_dpy, src -> pix, dest -> pix, _gc, 0, 0, src -> width, src -> height, x, y);
-      <span class="palavra">if</span>(counter > 1000){ <b>XFlush</b>(_dpy); counter = 0; }
     }
   <b>XFlush</b>(_dpy);
 }</pre>
@@ -827,11 +825,23 @@
     </p>
     <h3>
       <a class="name" id="awake_the_weaver"
-	 href="#awake_the_weaver">
+	 href="javascript:playElement('code_awake_the_weaver')">
 	void<br/>
 	awake_the_weaver(void)
       </a>
     </h3>
+    <pre class="codigo" id="code_awake_the_weaver">
+<span class="tipo">void</span> <b>awake_the_weaver</b>(<span class="tipo">void</span>){
+  <b>_initialize_screen</b>();
+  <b>_initialize_keyboard</b>();
+  <b>_initialize_mouse</b>();
+  <b>srand</b>(<b>time</b>(NULL));
+  <b>gettimeofday</b>(&amp;current_time, NULL);
+  fps = 50;
+  _music = 0;
+  _sound = 0;
+}
+    </pre>
     <p>
       This is the first function that shall be called in a Weaver
       Game. It initializes all the variables and data required to use
@@ -848,7 +858,7 @@
       these functions are positioned in your code automaticly.
     </p>
     <p>
-      This function returns nothing.
+      This function existis since version 0.1. It returns nothing.
     </p>
     <h3>
       <a class="name" id="blit_masked_pixmap"

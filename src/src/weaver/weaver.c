@@ -30,8 +30,6 @@ void awake_the_weaver(void){
   _initialize_screen();
   _initialize_keyboard();
   _initialize_mouse();
-  //initialize_sound();
-  //_initialize_font();
   srand(time(NULL));
   gettimeofday(&current_time, NULL);
   fps = 50;
