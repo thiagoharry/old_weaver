@@ -69,7 +69,6 @@ void weaver_rest(long nanoseconds){
   if(fps == 0) fps = 1;
   XdbeSwapBuffers(_dpy, &info, 1);
   XFlush(_dpy);
-  XSync(_dpy, False);
 }
 
 
