@@ -54,6 +54,7 @@
 #define MAX(x, y) (x) > (y) ? (x) : (y)
 #define MIN(x, y) (x) > (y) ? (y) : (x)
 #define DEBUG_TIMER_START() { struct timeval _begin, _end;	\
+  XFlush(_dpy);                                                 \
   gettimeofday(&_begin, NULL);
 #define DEBUG_TIMER_END() gettimeofday(&_end, NULL);		\
   printf("%ld\n", (1000000 * (_end.tv_sec - _begin.tv_sec) +	\

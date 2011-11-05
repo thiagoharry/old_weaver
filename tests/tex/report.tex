@@ -27,7 +27,7 @@ cpu family	: 6
 model		: 23
 model name	: Intel(R) Celeron(R) CPU          900  @ 2.20GHz
 stepping	: 10
-cpu MHz		: 2194.341
+cpu MHz		: 2194.236
 cache size	: 1024 KB
 fdiv_bug	: no
 hlt_bug		: no
@@ -38,7 +38,7 @@ fpu_exception	: yes
 cpuid level	: 13
 wp		: yes
 flags		: fpu vme de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss tm pbe nx lm constant_tsc up arch_perfmon pebs bts aperfmperf pni dtes64 monitor ds_cpl tm2 ssse3 cx16 xtpr pdcm xsave lahf_lm
-bogomips	: 4388.68
+bogomips	: 4388.47
 clflush size	: 64
 cache_alignment	: 64
 address sizes	: 36 bits physical, 48 bits virtual
@@ -48,42 +48,42 @@ power management:
 \subsection{Memory Info}
 \begin{verbatim}
 MemTotal:        1990264 kB
-MemFree:          226980 kB
-Buffers:          132272 kB
-Cached:          1089820 kB
+MemFree:          822660 kB
+Buffers:           84148 kB
+Cached:           812096 kB
 SwapCached:            0 kB
-Active:           710852 kB
-Inactive:         888948 kB
-Active(anon):     471504 kB
-Inactive(anon):    56856 kB
-Active(file):     239348 kB
-Inactive(file):   832092 kB
+Active:           298728 kB
+Inactive:         737552 kB
+Active(anon):     189660 kB
+Inactive(anon):    49000 kB
+Active(file):     109068 kB
+Inactive(file):   688552 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 HighTotal:       1115476 kB
-HighFree:           1612 kB
+HighFree:         153016 kB
 LowTotal:         874788 kB
-LowFree:          225368 kB
+LowFree:          669644 kB
 SwapTotal:             0 kB
 SwapFree:              0 kB
-Dirty:               380 kB
+Dirty:               468 kB
 Writeback:             0 kB
-AnonPages:        377720 kB
-Mapped:            83984 kB
-Shmem:            150628 kB
-Slab:             131152 kB
-SReclaimable:      83384 kB
-SUnreclaim:        47768 kB
-KernelStack:        1992 kB
-PageTables:         5612 kB
+AnonPages:        140136 kB
+Mapped:            55840 kB
+Shmem:             98564 kB
+Slab:             100724 kB
+SReclaimable:      54996 kB
+SUnreclaim:        45728 kB
+KernelStack:        1832 kB
+PageTables:         4476 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:      995132 kB
-Committed_AS:    1184604 kB
+Committed_AS:     669680 kB
 VmallocTotal:     122880 kB
-VmallocUsed:       33112 kB
-VmallocChunk:      46876 kB
+VmallocUsed:       33076 kB
+VmallocChunk:      54532 kB
 HardwareCorrupted:     0 kB
 HugePages_Total:       0
 HugePages_Free:        0
@@ -94,14 +94,16 @@ DirectMap4k:       16376 kB
 DirectMap4M:      892928 kB
 \end{verbatim}
 \section{Function Tests}
-\subsection{may\_the\_weaver\_sleep()}
-Function used to stop using  the Weaver API and
-free the memory,
+\subsection{limit\_camera(a,b,c)}
+Function used to limit the camera where a camera 
+can draw. The above graphic had the real values
+magnified 10$\times$.
 
-\includegraphics{tests/tex/may_the_weaver_sleep.eps}
+\includegraphics{tests/tex/limit_camera.eps}
 
-As this function has a constant theoretical
-complexity, the time, in nanosseconds is 
-approximated by the function $f(x)=5279.52$
+As this function has a constant
+theoretical complexity, the time, in nanosseconds
+spent by this function is 
+approximated by the function $f(x)=.16$
 in this computer.
 \end{document}

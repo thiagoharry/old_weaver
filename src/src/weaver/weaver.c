@@ -81,6 +81,7 @@ void center_camera(struct vector4 *camera, float x, float y){
 // This functions zooms in and out wihout change the central point (focus)
 void zoom_camera(struct vector4 *cam, float zoom){
   float x, y;
+  if(zoom <= 0.0) return;
   // Storing the central point
   x = cam -> x + (cam -> w / 2);
   y = cam -> y + (cam -> z / 2);

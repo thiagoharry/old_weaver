@@ -941,7 +941,7 @@
       y). It doesn't change the camera's size, only it's position.
     </p>
     <p>
-      This function returns nothing.
+      This function returns nothing. It exists since version 0.1.
     </p>
     <h3>
       <a class="name" id="clean_keyboard"
@@ -3001,7 +3001,7 @@
       Remember that 1,000,000,000 nanoseconds = 1 second.
     </p>
     <p>
-      This function returns nothing.
+      This function returns nothing. It exists since version 0.1.
     </p>
     <h3>
       <a class="name" id="zoom_camera"
@@ -3013,6 +3013,7 @@
     <pre id="code_zoom_camera" class="codigo">
 <span class="tipo">void</span> <b>zoom_camera</b>(<span class="tipo">struct</span> vector4 *cam, <span class="tipo">float</span> zoom){
   <span class="tipo">float</span> x, y;
+  <span class="palavra">if</span>(zoom &lt;= 0.0) <span class="palavra">return</span>;
   <span class="comentario">// Storing the central point</span>
   x = cam -> x + (cam -> w / 2);
   y = cam -> y + (cam -> z / 2);
