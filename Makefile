@@ -91,6 +91,7 @@ test: test_dependencies
 	tests/test_apply_surface.sh
 	tests/test_awake_the_weaver.sh
 	tests/test_center_camera.sh
+	tests/test_film_rectangle.sh
 	tests/test_limit_camera.sh
 	tests/test_may_the_weaver_sleep.sh
 	tests/test_weaver_rest.sh
@@ -123,6 +124,10 @@ test_zoom_camera: test_dependencies
 test_limit_camera: test_dependencies
 	tests/test_start.sh
 	tests/test_limit_camera.sh
+	tests/test_end.sh
+test_film_rectangle: test_dependencies
+	tests/test_start.sh
+	tests/test_film_rectangle.sh
 	tests/test_end.sh
 clean:
 	find . -name "*~" -exec rm -f {} \;
