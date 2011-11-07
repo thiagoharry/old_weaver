@@ -48,42 +48,42 @@ power management:
 \subsection{Memory Info}
 \begin{verbatim}
 MemTotal:        1990264 kB
-MemFree:          566328 kB
-Buffers:           81532 kB
-Cached:           896680 kB
+MemFree:          492968 kB
+Buffers:           88124 kB
+Cached:           936836 kB
 SwapCached:            0 kB
-Active:           509892 kB
-Inactive:         781276 kB
-Active(anon):     394576 kB
-Inactive(anon):    44844 kB
-Active(file):     115316 kB
-Inactive(file):   736432 kB
+Active:           550508 kB
+Inactive:         809468 kB
+Active(anon):     419580 kB
+Inactive(anon):    39352 kB
+Active(file):     130928 kB
+Inactive(file):   770116 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 HighTotal:       1115476 kB
-HighFree:           1612 kB
+HighFree:           2728 kB
 LowTotal:         874788 kB
-LowFree:          564716 kB
+LowFree:          490240 kB
 SwapTotal:             0 kB
 SwapFree:              0 kB
-Dirty:               648 kB
+Dirty:               512 kB
 Writeback:             0 kB
-AnonPages:        313004 kB
-Mapped:            82644 kB
-Shmem:            126472 kB
-Slab:             100520 kB
-SReclaimable:      53592 kB
-SUnreclaim:        46928 kB
-KernelStack:        2024 kB
-PageTables:         5596 kB
+AnonPages:        335032 kB
+Mapped:            86180 kB
+Shmem:            123920 kB
+Slab:             104036 kB
+SReclaimable:      55232 kB
+SUnreclaim:        48804 kB
+KernelStack:        2152 kB
+PageTables:         5868 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:      995132 kB
-Committed_AS:    1140980 kB
+Committed_AS:    1325052 kB
 VmallocTotal:     122880 kB
-VmallocUsed:       33100 kB
-VmallocChunk:      47960 kB
+VmallocUsed:       33212 kB
+VmallocChunk:      52092 kB
 HardwareCorrupted:     0 kB
 HugePages_Total:       0
 HugePages_Free:        0
@@ -94,8 +94,8 @@ DirectMap4k:       16376 kB
 DirectMap4M:      892928 kB
 \end{verbatim}
 \section{Function Tests}
-\subsection{film\_rectangle(a,b,c)}
-Draw a rectangle in an arbitrarily large surface.
+\subsection{film\_fullrectangle(a,b,c)}
+Fill a rectangle in an arbitrarily large surface.
 have exponential complexity. But this function
 draw in the screen, so the number of pixels drawn
 is limited. So, we assume a constant complexity
@@ -104,12 +104,12 @@ for this function.
 There are differences in the performance if you use
 a limited camera or not.
 
-\includegraphics{tests/tex/film_rectangle.eps}
+\includegraphics{tests/tex/film_fullrectangle.eps}
 
 As this function has a constant
 theoretical complexity, the time, in nanosseconds
 spent by this function is 
-approximated by the function $f(x)=15.75$
-for limited cameras and $f(x)=2.07$ for
+approximated by the function $f(x)=16.33$
+for limited cameras and $f(x)=1.84$ for
 unlimited cameras.
 \end{document}
