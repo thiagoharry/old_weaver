@@ -93,6 +93,7 @@ test: test_dependencies
 	tests/test_center_camera.sh
 	tests/test_erase_circle.sh
 	tests/test_erase_fullcircle.sh
+	tests/test_film_circle.sh
 	tests/test_film_fullrectangle.sh
 	tests/test_film_rectangle.sh
 	tests/test_limit_camera.sh
@@ -143,6 +144,10 @@ test_erase_circle: test_dependencies
 test_erase_fullcircle: test_dependencies
 	tests/test_start.sh
 	tests/test_erase_fullcircle.sh
+	tests/test_end.sh
+test_film_circle: test_dependencies
+	tests/test_start.sh
+	tests/test_film_circle.sh
 	tests/test_end.sh
 clean:
 	find . -name "*~" -exec rm -f {} \;
