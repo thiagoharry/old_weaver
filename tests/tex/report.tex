@@ -27,7 +27,7 @@ cpu family	: 6
 model		: 23
 model name	: Intel(R) Celeron(R) CPU          900  @ 2.20GHz
 stepping	: 10
-cpu MHz		: 2194.263
+cpu MHz		: 2194.257
 cache size	: 1024 KB
 fdiv_bug	: no
 hlt_bug		: no
@@ -38,7 +38,7 @@ fpu_exception	: yes
 cpuid level	: 13
 wp		: yes
 flags		: fpu vme de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss tm pbe nx lm constant_tsc up arch_perfmon pebs bts aperfmperf pni dtes64 monitor ds_cpl tm2 ssse3 cx16 xtpr pdcm xsave lahf_lm
-bogomips	: 4388.52
+bogomips	: 4388.51
 clflush size	: 64
 cache_alignment	: 64
 address sizes	: 36 bits physical, 48 bits virtual
@@ -48,42 +48,42 @@ power management:
 \subsection{Memory Info}
 \begin{verbatim}
 MemTotal:        1990264 kB
-MemFree:          492968 kB
-Buffers:           88124 kB
-Cached:           936836 kB
+MemFree:          221808 kB
+Buffers:          135920 kB
+Cached:          1086484 kB
 SwapCached:            0 kB
-Active:           550508 kB
-Inactive:         809468 kB
-Active(anon):     419580 kB
-Inactive(anon):    39352 kB
-Active(file):     130928 kB
-Inactive(file):   770116 kB
+Active:           695840 kB
+Inactive:         906516 kB
+Active(anon):     454684 kB
+Inactive(anon):    41624 kB
+Active(file):     241156 kB
+Inactive(file):   864892 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 HighTotal:       1115476 kB
-HighFree:           2728 kB
+HighFree:           1736 kB
 LowTotal:         874788 kB
-LowFree:          490240 kB
+LowFree:          220072 kB
 SwapTotal:             0 kB
 SwapFree:              0 kB
-Dirty:               512 kB
+Dirty:               456 kB
 Writeback:             0 kB
-AnonPages:        335032 kB
-Mapped:            86180 kB
-Shmem:            123920 kB
-Slab:             104036 kB
-SReclaimable:      55232 kB
-SUnreclaim:        48804 kB
-KernelStack:        2152 kB
-PageTables:         5868 kB
+AnonPages:        379932 kB
+Mapped:           109676 kB
+Shmem:            116412 kB
+Slab:             133268 kB
+SReclaimable:      84632 kB
+SUnreclaim:        48636 kB
+KernelStack:        2096 kB
+PageTables:         6096 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:      995132 kB
-Committed_AS:    1325052 kB
+Committed_AS:    1352892 kB
 VmallocTotal:     122880 kB
-VmallocUsed:       33212 kB
-VmallocChunk:      52092 kB
+VmallocUsed:       33208 kB
+VmallocChunk:      57332 kB
 HardwareCorrupted:     0 kB
 HugePages_Total:       0
 HugePages_Free:        0
@@ -94,22 +94,22 @@ DirectMap4k:       16376 kB
 DirectMap4M:      892928 kB
 \end{verbatim}
 \section{Function Tests}
-\subsection{film\_fullrectangle(a,b,c)}
-Fill a rectangle in an arbitrarily large surface.
-have exponential complexity. But this function
-draw in the screen, so the number of pixels drawn
-is limited. So, we assume a constant complexity
-for this function.
+\subsection{erase\_circle(a,b)}
+This function draw the perimeter of a circle using
+the colors in the background surface. Drawing a
+circle in a arbitrarily big surface, given the
+coordinates have exponential complexity. But as
+we are drawing only in the screen, it limits 
+the time complexity to a constant. This function
+have different performances in limited or unlimited
+cameras.
 
-There are differences in the performance if you use
-a limited camera or not.
-
-\includegraphics{tests/tex/film_fullrectangle.eps}
+\includegraphics{tests/tex/erase_circle.eps}
 
 As this function has a constant
 theoretical complexity, the time, in nanosseconds
 spent by this function is 
-approximated by the function $f(x)=16.33$
-for limited cameras and $f(x)=1.84$ for
-unlimited cameras.
+approximated by the function $f(x)=23.34$
+for unlimited cameras and $f(x)=4.41$ for
+limited cameras.
 \end{document}

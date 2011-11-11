@@ -7,16 +7,13 @@ echo -ne "#include \"weaver/weaver.h\"
 #include \"game.h\"
 int main(int argc, char **argv){
   int i;
-  surface *surf = new_image(\"pixel.png\");
-  apply_texture(surf, background);
   circle *circ = new_circle((float) window_width / 2, (float) window_height/2, (float) window_height);
   camera *cam = new_camera(0.0, 0.0, (float) window_width, (float) window_height);
-  film_circle(cam, circ, RED);
   awake_the_weaver(); // Initializing Weaver API
+  film_circle(cam, circ, RED);
+  fill_surface(background, RED);
   DEBUG_TIMER_START();
-  for(i = 0; i < 2000; i ++){
     erase_circle(cam, circ);
-  }
   DEBUG_TIMER_END();
   may_the_weaver_sleep();
   return 0;
@@ -28,7 +25,6 @@ echo -n "" > data.txt
 while (( $j < 101 )); do
     echo $(($j - 1))"%"
     valor=$(./test_project)
-    valor=$((valor/2000))
     media=$((${media}+${valor}))
     echo -n ${j}" " >> data.txt
     echo ${valor} >> data.txt
@@ -42,17 +38,14 @@ echo -ne "#include \"weaver/weaver.h\"
 #include \"game.h\"
 int main(int argc, char **argv){
   int i;
-  surface *surf = new_image(\"pixel.png\");
-  apply_texture(surf, background);
   circle *circ = new_circle((float) window_width / 2, (float) window_height/2, (float) window_height);
   camera *cam = new_camera(0.0, 0.0, (float) window_width, (float) window_height);
   limit_camera(cam, 1, 1, window_width - 2, window_height - 2);
-  film_circle(cam, circ, RED);
   awake_the_weaver(); // Initializing Weaver API
+  film_circle(cam, circ, RED);
+  fill_surface(background, RED);
   DEBUG_TIMER_START();
-  for(i = 0; i < 2000; i ++){
     erase_circle(cam, circ);
-  }
   DEBUG_TIMER_END();
   may_the_weaver_sleep();
   return 0;
@@ -64,7 +57,6 @@ echo -n "" > data2.txt
 while (( $j < 101 )); do
     echo $(($j - 1))"%"
     valor=$(./test_project)
-    valor=$((valor/2000))
     media=$((${media}+${valor}))
     echo -n ${j}" " >> data2.txt
     echo ${valor} >> data2.txt
@@ -95,6 +87,6 @@ echo "As this function has a constant" >> ../tex/report.tex
 echo "theoretical complexity, the time, in nanosseconds" >> ../tex/report.tex
 echo "spent by this function is " >> ../tex/report.tex
 echo "approximated by the function \$f(x)=${media0}\$" >> ../tex/report.tex
-echo "for limited cameras and \$f(x)=${media}\$ for" >> ../tex/report.tex
-echo "unlimited cameras." >> ../tex/report.tex
+echo "for unlimited cameras and \$f(x)=${media}\$ for" >> ../tex/report.tex
+echo "limited cameras." >> ../tex/report.tex
 cd -

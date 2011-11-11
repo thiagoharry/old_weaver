@@ -364,18 +364,11 @@
 	      draw_surface(a, b, c, d)
 	    </a>
 	  </li>
-	  <!--<li>
-	    <a href="#erase_screen">
-	      erase_screen()
-	    </a>
-	  </li>-->
-	  <!--
 	  <li>
-	    <a href="#draw_text">
-	      draw_text(a, b, c, d, e)
+	    <a href="#erase_circle">
+	      erase_circle(a,b)
 	    </a>
 	  </li>
-	  -->
 	  <li>
 	    <a href="#fill_circle">
 	      fill_circle(a, b, c, d)
@@ -561,11 +554,11 @@
       <li>
 	Global Variables
 	<ul>
-	  <!--<li>
+	  <li>
 	    <a href="#background">
 	      background
 	    </a>
-	  </li>-->
+	  </li>
 	  <li>
 	    <a href="#current_time">
 	      current_time
@@ -1655,63 +1648,24 @@
     <p>
       This function returns nothing.
     </p>
-    <!--
     <h3>
-      <a class="name" id="draw_text"
-	 href="javascript:playElement('code_draw_text')">
+      <a class="name" id="erase_circle"
+	 href="javascript:playElement('code_erase_circle')">
 	void<br/>
-	draw_text(unsigned x, unsigned y, char *text, char *font, unsigned color)
+	erase_circle(camera *camera, circle *circle)
       </a>
     </h3>
-    <pre class="codigo" id="code_draw_text">
-<span class="tipo">void</span> <b>draw_text</b>(<span class="tipo">unsigned</span> x, <span class="tipo">unsigned</span> y, <span class="tipo">char</span> *text, <span class="tipo">char</span> *font, <span class="tipo">unsigned</span> color){
-  XFontStruct *new_font;
-
-  <b>XSetForeground</b>(_dpy, _gc, color);
-  new_font = <b>XLoadQueryFont</b>(_dpy, font);
-  <span class="palavra">if</span>(new_font != NULL){
-    <b>XDrawString</b>(_dpy, _w, _gc, x, y, text, <b>strlen</b>(text));
-  }
-  <span class="palavra">else</span>{
-    <b>printf</b>("Warning: Font %s not found.\n", font);
-  }
-    <b>XFlush</b>(_dpy);
-}</pre>
+    <pre class="codigo" id="code_erase_circle">
+      <!--TODO-->
+    </pre>
     <p>
-      This function loads a font passed as argument. It accept only
-      PCF fonts installed in X11. Then, it draws the text passed with
-      the given font using the color passed as argument in position
-      (x, y).
+      This function "erases" a circle in the screen. In fact, it draws
+      a circle in the screen using the colors provided in
+      the <a href="#background">background</a> surface.
     </p>
     <p>
-      If the font isn't found, o text is drawn and a warning message
-      is written in the standart output. The game isn't interrupted.
+      This function return nothing. It exists since version 0.2.
     </p>
-    <p>
-      <b>
-	WARNING:
-      </b>
-      This function will change in a near future. A new and simpler
-      mechanism to load your fonts will be added. And it'll support
-      non-bitmapped fonts.
-    </p>
-    <p>
-      This function returns nothing.
-    </p>
-    -->
-    <!--<h3>
-      <a class="name" id="erase_screen"
-	 href="javascript:playElement('code_erase_screen')">
-	void<br/>
-	erase_screen(void)
-      </a>
-    </h3>
-    <pre class="codigo" id="code_erase_screen">
-<span class="precompil">#define</span> <b>erase_screen</b>() <b>draw_surface</b>(background, window, 0, 0)</pre>
-    <p>
-      This function fills the screen with
-      the <a href="#background">background</a> content.
-    </p> -->
     <h3>
       <a class="name" id="fill_circle"
 	 href="javascript:playElement('code_fill_circle')">
@@ -3039,7 +2993,7 @@
     <h2>
       Global Variables
     </h2>
-    <!--<h3>
+    <h3>
       <a class="name" id="background" href="#background">
 	surface *background;
       </a>
@@ -3050,7 +3004,7 @@
     </p>
     <p>
       By default, the background is entirely black.
-    </p>-->
+    </p>
     <h3>
       <a class="name" id="current_time" href="#current_time">
 	struct timeval current_time
