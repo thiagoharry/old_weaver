@@ -45,9 +45,9 @@ int handle_vorbis_error(int status){
   return 0;
 }
 
-void handle_pcm_error(int status, snd_pcm_uframes_t frames){
+void handle_pcm_error(int status, snd_pcm_uframes_t frames, snd_pcm_t **handle){
   if(status == -EPIPE){
-    //fprintf(stderr, "underrun occurred\n");
+    snd_pcm_prepare(*handle);
 
   }
   else{ 
@@ -181,7 +181,7 @@ void _play_soundfile(char *file, char *dir){
           snd_pcm_hw_params(handle, params);
 	  nanosleep(&req, NULL);
           status = snd_pcm_writei(handle, buffer, frames);
-          handle_pcm_error(status, frames);
+          handle_pcm_error(status, frames, &handle);
         }
         break;
       }
@@ -193,7 +193,7 @@ void _play_soundfile(char *file, char *dir){
         //snd_pcm_hw_params_set_buffer_size(handle, params, size);
         //snd_pcm_hw_params(handle, params);
         status = snd_pcm_writei(handle, buffer, frames);
-        handle_pcm_error(status, frames);
+        handle_pcm_error(status, frames, &handle);
         //snd_pcm_writei(handle, buffer2, frames);
         //handle_pcm_error(status, frames);
       }
