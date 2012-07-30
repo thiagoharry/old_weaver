@@ -606,17 +606,15 @@ void film_fullcircle(struct vector4 *camera, struct vector3 *circle,
   if(limited_camera){
     // If the circle is entirely inside the camera, we don't need to use 
     // aux surfaces
-    if(circle -> x > camera -> x + circle -> z &&
+    // FIXME: There's some error in the calculation here
+    /*if(circle -> x > camera -> x + circle -> z &&
        circle -> x < camera -> x + camera -> w - circle -> z &&
        circle -> y > camera -> y + circle -> z &&
        circle -> y < camera -> y + camera -> z - circle -> z){
       fill_ellipse((long) camera -> previous + x - width / 2, 
 		   (long) camera -> top + y - height / 2, width, height, color);
-      /*XDrawArc(_dpy, surf -> pix, _gc, x - width / 2, y - height / 2, width, 
-	       height, 0, 23040);
-      XFillArc(_dpy, surf -> pix, _gc, x - width / 2, y - height / 2, width, 
-      height, 0, 23040);*/
-    }
+      return;
+    }*/
     if(circle -> x < (long) camera -> x + (long) camera -> w + 
        (long) (2 * circle -> z) && 
        circle -> x > (long) camera -> x - (long) (2 * circle -> z) &&
@@ -897,6 +895,9 @@ void _film_polygon(struct vector4 *camera, struct vector2 *polygon,
   int limited_camera = 0;
   surface *lim_surf = NULL;
   int inside = 0; // The polygon really will need to be drawn?
+
+  if(current_vertex == NULL)
+    return;
   
   do{
     if(current_vertex -> x > camera -> x && 
@@ -990,7 +991,8 @@ void _film_polygon(struct vector4 *camera, struct vector2 *polygon,
 	be able to draw directly in the screen. It should improve
 	performance.
       */
-      {
+      // FIXME: 
+      /*{
 	if(!erase && x1 > 0 && x2 > 0 && 
 	   x1 < (long) camera -> next && x2 < (long) camera -> next &&
 	   y1 > 0 && y2 > 0 &&
@@ -1002,7 +1004,7 @@ void _film_polygon(struct vector4 *camera, struct vector2 *polygon,
 	  current_vertex = current_vertex -> next;
 	  continue;
 	}
-      }
+	}*/
 
       if(lim_surf == NULL){
 	lim_surf = new_surface((long) camera -> next, 

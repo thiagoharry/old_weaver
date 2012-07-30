@@ -47,7 +47,7 @@ int handle_vorbis_error(int status){
 
 void handle_pcm_error(int status, snd_pcm_uframes_t frames){
   if(status == -EPIPE){
-    fprintf(stderr, "underrun occurred\n");
+    //fprintf(stderr, "underrun occurred\n");
 
   }
   else{ 

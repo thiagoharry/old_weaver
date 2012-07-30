@@ -89,8 +89,9 @@ uninstall:
 test: test_dependencies
 	tests/test_start.sh
 	tests/test_apply_surface.sh
-	tests/test_awake_the_weaver.sh
+#	tests/test_awake_the_weaver.sh
 	tests/test_center_camera.sh
+	tests/test_draw_line.sh
 	tests/test_erase_circle.sh
 	tests/test_erase_fullcircle.sh
 	tests/test_film_circle.sh
@@ -101,10 +102,10 @@ test: test_dependencies
 	tests/test_weaver_rest.sh
 	tests/test_zoom_camera.sh
 	tests/test_end.sh
-test_awake_the_weaver: test_dependencies
-	tests/test_start.sh
-	tests/test_awake_the_weaver.sh
-	tests/test_end.sh
+#test_awake_the_weaver: test_dependencies
+#	tests/test_start.sh
+#	tests/test_awake_the_weaver.sh
+#	tests/test_end.sh
 test_apply_surface: test_dependencies
 	tests/test_start.sh
 	tests/test_apply_surface.sh
@@ -133,6 +134,10 @@ test_film_rectangle: test_dependencies
 	tests/test_start.sh
 	tests/test_film_rectangle.sh
 	tests/test_end.sh
+test_film_polygon: test_dependencies
+	tests/test_start.sh
+	tests/test_film_polygon.sh
+	tests/test_end.sh
 test_film_fullrectangle: test_dependencies
 	tests/test_start.sh
 	tests/test_film_fullrectangle.sh
@@ -148,6 +153,10 @@ test_erase_fullcircle: test_dependencies
 test_film_circle: test_dependencies
 	tests/test_start.sh
 	tests/test_film_circle.sh
+	tests/test_end.sh
+test_draw_line: test_dependencies
+	tests/test_start.sh
+	tests/test_draw_line.sh
 	tests/test_end.sh
 clean:
 	find . -name "*~" -exec rm -f {} \;
