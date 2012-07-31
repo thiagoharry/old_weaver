@@ -86,6 +86,8 @@ install: test_dependencies
 uninstall:
 	rm -rf ${SCRIPT_DIR}/weaver
 	rm -rf ${DATA_DIR}
+aux:
+	ghc --make misc/src2html.hs
 test: test_dependencies
 	tests/test_start.sh
 	tests/test_apply_surface.sh
@@ -167,4 +169,5 @@ clean:
 	find . -name "*.aux" -exec rm -f {} \;
 	find . -name "*.eps" -exec rm -f {} \;
 	find . -name "*.pdf" -exec rm -f {} \;
+	find . -name "*.hi" -exec rm -f {} \;
 	rm -rf tests/test_project

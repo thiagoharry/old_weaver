@@ -1,5 +1,6 @@
 {-# LANGUAGE Haskell2010 #-}
 
+import System.IO
 import Data.List
 import Data.Maybe
 
@@ -46,9 +47,13 @@ transform "else" = "<span class=\"palavra\">else</span>"
 transform ('#':a) = "<span class=\"precompil\">" ++ a ++ "</span>"
 transform ('/':'/':a) = "<span class=\"comentario\">" ++ ('/':'/':a)
 transform a
-  | head a == '(' && last a == ')' = "(" ++ (transform (init (tail a))) ++ ")"
+  | a /= [] && last a == ';' = (transform (init a)) ++ ";"
+  | a /= [] && head a == '(' && last a == ')' = "(" ++ (transform (init (tail a))) ++ ")"
   | isInfixOf "(" a = if transform inicio == inicio
-                        then "<b>" ++ inicio ++ "</b>(" ++ (transform fim)
-                        else (transform inicio) ++ "(" ++ (transform fim)
+                        then "<b>" ++ inicio ++ "</b>(" ++ (transform (tail fim))
+                        else (transform inicio) ++ "(" ++ (transform (tail fim))
+  | otherwise = a
   where (inicio, fim) = splitAt (fromJust (findIndex (== '(') a)) a
-transform a = a
+
+main :: IO ()
+main = interact src2html
