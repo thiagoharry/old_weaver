@@ -40,11 +40,13 @@ clean:
 install:
 	install -d ${DATA_DIR}
 	install -D -s ${PROG} ${INSTALL_DIR}/${PROG}
+	strip -s ${INSTALL_DIR}/${PROG}
 	cp -r sound ${DATA_DIR}/
 	cp -r images ${DATA_DIR}/
 	cp -r fonts ${DATA_DIR}/
 	cp -r music ${DATA_DIR}/
-	chmod -R +r ${DATA_DIR}
+	chmod -R a+r ${DATA_DIR}
+	chmod a+x ${DATA_DIR}/*
 uninstall:
 	rm -rf ${INSTALL_DIR}/${PROG}
 	rm -rf ${DATA_DIR}/
