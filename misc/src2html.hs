@@ -44,11 +44,14 @@ transform "break" = "<span class=\"palavra\">break</span>"
 transform "continue" = "<span class=\"palavra\">continue</span>"
 transform "return" = "<span class=\"palavra\">return</span>"
 transform "else" = "<span class=\"palavra\">else</span>"
-transform ('#':a) = "<span class=\"precompil\">" ++ a ++ "</span>"
+transform ('#':a) = "<span class=\"precompil\">#" ++ a ++ "</span>"
 transform ('/':'/':a) = "<span class=\"comentario\">" ++ ('/':'/':a)
 transform a
   | a /= [] && last a == ';' = (transform (init a)) ++ ";"
+  | a /= [] && last a == '{' = (transform (init a)) ++ "{"
   | a /= [] && head a == '(' && last a == ')' = "(" ++ (transform (init (tail a))) ++ ")"
+  | a /= [] && last a == ')' = (transform (init a)) ++ ")"
+  | a /= [] && head a == '(' = "(" ++ (transform (tail a))
   | isInfixOf "(" a = if transform inicio == inicio
                         then "<b>" ++ inicio ++ "</b>(" ++ (transform (tail fim))
                         else (transform inicio) ++ "(" ++ (transform (tail fim))
