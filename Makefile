@@ -92,8 +92,9 @@ test: test_dependencies
 	tests/test_start.sh
 	tests/test_apply_surface.sh
 	tests/test_center_camera.sh
+	tests/test_destroy_surface.sh
 	tests/test_draw_line.sh
-	tests/test_rectangle_mask.sh
+	tests/test_draw_rectangle_mask.sh
 	tests/test_erase_circle.sh
 	tests/test_erase_fullcircle.sh
 	tests/test_fill_surface.sh
@@ -114,6 +115,10 @@ test_apply_surface: test_dependencies
 test_center_camera: test_dependencies
 	tests/test_start.sh
 	tests/test_center_camera.sh
+	tests/test_end.sh
+test_destroy_surface: test_dependencies
+	tests/test_start.sh
+	tests/test_destroy_surface.sh
 	tests/test_end.sh
 test_draw_line: test_dependencies
 	tests/test_start.sh

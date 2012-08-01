@@ -49,42 +49,42 @@ power management:
 \subsection{Memory Info}
 \begin{verbatim}
 MemTotal:        1990372 kB
-MemFree:          191848 kB
-Buffers:           79028 kB
-Cached:          1109984 kB
+MemFree:          147360 kB
+Buffers:           82296 kB
+Cached:          1093708 kB
 SwapCached:            0 kB
-Active:           884000 kB
-Inactive:         812580 kB
-Active(anon):     508892 kB
-Inactive(anon):   237736 kB
-Active(file):     375108 kB
-Inactive(file):   574844 kB
+Active:           986052 kB
+Inactive:         755400 kB
+Active(anon):     570308 kB
+Inactive(anon):   245832 kB
+Active(file):     415744 kB
+Inactive(file):   509568 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 HighTotal:       1115476 kB
-HighFree:          16464 kB
+HighFree:          18696 kB
 LowTotal:         874896 kB
-LowFree:          175384 kB
+LowFree:          128664 kB
 SwapTotal:             0 kB
 SwapFree:              0 kB
-Dirty:               568 kB
+Dirty:               584 kB
 Writeback:             0 kB
-AnonPages:        507700 kB
-Mapped:           136404 kB
-Shmem:            238944 kB
-Slab:              76480 kB
-SReclaimable:      41352 kB
-SUnreclaim:        35128 kB
-KernelStack:        3096 kB
-PageTables:         9396 kB
+AnonPages:        565480 kB
+Mapped:           133852 kB
+Shmem:            250652 kB
+Slab:              75836 kB
+SReclaimable:      40744 kB
+SUnreclaim:        35092 kB
+KernelStack:        3176 kB
+PageTables:         9844 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:      995184 kB
-Committed_AS:    2813660 kB
+Committed_AS:    2983648 kB
 VmallocTotal:     122880 kB
-VmallocUsed:       16128 kB
-VmallocChunk:     105696 kB
+VmallocUsed:       16140 kB
+VmallocChunk:     104996 kB
 HardwareCorrupted:     0 kB
 AnonHugePages:         0 kB
 HugePages_Total:       0
@@ -96,14 +96,13 @@ DirectMap4k:       16376 kB
 DirectMap4M:      892928 kB
 \end{verbatim}
 \section{Function Tests}
-\subsection{draw\_rectangle\_mask(a,b,c,d,e)}
-Function used for turning transparent a 
-rectangular area in a surface. 
+\subsection{destroy\_surface(a)}
+Function used for destroying a surface.
 
-\includegraphics{tests/tex/draw_rectangle_mask.eps}
+\includegraphics{tests/tex/destroy_surface.eps}
 
-This graph shows how many nanosseconds this computer needs to turn transparent a $x \times s$ surface.
+This graph shows how many nanosseconds takes to destroy a $x \times x$ surface.
 
 The time, in nanosseconds is 
-approximated by the function $f(x)=1.452x+300$.
+approximated by the function $f(x)=.453000x+109$.
 \end{document}

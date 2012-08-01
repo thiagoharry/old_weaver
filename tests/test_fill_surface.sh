@@ -52,7 +52,6 @@ echo "\includegraphics{tests/tex/fill_surface.eps}" >> ../tex/report.tex
 echo "" >> ../tex/report.tex
 echo "This graph shows how many nanosseconds takes to fill a \$x \times x\$ surface." >> ../tex/report.tex
 echo "" >> ../tex/report.tex
-echo "As this function has a linear theoretical" >> ../tex/report.tex
-echo "complexity, the time, in nanosseconds is " >> ../tex/report.tex
+echo "The time, in nanosseconds is " >> ../tex/report.tex
 echo "approximated by the function \$f(x)=${a}x+${b}\$." >> ../tex/report.tex
 cd -
