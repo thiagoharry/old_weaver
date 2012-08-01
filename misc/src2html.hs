@@ -45,6 +45,8 @@ transform "continue" = "<span class=\"palavra\">continue</span>"
 transform "return" = "<span class=\"palavra\">return</span>"
 transform "else" = "<span class=\"palavra\">else</span>"
 transform ('#':a) = "<span class=\"precompil\">#" ++ a ++ "</span>"
+transform ('<':a) = "&lt;" ++ (transform a)
+transform ('&':a) = "&amp;" ++ (transform a)
 transform ('/':'/':a) = "<span class=\"comentario\">" ++ ('/':'/':a)
 transform a
   | a /= [] && last a == ';' = (transform (init a)) ++ ";"
