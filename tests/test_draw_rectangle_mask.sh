@@ -9,10 +9,10 @@ int main(int argc, char **argv){
   surface *surf;
   num = atoi(argv[1]);
   awake_the_weaver(); // Initializing Weaver API  
-  surf = new_surface(1, num);
+  surf = new_surface(num, num);
   XSync(_dpy, 1); 
   DEBUG_TIMER_START();
-  draw_rectangle_mask(surf, 0, 0, 1, num-1);
+  draw_rectangle_mask(surf, 0, 0, num, num);
   XSync(_dpy, 1);
   DEBUG_TIMER_END();
   may_the_weaver_sleep();
@@ -25,19 +25,18 @@ sum=0
 first=0
 last=0
 echo -n "" > data.txt 
-while (( $j <= 1000 )); do
-    echo $(($j /10))"%"
+while (( $j <= 10000 )); do
+    echo $((${j}/100))"%"
     media=$(./test_project $j)
     echo -n ${j}" " >> data.txt
     echo ${media} >> data.txt
     sum=$((${sum}+${media}))
-    j=$(($j+1))
+    j=$(($j+100))
 done
 first=$(./test_project 1)
-last=$(./test_project 1000000)
-sum=$((${sum}/1000))
+last=$(./test_project 10000)
 b=${first}
-a=$(echo "scale=6; (${last}-${first})/1000000" | bc)
+a=$(echo "scale=3; (${last}-${first})/10000" | bc)
 
 echo "set output \"draw_rectangle_mask.eps\"" > ../gnuplot_instructions.txt
 echo "set terminal postscript eps enhanced;" >> ../gnuplot_instructions.txt
@@ -51,7 +50,8 @@ mv draw_rectangle_mask.eps ../tex
 echo "" >> ../tex/report.tex
 echo "\includegraphics{tests/tex/draw_rectangle_mask.eps}" >> ../tex/report.tex
 echo "" >> ../tex/report.tex
-echo "As this function has a linear theoretical" >> ../tex/report.tex
-echo "complexity, the time, in nanosseconds is " >> ../tex/report.tex
+echo "This graph shows how many nanosseconds this computer needs to turn transparent a \$x \times s\$ surface." >> ../tex/report.tex
+echo "" >> ../tex/report.tex
+echo "The time, in nanosseconds is " >> ../tex/report.tex
 echo "approximated by the function \$f(x)=${a}x+${b}\$." >> ../tex/report.tex
 cd -

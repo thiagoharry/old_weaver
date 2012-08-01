@@ -28,7 +28,7 @@ model		: 23
 model name	: Intel(R) Celeron(R) CPU          900  @ 2.20GHz
 stepping	: 10
 microcode	: 0xa07
-cpu MHz		: 2194.539
+cpu MHz		: 2194.529
 cache size	: 1024 KB
 fdiv_bug	: no
 hlt_bug		: no
@@ -39,7 +39,7 @@ fpu_exception	: yes
 cpuid level	: 13
 wp		: yes
 flags		: fpu vme de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss tm pbe nx lm constant_tsc up arch_perfmon pebs bts aperfmperf pni dtes64 monitor ds_cpl tm2 ssse3 cx16 xtpr pdcm xsave lahf_lm dts
-bogomips	: 4389.07
+bogomips	: 4389.05
 clflush size	: 64
 cache_alignment	: 64
 address sizes	: 36 bits physical, 48 bits virtual
@@ -49,42 +49,42 @@ power management:
 \subsection{Memory Info}
 \begin{verbatim}
 MemTotal:        1990372 kB
-MemFree:          208640 kB
-Buffers:           49456 kB
-Cached:          1238752 kB
+MemFree:          191848 kB
+Buffers:           79028 kB
+Cached:          1109984 kB
 SwapCached:            0 kB
-Active:           902624 kB
-Inactive:         759680 kB
-Active(anon):     375892 kB
-Inactive(anon):   242280 kB
-Active(file):     526732 kB
-Inactive(file):   517400 kB
+Active:           884000 kB
+Inactive:         812580 kB
+Active(anon):     508892 kB
+Inactive(anon):   237736 kB
+Active(file):     375108 kB
+Inactive(file):   574844 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 HighTotal:       1115476 kB
-HighFree:          27624 kB
+HighFree:          16464 kB
 LowTotal:         874896 kB
-LowFree:          181016 kB
+LowFree:          175384 kB
 SwapTotal:             0 kB
 SwapFree:              0 kB
-Dirty:               664 kB
+Dirty:               568 kB
 Writeback:             0 kB
-AnonPages:        374100 kB
-Mapped:           121016 kB
-Shmem:            244108 kB
-Slab:              94864 kB
-SReclaimable:      44612 kB
-SUnreclaim:        50252 kB
-KernelStack:        3312 kB
-PageTables:         9148 kB
+AnonPages:        507700 kB
+Mapped:           136404 kB
+Shmem:            238944 kB
+Slab:              76480 kB
+SReclaimable:      41352 kB
+SUnreclaim:        35128 kB
+KernelStack:        3096 kB
+PageTables:         9396 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:      995184 kB
-Committed_AS:    2865856 kB
+Committed_AS:    2813660 kB
 VmallocTotal:     122880 kB
-VmallocUsed:       16448 kB
-VmallocChunk:      98052 kB
+VmallocUsed:       16128 kB
+VmallocChunk:     105696 kB
 HardwareCorrupted:     0 kB
 AnonHugePages:         0 kB
 HugePages_Total:       0
@@ -96,15 +96,14 @@ DirectMap4k:       16376 kB
 DirectMap4M:      892928 kB
 \end{verbatim}
 \section{Function Tests}
-\subsection{may\_the\_weaver\_sleep()}
-Function used to stop using  the Weaver API and
-free the memory,
+\subsection{draw\_rectangle\_mask(a,b,c,d,e)}
+Function used for turning transparent a 
+rectangular area in a surface. 
 
-\includegraphics{tests/tex/may_the_weaver_sleep.eps}
+\includegraphics{tests/tex/draw_rectangle_mask.eps}
 
-As this function has a constant theoretical
-complexity, the time, in nanosseconds spent 
-by this function (in nanosseconds) is
-approximated by the function $f(x)=9425.21$
-in this computer.
+This graph shows how many nanosseconds this computer needs to turn transparent a $x \times s$ surface.
+
+The time, in nanosseconds is 
+approximated by the function $f(x)=1.452x+300$.
 \end{document}

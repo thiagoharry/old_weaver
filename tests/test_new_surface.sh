@@ -24,19 +24,19 @@ sum=0
 first=0
 last=0
 echo -n "" > data.txt 
-while (( $j <= 100 )); do
-    echo "${j}%"
+while (( $j <= 10000 )); do
+    echo "$((${j}/100))%"
     media=$(./test_project $j)
     echo -n ${j}" " >> data.txt
     echo ${media} >> data.txt
     sum=$((${sum}+${media}))
-    j=$(($j+1))
+    j=$(($j+100))
 done
 first=$(./test_project 1)
-last=$(./test_project 1000000)
+last=$(./test_project 10000)
 sum=$((${sum}/100))
 b=${first}
-a=$(echo "scale=6; (${last}-${first})/1000000" | bc)
+a=$(echo "scale=6; (${last}-${first})/10000" | bc)
 
 echo "set output \"new_surface.eps\"" > ../gnuplot_instructions.txt
 echo "set terminal postscript eps enhanced;" >> ../gnuplot_instructions.txt
@@ -48,6 +48,8 @@ gnuplot ../gnuplot_instructions.txt
 mv new_surface.eps ../tex
 echo "" >> ../tex/report.tex
 echo "\includegraphics{tests/tex/new_surface.eps}" >> ../tex/report.tex
+echo "" >> ../tex/report.tex
+echo "The graph shows how much time in nanosseconds it takes to create a new surface \$x \times x \$." >> ../tex/report.tex
 echo "" >> ../tex/report.tex
 echo "As this function has a linear theoretical" >> ../tex/report.tex
 echo "complexity, the time, in nanosseconds is " >> ../tex/report.tex
