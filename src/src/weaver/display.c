@@ -51,9 +51,10 @@ void fill_surface(struct surface *surf, unsigned color){
 
 // This function is used to create surfaces
 struct surface *new_surface(int width, int height){
+  struct surface *my_surf;
   if(width == 0 || height == 0)
     return NULL;
-  struct surface *my_surf = (struct surface *) malloc(sizeof(struct surface));
+  my_surf = (struct surface *) malloc(sizeof(struct surface));
   if(my_surf != NULL){
     my_surf -> pix = XCreatePixmap(_dpy, _w, width, height, _depth);
     my_surf -> width = width;
