@@ -91,7 +91,6 @@ aux:
 test: test_dependencies
 	tests/test_start.sh
 	tests/test_apply_surface.sh
-#	tests/test_awake_the_weaver.sh
 	tests/test_center_camera.sh
 	tests/test_draw_line.sh
 	tests/test_erase_circle.sh
@@ -99,50 +98,23 @@ test: test_dependencies
 	tests/test_film_circle.sh
 	tests/test_film_fullrectangle.sh
 	tests/test_film_rectangle.sh
+	tests/test_flush.sh
 	tests/test_limit_camera.sh
 	tests/test_may_the_weaver_sleep.sh
 	tests/test_weaver_rest.sh
 	tests/test_zoom_camera.sh
 	tests/test_end.sh
-#test_awake_the_weaver: test_dependencies
-#	tests/test_start.sh
-#	tests/test_awake_the_weaver.sh
-#	tests/test_end.sh
 test_apply_surface: test_dependencies
 	tests/test_start.sh
 	tests/test_apply_surface.sh
-	tests/test_end.sh
-test_may_the_weaver_sleep: test_dependencies
-	tests/test_start.sh
-	tests/test_may_the_weaver_sleep.sh
-	tests/test_end.sh
-test_weaver_rest: test_dependencies
-	tests/test_start.sh
-	tests/test_weaver_rest.sh
 	tests/test_end.sh
 test_center_camera: test_dependencies
 	tests/test_start.sh
 	tests/test_center_camera.sh
 	tests/test_end.sh
-test_zoom_camera: test_dependencies
+test_draw_line: test_dependencies
 	tests/test_start.sh
-	tests/test_zoom_camera.sh
-	tests/test_end.sh
-test_limit_camera: test_dependencies
-	tests/test_start.sh
-	tests/test_limit_camera.sh
-	tests/test_end.sh
-test_film_rectangle: test_dependencies
-	tests/test_start.sh
-	tests/test_film_rectangle.sh
-	tests/test_end.sh
-test_film_polygon: test_dependencies
-	tests/test_start.sh
-	tests/test_film_polygon.sh
-	tests/test_end.sh
-test_film_fullrectangle: test_dependencies
-	tests/test_start.sh
-	tests/test_film_fullrectangle.sh
+	tests/test_draw_line.sh
 	tests/test_end.sh
 test_erase_circle: test_dependencies
 	tests/test_start.sh
@@ -156,9 +128,37 @@ test_film_circle: test_dependencies
 	tests/test_start.sh
 	tests/test_film_circle.sh
 	tests/test_end.sh
-test_draw_line: test_dependencies
+test_film_fullrectangle: test_dependencies
 	tests/test_start.sh
-	tests/test_draw_line.sh
+	tests/test_film_fullrectangle.sh
+	tests/test_end.sh
+test_film_polygon: test_dependencies
+	tests/test_start.sh
+	tests/test_film_polygon.sh
+	tests/test_end.sh
+test_film_rectangle: test_dependencies
+	tests/test_start.sh
+	tests/test_film_rectangle.sh
+	tests/test_end.sh
+test_flush: test_dependencies
+	tests/test_start.sh
+	tests/test_flush.sh
+	tests/test_end.sh
+test_limit_camera: test_dependencies
+	tests/test_start.sh
+	tests/test_limit_camera.sh
+	tests/test_end.sh
+test_may_the_weaver_sleep: test_dependencies
+	tests/test_start.sh
+	tests/test_may_the_weaver_sleep.sh
+	tests/test_end.sh
+test_weaver_rest: test_dependencies
+	tests/test_start.sh
+	tests/test_weaver_rest.sh
+	tests/test_end.sh
+test_zoom_camera: test_dependencies
+	tests/test_start.sh
+	tests/test_zoom_camera.sh
 	tests/test_end.sh
 clean:
 	find . -name "*~" -exec rm -f {} \;
