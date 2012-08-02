@@ -91,6 +91,8 @@ aux:
 test: test_dependencies
 	tests/test_start.sh
 	tests/test_apply_surface.sh
+	tests/test_blit_masked_pixmap.sh
+	tests/test_blit_surface.sh
 	tests/test_center_camera.sh
 	tests/test_destroy_surface.sh
 	tests/test_draw_line.sh
@@ -111,6 +113,14 @@ test: test_dependencies
 test_apply_surface: test_dependencies
 	tests/test_start.sh
 	tests/test_apply_surface.sh
+	tests/test_end.sh
+test_blit_masked_pixmap: test_dependencies
+	tests/test_start.sh
+	tests/test_blit_masked_pixmap.sh
+	tests/test_end.sh
+test_blit_surface: test_dependencies
+	tests/test_start.sh
+	tests/test_blit_surface.sh
 	tests/test_end.sh
 test_center_camera: test_dependencies
 	tests/test_start.sh

@@ -76,46 +76,29 @@ void destroy_surface(struct surface *my_surf){
   free(my_surf);
 }
 
-
 // This is used to bit blit 2 surfaces
-void blit_surface(struct surface *src, struct surface *dest, int x_src, int y_src, 
-		  int width, int height, int x_dest, int y_dest){
-  //XGCValues gcValues; 
-  
-  //XGetGCValues(_dpy, _gc, GCFunction|GCForeground|GCBackground|GCPlaneMask, &gcValues);
-  //XSetBackground(_dpy, _gc, BLACK);
+void blit_surface(struct surface *src, struct surface *dest, int x_src, 
+		  int y_src, int width, int height, int x_dest, int y_dest){
+  // If the source surface has some transparent pixels, we need to take into
+  // account this:
   if(src -> mask != None){
     XSetClipMask(_dpy, _gc, src -> mask);
     XSetClipOrigin(_dpy, _gc, x_dest - x_src, y_dest - y_src);
-  }
-  
-  XCopyArea(_dpy, src -> pix, dest -> pix, _gc, x_src, y_src, width, height, x_dest, y_dest);
-  
+  }  
+  XCopyArea(_dpy, src -> pix, dest -> pix, _gc, x_src, y_src, width, height, 
+	    x_dest, y_dest);
   XSetClipMask(_dpy, _gc, None);
-  //XChangeGC(_dpy, _gc, GCFunction|GCForeground|GCBackground|GCPlaneMask, &gcValues);
   XFlush(_dpy);
 }
 
 // This blit a pixmap using a mask passed as argument
-void blit_masked_pixmap(Pixmap pix, Pixmap mask, struct surface *dest, int x_src, 
-			int y_src, int width, int height, int x_mask, 
-			int y_mask, int x_dest, int y_dest){
+void blit_masked_pixmap(Pixmap pix, Pixmap mask, struct surface *dest, 
+			int x_src, int y_src, int width, int height, 
+			int x_mask, int y_mask, int x_dest, int y_dest){
   XSetClipMask(_dpy, _gc, mask);
   XSetClipOrigin(_dpy, _gc, x_dest - x_mask, y_dest - y_mask);
-  XCopyArea(_dpy, pix, dest -> pix, _gc, x_src, y_src, width, height, x_dest, y_dest);
-  XSetClipMask(_dpy, _gc, None);
-  XFlush(_dpy);
-}
-
-
-//This blits a surface combined with a mask in a given destiny
-void blit_masked_surface(Pixmap pix, Pixmap mask, struct surface *dest, int x_src, int y_src, 
-			 int mask_x, int mask_y, int width, int height, int x_dest, int y_dest){
-  if(mask != None){
-    XSetClipMask(_dpy, _gc, mask);
-    XSetClipOrigin(_dpy, _gc, x_dest - x_src - mask_x, y_dest - y_src - mask_y);
-  }
-  XCopyArea(_dpy, pix, dest -> pix, _gc, x_src, y_src, width, height, x_dest, y_dest);
+  XCopyArea(_dpy, pix, dest -> pix, _gc, x_src, y_src, width, height, x_dest, 
+	    y_dest);
   XSetClipMask(_dpy, _gc, None);
   XFlush(_dpy);
 }
