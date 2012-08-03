@@ -35,21 +35,21 @@ while (( $j < 101 )); do
     j=$(($j+1))
 done
 
-echo "set output \"apply_surface.eps\"" > ../gnuplot_instructions.txt
+echo "set output \"apply_texture.eps\"" > ../gnuplot_instructions.txt
 echo "set terminal postscript eps enhanced;" >> ../gnuplot_instructions.txt
 echo "plot \"data.txt\" with lines;" >> ../gnuplot_instructions.txt
 
-echo "\subsection{apply\_surface(a,b)}" >> ../tex/report.tex
+echo "\subsection{apply\_texture(a,b)}" >> ../tex/report.tex
 echo "Function used for filling a surface with a texture" >> ../tex/report.tex
-echo "stored in other surface." >> ../tex/report.tex
-echo "In this test, \emph{a} is a \$1\times1\$ surface" >> ../tex/report.tex
+echo "stored in other texture." >> ../tex/report.tex
+echo "In this test, \emph{a} is a \$1\times1\$ texture" >> ../tex/report.tex
 echo "and \emph{b} is a square surface with \$x\$ pixels." >> ../tex/report.tex
 gnuplot ../gnuplot_instructions.txt
-mv apply_surface.eps ../tex
+mv apply_texture.eps ../tex
 VALUE=$(tail -n 1 data.txt | cut -d " " -f 2)
 VALUE=$(echo "scale=2; ${VALUE}/10000" | bc -l)
 echo "" >> ../tex/report.tex
-echo "\includegraphics{tests/tex/apply_surface.eps}" >> ../tex/report.tex
+echo "\includegraphics{tests/tex/apply_texture.eps}" >> ../tex/report.tex
 echo "" >> ../tex/report.tex
 echo "As this function has a linear theoretical" >> ../tex/report.tex
 echo "complexity, the time, in nanosseconds is " >> ../tex/report.tex

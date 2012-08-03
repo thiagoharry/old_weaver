@@ -90,7 +90,7 @@ aux:
 	ghc --make misc/src2html.hs
 test: test_dependencies
 	tests/test_start.sh
-	tests/test_apply_surface.sh
+	tests/test_apply_texture.sh
 	tests/test_blit_masked_pixmap.sh
 	tests/test_blit_surface.sh
 	tests/test_center_camera.sh
@@ -99,6 +99,7 @@ test: test_dependencies
 	tests/test_draw_rectangle_mask.sh
 	tests/test_erase_circle.sh
 	tests/test_erase_fullcircle.sh
+	tests/test_hide_cursor.sh
 	tests/test_fill_surface.sh
 	tests/test_film_circle.sh
 	tests/test_film_fullrectangle.sh
@@ -110,9 +111,9 @@ test: test_dependencies
 	tests/test_weaver_rest.sh
 	tests/test_zoom_camera.sh
 	tests/test_end.sh
-test_apply_surface: test_dependencies
+test_apply_texture: test_dependencies
 	tests/test_start.sh
-	tests/test_apply_surface.sh
+	tests/test_apply_texture.sh
 	tests/test_end.sh
 test_blit_masked_pixmap: test_dependencies
 	tests/test_start.sh
@@ -169,6 +170,10 @@ test_film_rectangle: test_dependencies
 test_flush: test_dependencies
 	tests/test_start.sh
 	tests/test_flush.sh
+	tests/test_end.sh
+test_hide_cursor: test_dependencies
+	tests/test_start.sh
+	tests/test_hide_cursor.sh
 	tests/test_end.sh
 test_limit_camera: test_dependencies
 	tests/test_start.sh

@@ -52,7 +52,7 @@ void fill_surface(struct surface *surf, unsigned color){
 // This function is used to create surfaces
 struct surface *new_surface(int width, int height){
   struct surface *my_surf;
-  if(width == 0 || height == 0)
+  if(width <= 0 || height <= 0)
     return NULL;
   my_surf = (struct surface *) malloc(sizeof(struct surface));
   if(my_surf != NULL){
@@ -110,7 +110,8 @@ void apply_texture(struct surface *src, struct surface *dest){
     return;
   for(x = 0; x < dest -> width; x += src -> width)
     for(y = 0; y < dest -> height; y += src -> height){
-      XCopyArea(_dpy, src -> pix, dest -> pix, _gc, 0, 0, src -> width, src -> height, x, y);
+      XCopyArea(_dpy, src -> pix, dest -> pix, _gc, 0, 0, src -> width, 
+		src -> height, x, y);
     }
   XFlush(_dpy);
 }
@@ -225,7 +226,6 @@ void _initialize_screen(void){
 }
 
 // A function to hide the mouse pointer
-// XXX: Is there a better way?
 void hide_cursor(void){
   Colormap cmap;
   Cursor no_ptr;
