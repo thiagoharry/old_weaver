@@ -20,15 +20,15 @@ make &> /dev/null
 j=0
 sum=0
 echo -n "" > data.txt 
-while (( $j < 1000 )); do
-    echo $(($j /10))"%"
+while (( $j < 100 )); do
+    echo "${j}%"
     media=$(./test_project $j)
     echo -n ${j}" " >> data.txt
     echo ${media} >> data.txt
     sum=$((${sum}+${media}))
     j=$(($j+1))
 done
-sum=$((${sum}/1000))
+sum=$((${sum}/100))
 
 echo "set output \"draw_line.eps\"" > ../gnuplot_instructions.txt
 echo "set terminal postscript eps enhanced;" >> ../gnuplot_instructions.txt
@@ -39,8 +39,6 @@ echo "Function used for drawing a line in the" >> ../tex/report.tex
 echo "screen, given it's coordinates. " >> ../tex/report.tex
 gnuplot ../gnuplot_instructions.txt
 mv draw_line.eps ../tex
-VALUE=$(tail -n 1 data.txt | cut -d " " -f 2)
-VALUE=$(echo "scale=2; ${VALUE}/10000" | bc -l)
 echo "" >> ../tex/report.tex
 echo "\includegraphics{tests/tex/draw_line.eps}" >> ../tex/report.tex
 echo "" >> ../tex/report.tex
