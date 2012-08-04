@@ -245,7 +245,6 @@ void hide_cursor(void){
   XFreeColors(_dpy, cmap, &black.pixel, 1, 0);
 }
 
-
 // This function draws a point in the screen
 void draw_point(unsigned x, unsigned y, unsigned color){
   XSetForeground(_dpy, _gc, color);
@@ -254,7 +253,8 @@ void draw_point(unsigned x, unsigned y, unsigned color){
 }
 
 // This function draws a line in the screen
-void draw_line(unsigned x1, unsigned y1, unsigned x2, unsigned y2, unsigned color){
+void draw_line(unsigned x1, unsigned y1, unsigned x2, unsigned y2, 
+	       unsigned color){
   XSetForeground(_dpy, _gc, color);
   XDrawLine(_dpy, _b, _gc, x1, y1, x2, y2);
   XFlush(_dpy);
