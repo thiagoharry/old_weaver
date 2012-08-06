@@ -113,6 +113,7 @@ test: test_dependencies
 	tests/test_flush.sh
 	tests/test_limit_camera.sh
 	tests/test_may_the_weaver_sleep.sh
+	tests/test_new_image.sh
 	tests/test_new_surface.sh
 	tests/test_weaver_rest.sh
 	tests/test_zoom_camera.sh
@@ -216,6 +217,10 @@ test_limit_camera: test_dependencies
 test_may_the_weaver_sleep: test_dependencies
 	tests/test_start.sh
 	tests/test_may_the_weaver_sleep.sh
+	tests/test_end.sh
+test_new_image: test_dependencies
+	tests/test_start.sh
+	tests/test_new_image.sh
 	tests/test_end.sh
 test_new_surface: test_dependencies
 	tests/test_start.sh

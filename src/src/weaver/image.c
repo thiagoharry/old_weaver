@@ -176,7 +176,6 @@ struct surface *new_image(char *file){
   char *path = (char *) malloc(strlen(file)+60);
   path[0] = '\0';
 
-  //unsigned char *image_data;
   struct surface *my_surf;
 
   _display_exponent = default_display_exponent = 2.2;
@@ -199,12 +198,8 @@ struct surface *new_image(char *file){
   }
   _image_data = _readpng_get_image(_display_exponent, &_image_channels,
                                  &_image_rowbytes);
-  //fclose(infile);
-  //my_image = XCreateImage(_dpy, _visual, _depth, ZPixmap, 0, _image_data, _image_width, _image_height, 32, 0);  
   my_surf = new_surface(_image_width, _image_height);
   _display_image(my_surf, 0, 0);
-  //XPutImage(_dpy, my_surf -> pix, _gc, my_image, 0, 0, 0, 0, _image_width, _image_height);
-  //XDestroyImage(my_image);
   fclose(infile);
   png_destroy_read_struct(&_png_ptr, &_info_ptr, NULL);
   free(_image_data);
