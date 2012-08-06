@@ -105,6 +105,7 @@ test: test_dependencies
 	tests/test_hide_cursor.sh
 	tests/test_fill_circle.sh
 	tests/test_fill_ellipse.sh
+	tests/test_fill_rectangle.sh
 	tests/test_fill_surface.sh
 	tests/test_film_circle.sh
 	tests/test_film_fullrectangle.sh
@@ -175,6 +176,10 @@ test_fill_circle: test_dependencies
 test_fill_ellipse: test_dependencies
 	tests/test_start.sh
 	tests/test_fill_ellipse.sh
+	tests/test_end.sh
+test_fill_rectangle: test_dependencies
+	tests/test_start.sh
+	tests/test_fill_rectangle.sh
 	tests/test_end.sh
 test_fill_surface: test_dependencies
 	tests/test_start.sh

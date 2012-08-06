@@ -49,39 +49,39 @@ power management:
 \subsection{Memory Info}
 \begin{verbatim}
 MemTotal:        1990372 kB
-MemFree:          130592 kB
-Buffers:          205292 kB
-Cached:          1110184 kB
+MemFree:          117780 kB
+Buffers:          190688 kB
+Cached:          1112824 kB
 SwapCached:            0 kB
-Active:           705488 kB
-Inactive:        1003404 kB
-Active(anon):     394248 kB
-Inactive(anon):   173340 kB
-Active(file):     311240 kB
-Inactive(file):   830064 kB
+Active:           765840 kB
+Inactive:         957300 kB
+Active(anon):     420456 kB
+Inactive(anon):   172712 kB
+Active(file):     345384 kB
+Inactive(file):   784588 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 HighTotal:       1115476 kB
-HighFree:          14232 kB
+HighFree:          14356 kB
 LowTotal:         874896 kB
-LowFree:          116360 kB
+LowFree:          103424 kB
 SwapTotal:             0 kB
 SwapFree:              0 kB
-Dirty:               600 kB
+Dirty:               544 kB
 Writeback:             0 kB
-AnonPages:        393412 kB
-Mapped:           138220 kB
-Shmem:            174180 kB
-Slab:             127948 kB
-SReclaimable:      88828 kB
-SUnreclaim:        39120 kB
-KernelStack:        3048 kB
-PageTables:         8584 kB
+AnonPages:        419628 kB
+Mapped:           141696 kB
+Shmem:            173520 kB
+Slab:             125768 kB
+SReclaimable:      86804 kB
+SUnreclaim:        38964 kB
+KernelStack:        3128 kB
+PageTables:         8904 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:      995184 kB
-Committed_AS:    2598408 kB
+Committed_AS:    2630632 kB
 VmallocTotal:     122880 kB
 VmallocUsed:       16236 kB
 VmallocChunk:     104056 kB
@@ -96,13 +96,13 @@ DirectMap4k:       16376 kB
 DirectMap4M:      892928 kB
 \end{verbatim}
 \section{Function Tests}
-\subsection{draw\_rectangle(a,b,c,d,e)}
-Function used for drawing a rectangle in the
+\subsection{fill\_rectangle(a,b,c,d,e)}
+Function used for drawing and filling a rectangle in the
 screen, given it's coordinates. 
 
-\includegraphics{tests/tex/draw_rectangle.eps}
+\includegraphics{tests/tex/fill_rectangle.eps}
 
 As this function has a constant theoretical
 complexity, the time, in nanosseconds is 
-approximated by the function $f(x)=3996$.
+approximated by the function $f(x)=1153$.
 \end{document}
