@@ -148,11 +148,12 @@ void _initialize_screen(void){
                            BLACK); // Background
   // Changing setting...
   attributes.override_redirect = True;
-  attributes.event_mask = ButtonPressMask | ButtonReleaseMask | KeyPressMask | KeyReleaseMask | PointerMotionMask;
+  attributes.event_mask = ButtonPressMask | ButtonReleaseMask | KeyPressMask | 
+    KeyReleaseMask | PointerMotionMask;
   attributes.event_mask = 0l;
   XChangeWindowAttributes(_dpy, _w, valuemask, &attributes);
-  XSelectInput(_dpy, _w, StructureNotifyMask | KeyPressMask | KeyReleaseMask | ButtonPressMask | ButtonReleaseMask |
-	       PointerMotionMask);
+  XSelectInput(_dpy, _w, StructureNotifyMask | KeyPressMask | KeyReleaseMask | 
+	       ButtonPressMask | ButtonReleaseMask | PointerMotionMask);
 
   // Mapping the window..
   XMapWindow(_dpy, _w);                             
@@ -164,7 +165,8 @@ void _initialize_screen(void){
     
     visual_info.screen = _screen;
     visual_info.depth = 24;
-    visual_list = XGetVisualInfo(_dpy, VisualScreenMask | VisualDepthMask, &visual_info, &visuals_matched);
+    visual_list = XGetVisualInfo(_dpy, VisualScreenMask | VisualDepthMask, 
+				 &visual_info, &visuals_matched);
     if(visuals_matched == 0){
       fprintf(stderr, "Default screen depth not supported.\n");
       exit(1);
@@ -206,7 +208,7 @@ void _initialize_screen(void){
       window -> mask = None;
     }
     else{
-      fprintf(stderr, "ERROR: I wasn't able to alloc memory for the window image.\n");
+      fprintf(stderr, "ERROR: Not able to get memory for the window image.\n");
       exit(1);
     }
   }
@@ -270,9 +272,10 @@ void draw_circle(unsigned x, unsigned y, unsigned r, unsigned color){
 
 // This function fills a circle
 void fill_circle(unsigned x, unsigned y, unsigned r, unsigned color){
-  unsigned diameter = r + r + 2;
+  unsigned diameter = r + r;
   XSetForeground(_dpy, _gc, color); 
-  XFillArc(_dpy, _b, _gc, x-r-1, y-r-1, diameter, diameter, 0, 23040);
+  XDrawArc(_dpy, _b, _gc, x-r, y-r, diameter, diameter, 0, 23040); 
+  XFillArc(_dpy, _b, _gc, x-r, y-r, diameter, diameter, 0, 23040);
   XFlush(_dpy);
 }
 
