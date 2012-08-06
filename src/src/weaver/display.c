@@ -270,40 +270,45 @@ void draw_circle(unsigned x, unsigned y, unsigned r, unsigned color){
 
 // This function fills a circle
 void fill_circle(unsigned x, unsigned y, unsigned r, unsigned color){
-  unsigned diameter = r + r;
+  unsigned diameter = r + r + 2;
   XSetForeground(_dpy, _gc, color); 
-  XDrawArc(_dpy, _b, _gc, x-r, y-r, diameter, diameter, 0, 23040);
-  XFillArc(_dpy, _b, _gc, x-r, y-r, diameter, diameter, 0, 23040);
+  XFillArc(_dpy, _b, _gc, x-r-1, y-r-1, diameter, diameter, 0, 23040);
   XFlush(_dpy);
 }
 
 
 // This draws a rectangle
-void draw_rectangle(unsigned x, unsigned y, unsigned width, unsigned height, unsigned color){
+void draw_rectangle(unsigned x, unsigned y, unsigned width, unsigned height, 
+		    unsigned color){
   XSetForeground(_dpy, _gc, color);
   XDrawRectangle(_dpy, _b, _gc, x, y, width, height);
   XFlush(_dpy);
 }
 
 // This fills a rectangle
-void fill_rectangle(unsigned x, unsigned y, unsigned width, unsigned height, unsigned color){
+void fill_rectangle(unsigned x, unsigned y, unsigned width, unsigned height, 
+		    unsigned color){
   XSetForeground(_dpy, _gc, color);
-  XDrawRectangle(_dpy, _b, _gc, x, y, width, height);
-  XFillRectangle(_dpy, _b, _gc, x, y, width, height);
+  XFillRectangle(_dpy, _b, _gc, x-1, y, width+2, height+1);
   XFlush(_dpy);
 }
 
 // And this draws ellipses
-void draw_ellipse(unsigned x, unsigned y, unsigned width, unsigned height, unsigned color){
+void draw_ellipse(unsigned x, unsigned y, unsigned width, unsigned height, 
+		  unsigned color){
   XSetForeground(_dpy, _gc, color);
-  XDrawArc(_dpy, _b, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+  XDrawArc(_dpy, _b, _gc, x - width / 2, y - height / 2, width, height, 0, 
+	   23040);
   XFlush(_dpy);
 }
 
 // We also can fill an ellipse
-void fill_ellipse(unsigned x, unsigned y, unsigned width, unsigned height, unsigned color){
+void fill_ellipse(unsigned x, unsigned y, unsigned width, unsigned height, 
+		  unsigned color){
   XSetForeground(_dpy, _gc, color);
-  XDrawArc(_dpy, _b, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
-  XFillArc(_dpy, _b, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
+  XDrawArc(_dpy, _b, _gc, x - width / 2, y - height / 2, width, height, 0, 
+	   23040);
+  XFillArc(_dpy, _b, _gc, x - width / 2, y - height / 2, width, height, 0, 
+	   23040);
   XFlush(_dpy);
 }

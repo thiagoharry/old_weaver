@@ -20,14 +20,13 @@ test_dependencies:
 	@gcc dummy.c -lX11 2> /dev/null || touch ERROR
 	@if [ -e a.out ]; then echo "OK"; rm a.out; else \
 	/bin/echo -e "\033[31mFAILED\033[m"; fi
-############################## XDBE TEST #######################################
+############################## XDBE TEST ######################################
 	@echo "#include <X11/Xlib.h>" > dummy.h
 	@echo "#include <X11/extensions/Xdbe.h>" >> dummy.h
 	@echo -n "Testing XDBE extension......"
 	@gcc dummy.c -lX11 -lXext 2> /dev/null || touch ERROR
 	@if [ -e a.out ]; then echo "OK"; rm a.out; else \
 	/bin/echo -e "\033[31mFAILED\033[m"; fi
-
 ############################ MATH TEST ########################################
 	@echo -n "Testing Math libraries......"
 	@echo "#include <math.h>" > dummy.h
@@ -96,12 +95,16 @@ test: test_dependencies
 	tests/test_center_camera.sh
 	tests/test_destroy_surface.sh
 	tests/test_draw_circle.sh
+	tests/test_draw_ellipse.sh
 	tests/test_draw_line.sh
 	tests/test_draw_point.sh
+	tests/test_draw_rectangle.sh
 	tests/test_draw_rectangle_mask.sh
 	tests/test_erase_circle.sh
 	tests/test_erase_fullcircle.sh
 	tests/test_hide_cursor.sh
+	tests/test_fill_circle.sh
+	tests/test_fill_ellipse.sh
 	tests/test_fill_surface.sh
 	tests/test_film_circle.sh
 	tests/test_film_fullrectangle.sh
@@ -137,6 +140,10 @@ test_draw_circle: test_dependencies
 	tests/test_start.sh
 	tests/test_draw_circle.sh
 	tests/test_end.sh
+test_draw_ellipse: test_dependencies
+	tests/test_start.sh
+	tests/test_draw_ellipse.sh
+	tests/test_end.sh
 test_draw_line: test_dependencies
 	tests/test_start.sh
 	tests/test_draw_line.sh
@@ -144,6 +151,10 @@ test_draw_line: test_dependencies
 test_draw_point: test_dependencies
 	tests/test_start.sh
 	tests/test_draw_point.sh
+	tests/test_end.sh
+test_draw_rectangle: test_dependencies
+	tests/test_start.sh
+	tests/test_draw_rectangle.sh
 	tests/test_end.sh
 test_draw_rectangle_mask: test_dependencies
 	tests/test_start.sh
@@ -156,6 +167,14 @@ test_erase_circle: test_dependencies
 test_erase_fullcircle: test_dependencies
 	tests/test_start.sh
 	tests/test_erase_fullcircle.sh
+	tests/test_end.sh
+test_fill_circle: test_dependencies
+	tests/test_start.sh
+	tests/test_fill_circle.sh
+	tests/test_end.sh
+test_fill_ellipse: test_dependencies
+	tests/test_start.sh
+	tests/test_fill_ellipse.sh
 	tests/test_end.sh
 test_fill_surface: test_dependencies
 	tests/test_start.sh
