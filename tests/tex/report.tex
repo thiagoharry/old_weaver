@@ -49,39 +49,39 @@ power management:
 \subsection{Memory Info}
 \begin{verbatim}
 MemTotal:        1990372 kB
-MemFree:          236056 kB
-Buffers:           71044 kB
-Cached:          1136872 kB
+MemFree:          167916 kB
+Buffers:           72580 kB
+Cached:          1213160 kB
 SwapCached:            0 kB
-Active:           975512 kB
-Inactive:         674980 kB
-Active(anon):     453356 kB
-Inactive(anon):   163992 kB
-Active(file):     522156 kB
-Inactive(file):   510988 kB
+Active:          1009452 kB
+Inactive:         709796 kB
+Active(anon):     444296 kB
+Inactive(anon):   164032 kB
+Active(file):     565156 kB
+Inactive(file):   545764 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 HighTotal:       1115476 kB
-HighFree:          28740 kB
+HighFree:          14232 kB
 LowTotal:         874896 kB
-LowFree:          207316 kB
+LowFree:          153684 kB
 SwapTotal:             0 kB
 SwapFree:              0 kB
-Dirty:              6448 kB
+Dirty:              2812 kB
 Writeback:             0 kB
-AnonPages:        442608 kB
-Mapped:           146264 kB
-Shmem:            174768 kB
-Slab:              79872 kB
-SReclaimable:      45260 kB
-SUnreclaim:        34612 kB
-KernelStack:        3408 kB
-PageTables:         9152 kB
+AnonPages:        433572 kB
+Mapped:           142700 kB
+Shmem:            174796 kB
+Slab:              80200 kB
+SReclaimable:      45512 kB
+SUnreclaim:        34688 kB
+KernelStack:        3120 kB
+PageTables:         8640 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:      995184 kB
-Committed_AS:    2830240 kB
+Committed_AS:    2689900 kB
 VmallocTotal:     122880 kB
 VmallocUsed:       16152 kB
 VmallocChunk:     100428 kB
@@ -96,13 +96,13 @@ DirectMap4k:       40952 kB
 DirectMap4M:      868352 kB
 \end{verbatim}
 \section{Function Tests}
-\subsection{draw\_point()}
-Function used for drawing a point in the screen.
+\subsection{get\_input()}
+Function used for getting mouse and keyboard events.
 
 
-\includegraphics{tests/tex/draw_point.eps}
+\includegraphics{tests/tex/get_input.eps}
 
 As this function has a constant theoretical
 complexity, the time, in nanosseconds is 
-approximated by the function $f(x)=846$.
+approximated by the function $f(x)=2168$.
 \end{document}

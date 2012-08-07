@@ -102,6 +102,7 @@ test: test_dependencies
 	tests/test_draw_rectangle_mask.sh
 	tests/test_erase_circle.sh
 	tests/test_erase_fullcircle.sh
+	tests/test_get_input.sh
 	tests/test_hide_cursor.sh
 	tests/test_fill_circle.sh
 	tests/test_fill_ellipse.sh
@@ -205,6 +206,10 @@ test_film_rectangle: test_dependencies
 test_flush: test_dependencies
 	tests/test_start.sh
 	tests/test_flush.sh
+	tests/test_end.sh
+test_get_input: test_dependencies
+	tests/test_start.sh
+	tests/test_get_input.sh
 	tests/test_end.sh
 test_hide_cursor: test_dependencies
 	tests/test_start.sh
