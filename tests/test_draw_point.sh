@@ -6,9 +6,9 @@ echo -ne "#include \"weaver/weaver.h\"\n
 #include \"game.h\"\n
 int main(int argc, char **argv){
   int x, y, color;
-  awake_the_weaver(); // Initializing Weaver API  
+  awake_the_weaver(); // Initializing Weaver API
   x = rand() % window_width; y = rand() % window_height; color = rand();
-  XSync(_dpy, 1); 
+  XSync(_dpy, 1);
   DEBUG_TIMER_START();
   draw_point(x, y, color);
   XSync(_dpy, 1);
@@ -19,7 +19,7 @@ int main(int argc, char **argv){
 make &> /dev/null
 j=0
 sum=0
-echo -n "" > data.txt 
+echo -n "" > data.txt
 while (( $j < 100 )); do
     echo "${j}%"
     media=$(./test_project $j)

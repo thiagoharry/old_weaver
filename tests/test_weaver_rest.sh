@@ -15,7 +15,7 @@ int main(int argc, char **argv){
 make &> /dev/null
 j=1
 media=0
-echo -n "" > data.txt 
+echo -n "" > data.txt
 while (( $j < 101 )); do
     echo $(($j - 1))"%"
     valor=$(./test_project)

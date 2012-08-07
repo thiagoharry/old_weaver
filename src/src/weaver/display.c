@@ -7,12 +7,12 @@
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  Weaver API is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
-    
+
  You should have received a copy of the GNU General Public License
  along with Weaver API.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -35,7 +35,7 @@ void flush(void){
 }
 
 // This function adds mask bits in a surface
-void draw_rectangle_mask(struct surface *my_surf, int x, int y, int width, 
+void draw_rectangle_mask(struct surface *my_surf, int x, int y, int width,
 			 int height){
   XSetForeground(_dpy, _mask_gc, 0l);
   XFillRectangle(_dpy, my_surf -> mask, _mask_gc, x, y, width, height);
@@ -63,8 +63,8 @@ struct surface *new_surface(int width, int height){
     if(_mask_gc == None)
         _mask_gc = XCreateGC(_dpy, my_surf -> mask, 0, NULL);
     XSetForeground(_dpy, _mask_gc, ~0l);
-    XFillRectangle(_dpy, my_surf -> mask, _mask_gc, 0, 0, my_surf -> width, 
-		   my_surf -> height);      
+    XFillRectangle(_dpy, my_surf -> mask, _mask_gc, 0, 0, my_surf -> width,
+		   my_surf -> height);
   }
   return my_surf;
 }
@@ -77,27 +77,27 @@ void destroy_surface(struct surface *my_surf){
 }
 
 // This is used to bit blit 2 surfaces
-void blit_surface(struct surface *src, struct surface *dest, int x_src, 
+void blit_surface(struct surface *src, struct surface *dest, int x_src,
 		  int y_src, int width, int height, int x_dest, int y_dest){
   // If the source surface has some transparent pixels, we need to take into
   // account this:
   if(src -> mask != None){
     XSetClipMask(_dpy, _gc, src -> mask);
     XSetClipOrigin(_dpy, _gc, x_dest - x_src, y_dest - y_src);
-  }  
-  XCopyArea(_dpy, src -> pix, dest -> pix, _gc, x_src, y_src, width, height, 
+  }
+  XCopyArea(_dpy, src -> pix, dest -> pix, _gc, x_src, y_src, width, height,
 	    x_dest, y_dest);
   XSetClipMask(_dpy, _gc, None);
   XFlush(_dpy);
 }
 
 // This blit a pixmap using a mask passed as argument
-void blit_masked_pixmap(Pixmap pix, Pixmap mask, struct surface *dest, 
-			int x_src, int y_src, int width, int height, 
+void blit_masked_pixmap(Pixmap pix, Pixmap mask, struct surface *dest,
+			int x_src, int y_src, int width, int height,
 			int x_mask, int y_mask, int x_dest, int y_dest){
   XSetClipMask(_dpy, _gc, mask);
   XSetClipOrigin(_dpy, _gc, x_dest - x_mask, y_dest - y_mask);
-  XCopyArea(_dpy, pix, dest -> pix, _gc, x_src, y_src, width, height, x_dest, 
+  XCopyArea(_dpy, pix, dest -> pix, _gc, x_src, y_src, width, height, x_dest,
 	    y_dest);
   XSetClipMask(_dpy, _gc, None);
   XFlush(_dpy);
@@ -110,7 +110,7 @@ void apply_texture(struct surface *src, struct surface *dest){
     return;
   for(x = 0; x < dest -> width; x += src -> width)
     for(y = 0; y < dest -> height; y += src -> height){
-      XCopyArea(_dpy, src -> pix, dest -> pix, _gc, 0, 0, src -> width, 
+      XCopyArea(_dpy, src -> pix, dest -> pix, _gc, 0, 0, src -> width,
 		src -> height, x, y);
     }
   XFlush(_dpy);
@@ -119,13 +119,12 @@ void apply_texture(struct surface *src, struct surface *dest){
 // This function creates a black fullscreen window where we can play.
 void _initialize_screen(void){
   XVisualInfo *visual_list;
-  XVisualInfo visual_info; 
+  XVisualInfo visual_info;
   unsigned long valuemask = CWOverrideRedirect;
   XSetWindowAttributes attributes;
 
-  
   // Connecting with the X server...
-  _dpy = XOpenDisplay(NULL);          
+  _dpy = XOpenDisplay(NULL);
   if(_dpy == NULL){
     fprintf(stderr, "ERROR: The program couldn't open a "
 	    "connection to the X Server.\n");
@@ -137,35 +136,34 @@ void _initialize_screen(void){
   _depth = DisplayPlanes(_dpy, _screen);
 
   // Creating a black window...
-  _w = XCreateSimpleWindow(_dpy,                     
+  _w = XCreateSimpleWindow(_dpy,
                            DefaultRootWindow(_dpy), // Parent window
                            0, 0,                    // Coordinates
-                           window_width = DisplayWidth(_dpy,       
+                           window_width = DisplayWidth(_dpy,
                                         DefaultScreen(_dpy)),
-                           window_height = DisplayHeight(_dpy, 
+                           window_height = DisplayHeight(_dpy,
                                          DefaultScreen(_dpy)),
                            0, NOT_IMPORTANT,  // Border
                            BLACK); // Background
   // Changing setting...
   attributes.override_redirect = True;
-  attributes.event_mask = ButtonPressMask | ButtonReleaseMask | KeyPressMask | 
+  attributes.event_mask = ButtonPressMask | ButtonReleaseMask | KeyPressMask |
     KeyReleaseMask | PointerMotionMask;
   attributes.event_mask = 0l;
   XChangeWindowAttributes(_dpy, _w, valuemask, &attributes);
-  XSelectInput(_dpy, _w, StructureNotifyMask | KeyPressMask | KeyReleaseMask | 
+  XSelectInput(_dpy, _w, StructureNotifyMask | KeyPressMask | KeyReleaseMask |
 	       ButtonPressMask | ButtonReleaseMask | PointerMotionMask);
 
   // Mapping the window..
-  XMapWindow(_dpy, _w);                             
-              
+  XMapWindow(_dpy, _w);
 
   //  Getting visual info
   if(_depth != 16 && _depth != 24 && _depth != 32){
     int visuals_matched;
-    
+
     visual_info.screen = _screen;
     visual_info.depth = 24;
-    visual_list = XGetVisualInfo(_dpy, VisualScreenMask | VisualDepthMask, 
+    visual_list = XGetVisualInfo(_dpy, VisualScreenMask | VisualDepthMask,
 				 &visual_info, &visuals_matched);
     if(visuals_matched == 0){
       fprintf(stderr, "Default screen depth not supported.\n");
@@ -182,7 +180,7 @@ void _initialize_screen(void){
 
   // Waiting the window being produced...
   {
-    XEvent e;                                            
+    XEvent e;
     XNextEvent(_dpy, &e);
     while(e.type != MapNotify){
       XNextEvent(_dpy, &e);
@@ -212,19 +210,14 @@ void _initialize_screen(void){
       exit(1);
     }
   }
-  
-  
-                                    
   // Creates a Graphic Context...
   {
-   
     _gc = XCreateGC(_dpy, _w, 0, NULL);
     _mask_gc = None;
   }
 
   fill_surface(background, BLACK);
   transparent_color = 0x00029a;
-   //flush();                                        
 }
 
 // A function to hide the mouse pointer
@@ -255,7 +248,7 @@ void draw_point(unsigned x, unsigned y, unsigned color){
 }
 
 // This function draws a line in the screen
-void draw_line(unsigned x1, unsigned y1, unsigned x2, unsigned y2, 
+void draw_line(unsigned x1, unsigned y1, unsigned x2, unsigned y2,
 	       unsigned color){
   XSetForeground(_dpy, _gc, color);
   XDrawLine(_dpy, _b, _gc, x1, y1, x2, y2);
@@ -265,7 +258,7 @@ void draw_line(unsigned x1, unsigned y1, unsigned x2, unsigned y2,
 // This function draws a circle
 void draw_circle(unsigned x, unsigned y, unsigned r, unsigned color){
   unsigned diameter = r + r;
-  XSetForeground(_dpy, _gc, color); 
+  XSetForeground(_dpy, _gc, color);
   XDrawArc(_dpy, _b, _gc, x-r, y-r, diameter, diameter, 0, 23040);
   XFlush(_dpy);
 }
@@ -273,15 +266,15 @@ void draw_circle(unsigned x, unsigned y, unsigned r, unsigned color){
 // This function fills a circle
 void fill_circle(unsigned x, unsigned y, unsigned r, unsigned color){
   unsigned diameter = r + r;
-  XSetForeground(_dpy, _gc, color); 
-  XDrawArc(_dpy, _b, _gc, x-r, y-r, diameter, diameter, 0, 23040); 
+  XSetForeground(_dpy, _gc, color);
+  XDrawArc(_dpy, _b, _gc, x-r, y-r, diameter, diameter, 0, 23040);
   XFillArc(_dpy, _b, _gc, x-r, y-r, diameter, diameter, 0, 23040);
   XFlush(_dpy);
 }
 
 
 // This draws a rectangle
-void draw_rectangle(unsigned x, unsigned y, unsigned width, unsigned height, 
+void draw_rectangle(unsigned x, unsigned y, unsigned width, unsigned height,
 		    unsigned color){
   XSetForeground(_dpy, _gc, color);
   XDrawRectangle(_dpy, _b, _gc, x, y, width, height);
@@ -289,7 +282,7 @@ void draw_rectangle(unsigned x, unsigned y, unsigned width, unsigned height,
 }
 
 // This fills a rectangle
-void fill_rectangle(unsigned x, unsigned y, unsigned width, unsigned height, 
+void fill_rectangle(unsigned x, unsigned y, unsigned width, unsigned height,
 		    unsigned color){
   XSetForeground(_dpy, _gc, color);
   XFillRectangle(_dpy, _b, _gc, x-1, y, width+2, height+1);
@@ -297,21 +290,21 @@ void fill_rectangle(unsigned x, unsigned y, unsigned width, unsigned height,
 }
 
 // And this draws ellipses
-void draw_ellipse(unsigned x, unsigned y, unsigned width, unsigned height, 
+void draw_ellipse(unsigned x, unsigned y, unsigned width, unsigned height,
 		  unsigned color){
   XSetForeground(_dpy, _gc, color);
-  XDrawArc(_dpy, _b, _gc, x - width / 2, y - height / 2, width, height, 0, 
+  XDrawArc(_dpy, _b, _gc, x - width / 2, y - height / 2, width, height, 0,
 	   23040);
   XFlush(_dpy);
 }
 
 // We also can fill an ellipse
-void fill_ellipse(unsigned x, unsigned y, unsigned width, unsigned height, 
+void fill_ellipse(unsigned x, unsigned y, unsigned width, unsigned height,
 		  unsigned color){
   XSetForeground(_dpy, _gc, color);
-  XDrawArc(_dpy, _b, _gc, x - width / 2, y - height / 2, width, height, 0, 
+  XDrawArc(_dpy, _b, _gc, x - width / 2, y - height / 2, width, height, 0,
 	   23040);
-  XFillArc(_dpy, _b, _gc, x - width / 2, y - height / 2, width, height, 0, 
+  XFillArc(_dpy, _b, _gc, x - width / 2, y - height / 2, width, height, 0,
 	   23040);
   XFlush(_dpy);
 }

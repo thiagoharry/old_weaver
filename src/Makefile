@@ -1,5 +1,5 @@
 CC=gcc -Wall -O2 -g $$(freetype-config --cflags)
-W_DIR=src/weaver/ 
+W_DIR=src/weaver/
 PROG=dummy
 WEAVER_OBJ=display.o keyboard.o vector2.o vector3.o vector4.o weaver.o sound.o image.o font.o
 PROG_OBJ=game.o

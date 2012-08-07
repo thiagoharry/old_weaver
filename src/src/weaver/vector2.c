@@ -7,12 +7,12 @@
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  Weaver API is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
-    
+
  You should have received a copy of the GNU General Public License
  along with Weaver API.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -102,8 +102,8 @@ void rotate_polygon(struct vector2 *poly, float x, float y, float rad){
     new_y = (long double) current_vector -> y - (long double) y;
     // Rotating
     new_x =  new_x * cosl((long double) rad) - new_y * sinl((long double) rad);
-    new_y = ((long double) current_vector -> x - (long double) x) * 
-      sinl((long double) rad) + new_y * cosl((long double) rad); 
+    new_y = ((long double) current_vector -> x - (long double) x) *
+      sinl((long double) rad) + new_y * cosl((long double) rad);
     // Changing base again...
     current_vector -> x = (float) (new_x + (long double) x);
     current_vector -> y = (float) (new_y + (long double) y);

@@ -8,12 +8,12 @@ int main(int argc, char **argv){
   int num;
   surface *src, *dst;
   num = atoi(argv[1]);
-  awake_the_weaver(); // Initializing Weaver API  
+  awake_the_weaver(); // Initializing Weaver API
   src = new_surface(num, num);
   dst = new_surface(num, num);
   fill_surface(src, BLUE);
   draw_rectangle_mask(src, num/2, num/2, 1, 1);
-  XSync(_dpy, 1); 
+  XSync(_dpy, 1);
   DEBUG_TIMER_START();
   blit_surface(src, dst, 0, 0, num, num, 0, 0);
   XSync(_dpy, 1);
@@ -27,7 +27,7 @@ j=1
 sum=0
 first=0
 last=0
-echo -n "" > data.txt 
+echo -n "" > data.txt
 while (( $j <= 10000 )); do
     echo $(($j /100))"%"
     media=$(./test_project $j)

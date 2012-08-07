@@ -36,7 +36,7 @@
       {
       color: #ff0000;
       }
-      
+
       .precompil
       {
       color: #0000ff;
@@ -51,7 +51,7 @@
       {
       color: #888800;
       }
-      
+
       .codigo
       {
       color: #000000;
@@ -93,8 +93,8 @@
                 e.style.display = 'block';
               }
             }
-          } 
-          
+          }
+
           //--></script>
   </head>
   <body>
@@ -134,10 +134,10 @@
             </span>
           </span>
         </a>
-        
+
         <br/>
     <hr/>
-    
+
     <h1>
       Weaver Reference Guide
     </h1>
@@ -181,7 +181,7 @@
           <li>
             <a href="#rectangle">
               rectangle
-            </a>            
+            </a>
           </li>
 	  <li>
 	    <a href="#surface">
@@ -412,7 +412,7 @@
 	  <li>
 	    <a href="#film_rectangle">
 	      film_rectangle(a, b, c)
-	    </a>	    
+	    </a>
 	  </li>
 	  <li>
 	    <a href="#film_fullrectangle">
@@ -635,7 +635,7 @@
       screen. This behaviour can be changed storing the coordinates to
       where to draw in the pointers "previous", "next", "top" and
       "down". This is done when you call the
-      function <a href="#limit_camera">limit_camera</a>. 
+      function <a href="#limit_camera">limit_camera</a>.
     </p>
     <h3>
       <a class="name" id="circle" href="javascript:playElement('code_circle')">
@@ -647,10 +647,10 @@
     <p>
       A circle is in fact a <a href="#vector3">vector3</a>. The
       coordinates of the circle's center are stored in the variables "x"
-      and "y". The circle's radius is stored in "z". 
+      and "y". The circle's radius is stored in "z".
     </p>
     <h3>
-      <a id="polygon" class="name" 
+      <a id="polygon" class="name"
          href="javascript:playElement('code_polygon')">
         polygon
       </a>
@@ -714,7 +714,7 @@
       or <a href="#new_image">new_image</a>.
     </p>
     <h3>
-      <a class="name" id="vector2" 
+      <a class="name" id="vector2"
          href="javascript:playElement('code_vector2')">
         struct vector2
       </a>
@@ -744,7 +744,7 @@
       have are named "previous" and "next".
     </p>
     <h3>
-      <a class="name" id="vector3" 
+      <a class="name" id="vector3"
          href="javascript:playElement('code_vector3')">
         struct vector3
       </a>
@@ -867,8 +867,8 @@
       </a>
     </h3>
     <pre class="codigo" id="code_blit_masked_pixmap">
-<span class="tipo">void</span> <b>blit_masked_pixmap</b>(Pixmap pix, Pixmap mask, <span class="tipo">struct</span> surface *dest, <span class="tipo">int</span> x_src, 
-			<span class="tipo">int</span> y_src, <span class="tipo">int</span> width, <span class="tipo">int</span> height, <span class="tipo">int</span> x_mask, 
+<span class="tipo">void</span> <b>blit_masked_pixmap</b>(Pixmap pix, Pixmap mask, <span class="tipo">struct</span> surface *dest, <span class="tipo">int</span> x_src,
+			<span class="tipo">int</span> y_src, <span class="tipo">int</span> width, <span class="tipo">int</span> height, <span class="tipo">int</span> x_mask,
 			<span class="tipo">int</span> y_mask, <span class="tipo">int</span> x_dest, <span class="tipo">int</span> y_dest){
   <b>XSetClipMask</b>(_dpy, _gc, mask);
   <b>XSetClipOrigin</b>(_dpy, _gc, x_dest - x_mask, y_dest - y_mask);
@@ -900,8 +900,8 @@
       </a>
     </h3>
     <pre class="codigo" id="code_blit_surface">
-<span class="tipo">void</span> <b>blit_surface</b>(<span class="tipo">struct</span> surface *src, <span class="tipo">struct</span> surface *dest, 
-                  <span class="tipo">int</span> x_src, <span class="tipo">int</span> y_src, <span class="tipo">int</span> width, <span class="tipo">int</span> height, <span class="tipo">int</span> x_dest, <span class="tipo">int</span> y_dest){ 
+<span class="tipo">void</span> <b>blit_surface</b>(<span class="tipo">struct</span> surface *src, <span class="tipo">struct</span> surface *dest,
+                  <span class="tipo">int</span> x_src, <span class="tipo">int</span> y_src, <span class="tipo">int</span> width, <span class="tipo">int</span> height, <span class="tipo">int</span> x_dest, <span class="tipo">int</span> y_dest){
   <span class="palavra">if</span>(src -> mask != None){
     <b>XSetClipMask</b>(_dpy, _gc, src -> mask);
     <b>XSetClipOrigin</b>(_dpy, _gc, x_dest - x_src, y_dest - y_src);
@@ -928,7 +928,7 @@
         void<br/>
         center_camera(camera *cam, float x, float y)
       </a>
-    </h3> 
+    </h3>
     <pre class="codigo" id="code_center_camera">
 <span class="tipo">void</span> <b>center_camera</b>(<span class="tipo">struct</span> vector4 *camera, <span class="tipo">float</span> x, <span class="tipo">float</span> y){
   camera -> x = x - (camera -> w / 2);
@@ -971,7 +971,7 @@
   <span class="tipo">float</span> dy = circle2 -> y - circle1 -> y;
   <span class="tipo">float</span> distance = dx * dx + dy * dy;
   <span class="tipo">float</span> minimum = circle1 -> z + circle2 -> z;
-  
+
   minimum *= minimum;
   <span class="palavra">if</span>(distance &lt; minimum)
     <span class="palavra">return</span> 1;
@@ -993,10 +993,10 @@
 <span class="tipo">int</span> <b>collision_circle_polygon</b>(<span class="tipo">struct</span> vector3 *circle, <span class="tipo">struct</span> vector2 *polygon){
   <span class="tipo">struct</span> vector2 *current, *next, *first;
   <span class="tipo">float</span> a, b, dist;
-  
+
   current = first = polygon;
   next = current -> next;
-  
+
   <span class="palavra">if</span>(next == current){ <span class="comentario">// We have a degenerate polygon with only one vertex</span>
     dist = (current -> x - circle -> x);
     dist *= dist; // dx * dx
@@ -1006,7 +1006,7 @@
     <span class="palavra">else</span>
       <span class="palavra">return</span> 0; // No collision happening
   }
- 
+
   <span class="comentario">// This loops a number of times equal the number of polygon's sides
   // when the polygon isn's degenerated.</span>
   <span class="palavra">do</span>{
@@ -1050,7 +1050,7 @@
     current = next;
     next = current -> next;
   }<span class="palavra">while</span>(current != first);
-  
+
   <span class="palavra">return</span> 0;
 }</pre>
     <p>
@@ -1198,7 +1198,7 @@
     <p>
       This function receives as argument two polygons and return 1 if
       the polygon's perimeters are collidig and 0 otherwise. It checks
-      for collisions in all edges.      
+      for collisions in all edges.
     </p>
     <h3>
       <a class="name" id="collision_polygon_rectangle"
@@ -1238,7 +1238,7 @@
      circle -> y + circle -> z > rectangle -> y + rectangle -> z &amp;&amp;
 	  circle -> y - circle -> z > rectangle -> y + rectangle -> z)))
       <span class="palavra">return</span> 1;
-  
+
   <span class="comentario">// If no collision were detected, no collision happened</span>
   <span class="palavra">return</span> 0;
 }</pre>
@@ -1276,18 +1276,18 @@
     <span class="palavra">if</span>(!(x1 > r -> x + r -> w || x2 &lt; r -> x)){
       y1 = <b>MIN</b>(current -> y, next -> y);
       y2 = <b>MAX</b>(current -> y, next -> y);
-      <span class="palavra">if</span>(!(y1 > r -> y + r -> z || y2 &lt; r -> y)){ <span class="comentario">// The edge is next. Perhaps</span> 
+      <span class="palavra">if</span>(!(y1 > r -> y + r -> z || y2 &lt; r -> y)){ <span class="comentario">// The edge is next. Perhaps</span>
 	                                                                          <span class="comentario">// it's colliding...</span>
         <span class="palavra">if</span>(x1 == x2 || y1 == y2){ <span class="comentario">// We have a vertical or horizontal edge</span>
 	  <span class="palavra">return</span> 1; <span class="comentario">// It certainly collides in this case</span>
 	}
 	<span class="palavra">else</span>{ <span class="comentario">// We have a non-vertical edge</span>
 	  <span class="tipo">float</span> a = (next -> y - current -> y) / (next -> x - current -> x);
-	  <span class="tipo">float</span> b = current -> y - a * current -> x; 
+	  <span class="tipo">float</span> b = current -> y - a * current -> x;
 	  <span class="comentario">// Now we have an ax+b=y rect equation</span>
 	  <span class="palavra">if</span>((a * r -> x + b >= r -> y) &amp;&amp; (a * r -> x + b &lt;= r -> y + r -> z))
 	    <span class="palavra">return</span> 1; <span class="comentario">// Collided with the left side</span>
-	  <span class="palavra">if</span>((a * (r -> x + r -> w) + b >= r -> y) &amp;&amp; 
+	  <span class="palavra">if</span>((a * (r -> x + r -> w) + b >= r -> y) &amp;&amp;
 	     (a * (r -> x + r -> w) + b &lt;= r -> y + r -> z))
 	    <span class="palavra">return</span> 1; <span class="comentario">// Collided with the right side</span>
 	  <span class="palavra">if</span>(((r -> y - b)/a >= r -> x) &amp;&amp; ((r -> y - b)/a &lt;= r -> x + r -> w))
@@ -1300,7 +1300,7 @@
     current = next;
     next = current -> next;
   }<span class="palavra">while</span>(current != first);
-  
+
   <span class="palavra">return</span> 0;
 }</pre>
     <p>
@@ -1334,7 +1334,7 @@
       1. Otherwise, the function returns 0.
     </p>
     <h3>
-      <a class="name" id="connect_vector2" 
+      <a class="name" id="connect_vector2"
          href="javascript:playElement('code_connect_vector2')">
         void<br/>
         connect_vector2(struct vector2 *first, struct vector2 *second)
@@ -1456,7 +1456,7 @@
       This function returns nothing.
     </p>
     <h3>
-      <a class="name" id="destroy_vector2" 
+      <a class="name" id="destroy_vector2"
          href="javascript:playElement('code_destroy_vector2')">
         void<br/>
         destroy_vector2(void *vector)
@@ -1475,7 +1475,7 @@
       This function returns nothing.
     </p>
     <h3>
-      <a class="name" id="destroy_vector3" 
+      <a class="name" id="destroy_vector3"
          href="javascript:playElement('code_destroy_vector3')">
         void<br/>
         destroy_vector3(void *vector)
@@ -1491,7 +1491,7 @@
       a <a href="#vector3">struct vector3</a>.
     </p>
     <h3>
-      <a class="name" id="destroy_vector4" 
+      <a class="name" id="destroy_vector4"
          href="javascript:playElement('code_destroy_vector4')">
         void<br/>
         destroy_vector4(void *vector)
@@ -1516,7 +1516,7 @@
     <pre class="codigo" id="code_draw_circle">
 <span class="tipo">void</span> <b>draw_circle</b>(<span class="tipo">unsigned</span> x, <span class="tipo">unsigned</span> y, <span class="tipo">unsigned</span> r, <span class="tipo">unsigned</span> color){
   <span class="tipo">unsigned</span> diameter = r + r;
-  <b>XSetForeground</b>(_dpy, _gc, color); 
+  <b>XSetForeground</b>(_dpy, _gc, color);
   <b>XDrawArc</b>(_dpy, _w, _gc, x-r, y-r, diameter, diameter, 0, 23040);
   <b>XFlush</b>(_dpy);
 }</pre>
@@ -1699,7 +1699,7 @@
     <pre class="codigo" id="code_fill_circle">
 <span class="tipo">void</span> <b>fill_circle</b>(<span class="tipo">unsigned</span> x, <span class="tipo">unsigned</span> y, <span class="tipo">unsigned</span> r, <span class="tipo">unsigned</span> color){
   <span class="tipo">unsigned</span> diameter = r + r;
-  <b>XSetForeground</b>(_dpy, _gc, color); 
+  <b>XSetForeground</b>(_dpy, _gc, color);
   <b>XDrawArc</b>(_dpy, _w, _gc, x-r, y-r, diameter, diameter, 0, 23040);
   <b>XFillArc</b>(_dpy, _w, _gc, x-r, y-r, diameter, diameter, 0, 23040);
   <b>XFlush</b>(_dpy);
@@ -1819,25 +1819,25 @@
     height = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) height * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> down) / (<span class="tipo">float</span>) window_height);
   }
   <span class="palavra">if</span>(limited_camera){
-    <span class="palavra">if</span>(circle -> x &lt; (<span class="tipo">long</span>) camera -> x + (<span class="tipo">long</span>) camera -> w + (<span class="tipo">long</span>) (2 * circle -> z) &amp;&amp; 
+    <span class="palavra">if</span>(circle -> x &lt; (<span class="tipo">long</span>) camera -> x + (<span class="tipo">long</span>) camera -> w + (<span class="tipo">long</span>) (2 * circle -> z) &amp;&amp;
        circle -> x > (<span class="tipo">long</span>) camera -> x - (<span class="tipo">long</span>) (2 * circle -> z) &amp;&amp;
-       circle -> y &lt; (<span class="tipo">long</span>) camera -> y + (<span class="tipo">long</span>) camera -> z + (<span class="tipo">long</span>) (2 * circle -> z) &amp;&amp; 
+       circle -> y &lt; (<span class="tipo">long</span>) camera -> y + (<span class="tipo">long</span>) camera -> z + (<span class="tipo">long</span>) (2 * circle -> z) &amp;&amp;
        circle -> y > (<span class="tipo">long</span>) camera -> y - (<span class="tipo">long</span>) (2 * circle -> z)){
       <span class="comentario">// Creating a temporary and transparent surface</span>
       <span class="tipo">struct</span> surface *surf = <b>new_surface</b>((<span class="tipo">long</span>) camera -> next, (<span class="tipo">long</span>) camera -> down);
       <b>XSetForeground</b>(_dpy, _mask_gc, 0l);
       <b>XFillRectangle</b>(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width, surf -> height);
-    
+
       <span class="comentario">// Drawing the circle in the surface</span>
       <b>XSetForeground</b>(_dpy, _gc, color);
       <b>XDrawArc</b>(_dpy, surf -> pix, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
-    
+
       <span class="comentario">// Drawing the circle in the transparency map</span>
       <b>XSetForeground</b>(_dpy, _mask_gc, ~0l);
       <b>XDrawArc</b>(_dpy, surf -> mask, _mask_gc, x - width / 2, y - height / 2, width, height, 0, 23040);
 
       <span class="comentario">// Blitting the surface in the screen</span>
-      <b>blit_surface</b>(surf, window, 0, 0, surf -> width, surf -> height, 
+      <b>blit_surface</b>(surf, window, 0, 0, surf -> width, surf -> height,
 	    	   (<span class="tipo">long</span>) camera -> previous, (<span class="tipo">long</span>) camera -> top);
 
       <b>destroy_surface</b>(surf);
@@ -1881,27 +1881,27 @@
     height = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) height * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> down) / (<span class="tipo">float</span>) window_height);
   }
   <span class="palavra">if</span>(limited_camera){
-    <span class="palavra">if</span>(circle -> x &lt; (<span class="tipo">long</span>) camera -> x + (<span class="tipo">long</span>) camera -> w + (<span class="tipo">long</span>) (2 * circle -> z) &amp;&amp; 
+    <span class="palavra">if</span>(circle -> x &lt; (<span class="tipo">long</span>) camera -> x + (<span class="tipo">long</span>) camera -> w + (<span class="tipo">long</span>) (2 * circle -> z) &amp;&amp;
        circle -> x > (<span class="tipo">long</span>) camera -> x - (<span class="tipo">long</span>) (2 * circle -> z) &amp;&amp;
-       circle -> y &lt; (<span class="tipo">long</span>) camera -> y + (<span class="tipo">long</span>) camera -> z + (<span class="tipo">long</span>) (2 * circle -> z) &amp;&amp; 
+       circle -> y &lt; (<span class="tipo">long</span>) camera -> y + (<span class="tipo">long</span>) camera -> z + (<span class="tipo">long</span>) (2 * circle -> z) &amp;&amp;
        circle -> y > (<span class="tipo">long</span>) camera -> y - (<span class="tipo">long</span>) (2 * circle -> z)){
       <span class="comentario">// Creating a temporary and transparent surface</span>
       <span class="tipo">struct</span> surface *surf = <b>new_surface</b>((<span class="tipo">long</span>) camera -> next, (<span class="tipo">long</span>) camera -> down);
       <b>XSetForeground</b>(_dpy, _mask_gc, 0l);
       <b>XFillRectangle</b>(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width, surf -> height);
-      
+
       <span class="comentario">// Drawing the circle in the surface</span>
       <b>XSetForeground</b>(_dpy, _gc, color);
       <b>XDrawArc</b>(_dpy, surf -> pix, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
       <b>XFillArc</b>(_dpy, surf -> pix, _gc, x - width / 2, y - height / 2, width, height, 0, 23040);
-      
+
       <span class="comentario">// Drawing the circle in the transparency map</span>
       <b>XSetForeground</b>(_dpy, _mask_gc, ~0l);
       <b>XDrawArc</b>(_dpy, surf -> mask, _mask_gc, x - width / 2, y - height / 2, width, height, 0, 23040);
       <b>XFillArc</b>(_dpy, surf -> mask, _mask_gc, x - width / 2, y - height / 2, width, height, 0, 23040);
 
       <span class="comentario">// Blitting the surface in the screen</span>
-      <b>blit_surface</b>(surf, window, 0, 0, surf -> width, surf -> height, 
+      <b>blit_surface</b>(surf, window, 0, 0, surf -> width, surf -> height,
 		   (<span class="tipo">long</span>) camera -> previous, (long) camera -> top);
       <b>destroy_surface</b>(surf);
     }
@@ -1934,16 +1934,16 @@
 
   <span class="palavra">if</span>(camera -> previous != NULL || camera -> next != NULL){
     limited_camera ++;
-    x = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) x * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> next) / 
+    x = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) x * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> next) /
                (<span class="tipo">float</span>) window_width);
-    width = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) width * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> next) / 
+    width = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) width * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> next) /
                    (<span class="tipo">float</span>) window_width);
   }
   <span class="palavra">if</span>(camera -> top != NULL || camera -> down != NULL){
     limited_camera ++;
-    y = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) y * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> down) / 
+    y = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) y * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> down) /
                (<span class="tipo">float</span>) window_height);
-    height = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) height * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> down) / 
+    height = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) height * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> down) /
                     (<span class="tipo">float</span>) window_height);
   }
   <span class="palavra">if</span>(limited_camera){
@@ -1953,22 +1953,22 @@
        rectangle -> y &lt; camera -> y + camera -> z){
       <span class="comentario">// If we are here, the rectangle appears in the camera
       // Creating a temporary and transparent surface</span>
-      <span class="tipo">struct</span> surface *surf = <b>new_surface</b>((<span class="tipo">long</span>) camera -> next, 
+      <span class="tipo">struct</span> surface *surf = <b>new_surface</b>((<span class="tipo">long</span>) camera -> next,
                                          (<span class="tipo">long</span>) camera -> down);
       <b>XSetForeground</b>(_dpy, _mask_gc, 0l);
-      <b>XFillRectangle</b>(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width, 
+      <b>XFillRectangle</b>(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width,
                      surf -> height);
-      
+
       <span class="comentario">// Drawing the rectangle in the surface</span>
       <b>XSetForeground</b>(_dpy, _gc, color);
       <b>XDrawRectangle</b>(_dpy, surf -> pix, _gc, x, y, width, height);
-      
+
       <span class="comentario">// Drawing the circle in the transparency map</span>
       <b>XSetForeground</b>(_dpy, _mask_gc, ~0l);
       <b>XDrawRectangle</b>(_dpy, surf -> mask, _mask_gc, x, y, width, height);
-      
+
       <span class="comentario">// Blitting the surface in the screen</span>
-      <b>blit_surface</b>(surf, window, 0, 0, surf -> width, surf -> height, 
+      <b>blit_surface</b>(surf, window, 0, 0, surf -> width, surf -> height,
 		   (<span class="tipo">long</span>) camera -> previous, (<span class="tipo">long</span>) camera -> top);
       <b>destroy_surface</b>(surf);
     }
@@ -2001,16 +2001,16 @@
 
   <span class="palavra">if</span>(camera -> previous != NULL || camera -> next != NULL){
     limited_camera ++;
-    x = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) x * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> next) / 
+    x = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) x * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> next) /
                (<span class="tipo">float</span>) window_width);
-    width = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) width * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> next) / 
+    width = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) width * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> next) /
                    (<span class="tipo">float</span>) window_width);
   }
   <span class="palavra">if</span>(camera -> top != NULL || camera -> down != NULL){
     limited_camera ++;
-    y = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) y * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> down) / 
+    y = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) y * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> down) /
                (<span class="tipo">float</span>) window_height);
-    height = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) height * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> down) / 
+    height = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) height * ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> down) /
                     (<span class="tipo">float</span>) window_height);
   }
 
@@ -2021,24 +2021,24 @@
        rectangle -> y &lt; camera -> y + camera -> z){
       <span class="comentario">// If we are here, the rectangle appears in the camera
       // Creating a temporary and transparent surface</span>
-      <span class="tipo">struct</span> surface *surf = <b>new_surface</b>((<span class="tipo">long</span>) camera -> next, 
+      <span class="tipo">struct</span> surface *surf = <b>new_surface</b>((<span class="tipo">long</span>) camera -> next,
                                          (<span class="tipo">long</span>) camera -> down);
       <b>XSetForeground</b>(_dpy, _mask_gc, 0l);
-      <b>XFillRectangle</b>(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width, 
+      <b>XFillRectangle</b>(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width,
                      surf -> height);
-      
+
       <span class="comentario">// Drawing the rectangle in the surface</span>
       <b>XSetForeground</b>(_dpy, _gc, color);
       <b>XDrawRectangle</b>(_dpy, surf -> pix, _gc, x, y, width, height);
       <b>XFillRectangle</b>(_dpy, surf -> pix, _gc, x, y, width, height);
-      
+
       <span class="comentario">// Drawing the circle in the transparency map</span>
       <b>XSetForeground</b>(_dpy, _mask_gc, ~0l);
       <b>XDrawRectangle</b>(_dpy, surf -> mask, _mask_gc, x, y, width, height);
       <b>XFillRectangle</b>(_dpy, surf -> mask, _mask_gc, x, y, width, height);
 
       <span class="comentario">// Blitting the surface in the screen</span>
-      <b>blit_surface</b>(surf, window, 0, 0, surf -> width, surf -> height, 
+      <b>blit_surface</b>(surf, window, 0, 0, surf -> width, surf -> height,
 		   (<span class="tipo">long</span>) camera -> previous, (<span class="tipo">long</span>) camera -> top);
       <b>destroy_surface</b>(surf);
     }
@@ -2066,7 +2066,7 @@
   <span class="tipo">struct</span> vector2 *current_vertex = polygon;
   XPoint *points;
   <span class="tipo">int</span> number_of_points = 0;
-  
+
   <b>XSetFillRule</b>(_dpy, _gc, WindingRule);
 
   <span class="palavra">if</span>(polygon == NULL || polygon -> next == polygon)
@@ -2098,38 +2098,38 @@
     number_of_points = 0;
     current_vertex = polygon;
     <span class="palavra">do</span>{
-      points[number_of_points].x = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) points[number_of_points].x * 
-                                          ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> next) / 
+      points[number_of_points].x = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) points[number_of_points].x *
+                                          ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> next) /
                                           (<span class="tipo">float</span>) window_width);
-      points[number_of_points].y = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) points[number_of_points].y * 
-                                          ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> down) / 
+      points[number_of_points].y = (<span class="tipo">int</span>) ((<span class="tipo">float</span>) points[number_of_points].y *
+                                          ((<span class="tipo">float</span>) (<span class="tipo">long</span>) camera -> down) /
                                           (<span class="tipo">float</span>) window_height);
 
       number_of_points ++;
       current_vertex = current_vertex -> next;
     }<span class="palavra">while</span>(current_vertex != polygon);
-    
+
     <span class="comentario">// Creating a temporary and transparent surface</span>
-    <span class="tipo">struct</span> surface *surf = <b>new_surface</b>((<span class="tipo">long</span>) camera -> next, 
+    <span class="tipo">struct</span> surface *surf = <b>new_surface</b>((<span class="tipo">long</span>) camera -> next,
                                        (<span class="tipo">long</span>) camera -> down);
     <b>XSetFillRule</b>(_dpy, _mask_gc, WindingRule);
     <b>XSetForeground</b>(_dpy, _mask_gc, 0l);
-    <b>XFillRectangle</b>(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width, 
+    <b>XFillRectangle</b>(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width,
                    surf -> height);
-      
+
     <span class="comentario">// Drawing the polygon in the surface</span>
     <b>XSetForeground</b>(_dpy, _gc, color);
-    <b>XFillPolygon</b>(_dpy, surf -> pix, _gc, points, number_of_points, Complex, 
+    <b>XFillPolygon</b>(_dpy, surf -> pix, _gc, points, number_of_points, Complex,
                CoordModeOrigin);
-    
-      
+
+
     <span class="comentario">// Drawing the polygon in the transparency map</span>
     <b>XSetForeground</b>(_dpy, _mask_gc, ~0l);
-    <b>XFillPolygon</b>(_dpy, surf -> mask, _mask_gc, points, number_of_points, 
+    <b>XFillPolygon</b>(_dpy, surf -> mask, _mask_gc, points, number_of_points,
                  Complex, CoordModeOrigin);
 
     <span class="comentario">// Blitting the surface in the screen</span>
-    <b>blit_surface</b>(surf, window, 0, 0, surf -> width, surf -> height, 
+    <b>blit_surface</b>(surf, window, 0, 0, surf -> width, surf -> height,
                  (<span class="tipo">long</span>) camera -> previous, (<span class="tipo">long</span>) camera -> top);
     <b>destroy_surface</b>(surf);
   }
@@ -2199,15 +2199,15 @@
   XEvent event;
   KeySym pressed_key, released_key;
   mouse.changed = 0;
-  
+
   <span class="palavra">while</span>(<b>XPending</b>(_dpy)){
     <b>XNextEvent</b>(_dpy, &amp;event);
-    
+
     <span class="palavra">if</span>(event.type == KeyPress){ <span class="comentario">// KEYBOARD EVENT</span>
       keyboard[ANY] += 1;
       pressed_key = <b>XLookupKeysym</b>(&amp;event.xkey, 0);
-      
-      <span class="comentario">// Treating special cases first</span> 
+
+      <span class="comentario">// Treating special cases first</span>
       <span class="palavra">if</span>(pressed_key == LEFT_SHIFT || pressed_key == RIGHT_SHIFT)
 	keyboard[SHIFT] += 1;
       <span class="palavra">if</span>(pressed_key == LEFT_CTRL || pressed_key == RIGHT_CTRL)
@@ -2220,7 +2220,7 @@
     <span class="palavra">else if</span>(event.type == KeyRelease){
       released_key = <b>XLookupKeysym</b>(&amp;event.xkey, 0);
       keyboard[ANY] = 0;
-      
+
       <span class="comentario">// Some special cases</span>
       <span class="palavra">if</span>(released_key == LEFT_SHIFT || released_key == RIGHT_SHIFT)
 	keyboard[SHIFT] = 0;
@@ -2229,8 +2229,8 @@
       <span class="palavra">if</span>(released_key == LEFT_ALT || released_key == RIGHT_ALT)
 	keyboard[ALT] = 0;
 
-      
-      keyboard[released_key] = 0; <span class="comentario">// Default behaviour</span>  
+
+      keyboard[released_key] = 0; <span class="comentario">// Default behaviour</span>
     }
     <span class="palavra">else if</span>(event.type == ButtonPress){ <span class="comentario">//MOUSE EVENT</span>
       <span class="palavra">if</span>(! mouse.pressed){
@@ -2321,7 +2321,7 @@
     <p>
       By default, a <a href="#camera">camera</a> will draw all the
       visible elements using the whole screen. This function changes
-      the default and limits the are in wich a given camera can draw.  
+      the default and limits the are in wich a given camera can draw.
     </p>
     <p>
       This functions makes the <a href="#camera">camera</a> "cam"
@@ -2347,7 +2347,7 @@
   <b>XFreeGC</b>(_dpy, _gc);
   <b>free</b>(window);
   <b>destroy_surface</b>(background);
-  <b>XdbeDeallocateBackBufferName</b>(_dpy, _b);  
+  <b>XdbeDeallocateBackBufferName</b>(_dpy, _b);
   <b>XCloseDisplay</b>(_dpy);
 }
 </pre>
@@ -2382,7 +2382,7 @@
     <p>
       It's the programmer's responsability to check for overflows. If an
       overflow happens, probably the circle will teleport itself for some
-      strange location. 
+      strange location.
     </p>
     <p>
       This function returns nothing.
@@ -2407,13 +2407,13 @@
     <p>
       This moves the <a href="#polygon">polygon</a> "poly" "x" coordinates in the X-axis and
       "y" coordinates in the Y-axis. It works moving all the vertices
-      of a polygon. 
+      of a polygon.
     </p>
     <p>
       Overflow checking is the programmer's responsability. If an overflow
       happens, a weird undefined behaviour can happen. Probably the
       polygon will become huge and/or deformed for some moments or
-      permanently. 
+      permanently.
     </p>
     <p>
       This function returns nothing.
@@ -2431,7 +2431,7 @@
       This allocates space in memory for a
       new <a href="#camera">camera</a> and returns a pointer to it's
       address. If the process fails, the function returns NULL
-      instead. 
+      instead.
     </p>
     <p>
       The arguments represent a rectangle that's the are covered by
@@ -2441,7 +2441,7 @@
     <p>
       Every memory allocated for a camera should be freed
       with <b>free</b> or <a href="#destroy_camera">destroy_camera</a>
-      functions.  
+      functions.
     </p>
     <h3>
       <a class="name" id="new_camera_h"
@@ -2460,7 +2460,7 @@
       positioned in the coordinates (x, y) and whose height is passed
       as the third argument. The camera's width is calculed
       automaticly according with the screen's resolution. This
-      prevents images distortions. 
+      prevents images distortions.
     </p>
     <p>
       Every memory allocated for a camera should be freed
@@ -2487,10 +2487,10 @@
     <p>
       Every memory allocated for a camera should be freed
       with <b>free</b> or <a href="#destroy_camera">destroy_camera</a>
-      functions.  
+      functions.
     </p>
     <h3>
-      <a class="name" id="new_circle" 
+      <a class="name" id="new_circle"
          href="javascript:playElement('code_new_circle')">
         circle *<br/>
         new_circle(float x, float y, float radius)
@@ -2525,7 +2525,7 @@
 
   struct surface *my_surf;
   _display_exponent = default_display_exponent = 2.2;
-  
+
   <b>strcat</b>(path, "/usr/share/games/DUMMY/images/");
   <b>strcat</b>(path, file);
   <span class="palavra">if</span>(!(infile = <b>fopen</b>(path, "rb"))){
@@ -2549,7 +2549,7 @@
   <b>fclose</b>(infile);
   <b>png_destroy_read_struct</b>(&amp;_png_ptr, &amp;_info_ptr, NULL);
   <b>free</b>(image_data);
-  
+
   <span class="palavra">return</span> my_surf;
 }</pre>
     <p>
@@ -2663,7 +2663,7 @@
     </p>
     <p>
       Every allocated rectangle should be freed with <b>free</b> or
-      <a href="#destroy_rectangle">destroy_rectangle</a> functions. 
+      <a href="#destroy_rectangle">destroy_rectangle</a> functions.
     </p>
     <h3>
       <a class="name" id="new_surface"
@@ -2755,7 +2755,7 @@
     <p>
       Every created <a href="#vector3">vector3</a> shall be destroyed
       with <b>free</b> or
-      <a href="#destroy_vector3">destroy_vector3</a> functions. 
+      <a href="#destroy_vector3">destroy_vector3</a> functions.
     </p>
     <h3>
       <a id="new_vector4" class="name"
@@ -2859,7 +2859,7 @@
       This function returns nothing.
     </p>
     <h3>
-      <a class="name" id="rotate_circle" 
+      <a class="name" id="rotate_circle"
          href="javascript:playElement('code_rotate_circle')">
         void<br/>
         rotate_circle(struct vector3 *circ, float x, float y, float rad)
@@ -2871,7 +2871,7 @@
   new_x = (<span class="tipo">long double</span>) circ -> x - (<span class="tipo">long double</span>) x;
   new_y = (<span class="tipo">long double</span>) circ -> y - (<span class="tipo">long double</span>) y;
   new_x = new_x * <b>cosl</b>((<span class="tipo">long double</span>) rad) - new_y * <b>sinl</b>((<span class="tipo">long double</span>) rad);
-  new_y = ((<span class="tipo">long double</span>) circ -> x - (<span class="tipo">long double</span>) x) * 
+  new_y = ((<span class="tipo">long double</span>) circ -> x - (<span class="tipo">long double</span>) x) *
     <b>sinl</b>((<span class="tipo">long double</span>) rad) + new_y * <b>cosl</b>((<span class="tipo">long double</span>) rad);
   circ -> x = (<span class="tipo">float</span>) (new_x + (<span class="tipo">long double</span>) x);
   circ -> y = (<span class="tipo">float</span>) (new_y + (<span class="tipo">long double</span>) y);
@@ -2884,7 +2884,7 @@
     <p>
       It's the programmer's responsability to check for
       overflows. If an overflow happens, probably the circle will
-      teleport itself for some strange location. 
+      teleport itself for some strange location.
     </p>
     <p>
       This function returns nothing.
@@ -2905,7 +2905,7 @@
     new_x = (<span class="tipo">long double</span>) current_vector -> x - (<span class="tipo">long double</span>) x;
     new_y = (<span class="tipo">long double</span>) current_vector -> y - (<span class="tipo">long double</span>) y;
     new_x =  new_x * <b>cosl</b>((<span class="tipo">long double</span>) rad) - new_y * <b>sinl</b>((<span class="tipo">long double</span>) rad);
-    new_y = ((<span class="tipo">long double</span>) current_vector -> x - (<span class="tipo">long double</span>) x) * 
+    new_y = ((<span class="tipo">long double</span>) current_vector -> x - (<span class="tipo">long double</span>) x) *
       <b>sinl</b>((<span class="tipo">long double</span>) rad) + new_y * <b>cosl</b>((<span class="tipo">long double</span>) rad);
     current_vector -> x = (<span class="tipo">float</span>) (new_x + (<span class="tipo">long double</span>) x);
     current_vector -> y = (<span class="tipo">float</span>) (new_y + (<span class="tipo">long double</span>) y);
@@ -2956,7 +2956,7 @@
   XdbeSwapInfo info;
   info.swap_window = _w;
   info.swap_action = XdbeCopied;
-  <span class="tipo">struct</span> timespec req = {0, nanoseconds}; 
+  <span class="tipo">struct</span> timespec req = {0, nanoseconds};
   <b>nanosleep</b>(&amp;req, NULL);
   _b_frame.tv_sec = current_time.tv_sec;
   _b_frame.tv_usec = current_time.tv_usec;

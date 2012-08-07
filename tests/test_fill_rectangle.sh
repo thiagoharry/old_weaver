@@ -5,8 +5,8 @@ cd tests/test_project
 echo -ne "#include \"weaver/weaver.h\"\n
 #include \"game.h\"\n
 int main(int argc, char **argv){
-  awake_the_weaver(); // Initializing Weaver API  
-  XSync(_dpy, 1); 
+  awake_the_weaver(); // Initializing Weaver API
+  XSync(_dpy, 1);
   DEBUG_TIMER_START();
   fill_rectangle(0, 0, window_width, window_height, BLUE);
   XSync(_dpy, 1);
@@ -17,7 +17,7 @@ int main(int argc, char **argv){
 make &> /dev/null
 j=0
 sum=0
-echo -n "" > data.txt 
+echo -n "" > data.txt
 while (( $j < 100 )); do
     echo ${j}"%"
     media=$(./test_project $j)

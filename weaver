@@ -8,12 +8,12 @@
 # it under the terms of the GNU General Public License as published by
 # the Free Software Foundation, either version 3 of the License, or
 # (at your option) any later version.
-# 
+#
 # Weaver Framework is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-#    
+#
 # You should have received a copy of the GNU General Public License
 # along with Weaver Framework.  If not, see <http://www.gnu.org/licenses/>.
 
@@ -36,7 +36,7 @@ function clean_directory(){
 # This function prints a help message when the user is inside a Weaver
 # Directory
 function weaver_directory_help(){
-    echo "       \\                You are inside a Weaver Directory." 
+    echo "       \\                You are inside a Weaver Directory."
     echo "        \\______/        The following command uses are available:"
     echo "        /\\____/\\"
     echo "       / /\\__/\\ \\       weaver"
@@ -48,7 +48,7 @@ function weaver_directory_help(){
     echo "       /"
 }
 
-# This function prints a help message when the user is outside a 
+# This function prints a help message when the user is outside a
 # Weaver Directory
 function weaver_help(){
         echo "    .  .     You are outside a Weaver Directory."
@@ -107,28 +107,28 @@ function update_weaver(){
     if [ $(echo $YEAR | cut -d , -f $COUNT) != $(date +%Y) ]; then
 	YEAR=${YEAR}","$(date +%Y)
     fi
-    NAME=$(grep "Copyright (C) " $1/src/game.c | sed s/^" "*// | sed s/" "+/" "/ | cut -d ' ' -f 4-)	
+    NAME=$(grep "Copyright (C) " $1/src/game.c | sed s/^" "*// | sed s/" "+/" "/ | cut -d ' ' -f 4-)
     # Updating Weaver API
     cp -r ${WEAVER}/reserved_words $1 2> /dev/null
     cp -r ${WEAVER}/src/weaver $1/src 2> /dev/null
-	
+
     # Updating year and copyright holder
-    for i in $(ls $1/src/*.{c,h}); do 
+    for i in $(ls $1/src/*.{c,h}); do
 	file=$(basename $i)
 	sed s/Copyright\ \(C\)\ .*$/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ $1/src/$file > $1/src/${file}~
 	mv $1/src/$file~ $1/src/$file
     done
-	
+
     # Correcting some names in some source code files
     sed s/DUMMY/$1/ ${WEAVER}/src/weaver/sound.c > $1/src/weaver/sound.c
     sed s/DUMMY/$1/ ${WEAVER}/src/weaver/image.c > $1/src/weaver/image.c
     sed s/DUMMY/$1/ ${WEAVER}/src/weaver/font.c > $1/src/weaver/font.c
 }
 
-# This function creates a new Weaver Project, whose name is passed as 
+# This function creates a new Weaver Project, whose name is passed as
 # argument
 function weaver_create(){
-    mkdir $1 
+    mkdir $1
     if [[ ${WEAVER} == "/usr/share/weaver" ]]; then
 	cp -r ${WEAVER}/{fonts,images,LICENSE,Makefile,music,sound,src} $1
     else
@@ -138,7 +138,7 @@ function weaver_create(){
     fi
     # Creating a new Weaver project
     rm -f $1/reserved_words
-    NAME=$(grep "^$(whoami):" /etc/passwd | cut -d : -f 5 | sed s/,.*//)       
+    NAME=$(grep "^$(whoami):" /etc/passwd | cut -d : -f 5 | sed s/,.*//)
     YEAR=$(date +%Y)
     PROJ_NAME=$(basename $1)
     sed s/dummy/"${PROJ_NAME}"/ ${1}/Makefile > $1/Makefile~ &&
@@ -163,7 +163,7 @@ function weaver_create(){
     echo $1 > $1/music/.web
 }
 
-if [ -a .web ]; then 
+if [ -a .web ]; then
     if [ -z $1 ]; then
 	# Calling weaver without arguments in a Weaver Directory
         clean_directory
@@ -188,13 +188,13 @@ else
 	weaver_help
     elif [[ $1 == "--version" ]]; then
 	# --version invoked
-        echo "WEAVER -- Version ${VERSION}"    
-    elif grep "^[ ]*"$1"[ ]*$" ${WEAVER}/reserved_words &> /dev/null; then 
+        echo "WEAVER -- Version ${VERSION}"
+    elif grep "^[ ]*"$1"[ ]*$" ${WEAVER}/reserved_words &> /dev/null; then
         # Trying to create a project with a reserved name
 	echo $1" is a reserved name. Please, give other name for the project."
     elif [ -a $1/.web ]; then
 	# The project exists. Update it
-	if [[ ${1:$((${#1}-1))} == "/" ]]; then		    
+	if [[ ${1:$((${#1}-1))} == "/" ]]; then
 	    update_weaver ${1:0:$((${#1}-1))}
 	else
 	    update_weaver $1

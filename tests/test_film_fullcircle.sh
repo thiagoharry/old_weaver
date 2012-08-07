@@ -18,7 +18,7 @@ int main(int argc, char **argv){
 make &> /dev/null
 j=1
 media=0
-echo -n "" > data.txt 
+echo -n "" > data.txt
 while (( $j < 101 )); do
     echo $(($j - 1))"%"
     valor=$(./test_project)
@@ -40,7 +40,7 @@ int main(int argc, char **argv){
   limit_camera(cam, 1, 1, window_width - 2, window_height - 2);
   awake_the_weaver(); // Initializing Weaver API
   DEBUG_TIMER_START();
-  film_fullcircle(cam, circ, RED);  
+  film_fullcircle(cam, circ, RED);
   DEBUG_TIMER_END();
   may_the_weaver_sleep();
   return 0;
@@ -48,7 +48,7 @@ int main(int argc, char **argv){
 make &> /dev/null
 j=1
 media=0
-echo -n "" > data2.txt 
+echo -n "" > data2.txt
 while (( $j < 101 )); do
     echo $(($j - 1))"%"
     valor=$(./test_project)

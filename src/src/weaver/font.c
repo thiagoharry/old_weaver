@@ -7,12 +7,12 @@
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  Weaver API is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
-    
+
  You should have received a copy of the GNU General Public License
  along with Weaver API.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -60,7 +60,7 @@ int load_font(char *file, int size){
   // Loading font
   error = FT_New_Face(_library, path, 0, &_face);
   free(path);
-  
+
   // Handling some possible errors
   if(error == FT_Err_Unknown_File_Format){
     printf("WARNING: The font %s has an unsupported format.\n", file);
@@ -72,7 +72,7 @@ int load_font(char *file, int size){
     _face = NULL;
     return 0;
   }
-  
+
   return 1;
 }
 
@@ -93,16 +93,16 @@ int draw_text(unsigned x, unsigned y, int size, char *text, unsigned color){
     printf("WARNING: Error while setting size in font.\n");
     _face = NULL;
     return 0;
-  }  
+  }
 
 
 
   for(p = text; *p != '\0'; p++){
     surface *surf;
 
-    // retrieve glyph index from character code  
+    // retrieve glyph index from character code
     //glyph_index = FT_Get_Char_Index(_face, *p);
-    
+
     printf("-6\n"); fflush(stdout);
     // load glyph image into the slot (erase previous one)
     error = FT_Load_Char(_face, *p, FT_LOAD_MONOCHROME);
@@ -133,7 +133,7 @@ int draw_text(unsigned x, unsigned y, int size, char *text, unsigned color){
 
     printf("-2\n"); fflush(stdout);
 
-   
+
 
     printf("-1\n"); fflush(stdout);
 
@@ -149,7 +149,7 @@ int draw_text(unsigned x, unsigned y, int size, char *text, unsigned color){
     printf("2\n"); fflush(stdout);
     XFillRectangle(_dpy, surf -> pix, _gc, 0, 0, surf -> width, surf -> height);
     printf("3\n"); fflush(stdout);
-    XPutImage(_dpy, surf -> mask, _mask_gc, ximage, 0, 0, 0, 0, 
+    XPutImage(_dpy, surf -> mask, _mask_gc, ximage, 0, 0, 0, 0,
           _face->glyph->bitmap.width*2, _face->glyph->bitmap.rows*2);
     printf("4\n"); fflush(stdout);
     blit_surface(surf, window, 0, 0, surf -> width, surf -> height, x, y);

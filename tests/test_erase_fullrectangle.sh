@@ -22,7 +22,7 @@ make &> /dev/null
 j=1
 media=0
 media0=0
-echo -n "" > data.txt 
+echo -n "" > data.txt
 while (( $j < 101 )); do
     echo $(($j - 1))"%"
     valor=$(./test_project)

@@ -12,18 +12,18 @@ src2html :: String -> String
 src2html c = unlines $ map unwords' html_list
   where c_list = map words $ lines c
         html_list = transform' c_list
-        
+
 unwords' :: [String] -> String
 unwords' a
   | isInfixOf "<span class=\"comentario\">" (unwords a) = (unwords a)++"</span>"
   | otherwise = unwords a
-        
+
 transform' :: [[String]] -> [[String]]
 transform' a = map transform'' a
 
 transform'' :: [String] -> [String]
 transform'' a = map transform a
-        
+
 transform :: String -> String
 transform "void" = "<span class=\"tipo\">void</span>"
 transform "int" = "<span class=\"tipo\">int</span>"

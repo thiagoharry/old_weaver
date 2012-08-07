@@ -8,8 +8,8 @@ int main(int argc, char **argv){
   int num;
   surface *surf;
   num = atoi(argv[1]);
-  awake_the_weaver(); // Initializing Weaver API  
-  XSync(_dpy, 1); 
+  awake_the_weaver(); // Initializing Weaver API
+  XSync(_dpy, 1);
   DEBUG_TIMER_START();
   surf = new_surface(num, num);
   XSync(_dpy, 1);
@@ -23,7 +23,7 @@ j=1
 sum=0
 first=0
 last=0
-echo -n "" > data.txt 
+echo -n "" > data.txt
 while (( $j <= 10000 )); do
     echo "$((${j}/100))%"
     media=$(./test_project $j)

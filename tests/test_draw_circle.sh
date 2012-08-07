@@ -6,11 +6,11 @@ echo -ne "#include \"weaver/weaver.h\"\n
 #include \"game.h\"\n
 int main(int argc, char **argv){
   int x, y, color;
-  awake_the_weaver(); // Initializing Weaver API  
+  awake_the_weaver(); // Initializing Weaver API
   x = window_width / 2; y = window_height / 2; color = rand();
-  XSync(_dpy, 1); 
+  XSync(_dpy, 1);
   DEBUG_TIMER_START();
-  draw_circle(x, y, y, color); 
+  draw_circle(x, y, y, color);
   XSync(_dpy, 1);
   DEBUG_TIMER_END();
   may_the_weaver_sleep();
@@ -19,7 +19,7 @@ int main(int argc, char **argv){
 make &> /dev/null
 j=0
 sum=0
-echo -n "" > data.txt 
+echo -n "" > data.txt
 while (( $j < 100 )); do
     echo "${j}%"
     media=$(./test_project $j)

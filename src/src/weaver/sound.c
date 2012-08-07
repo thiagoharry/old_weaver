@@ -7,12 +7,12 @@
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  Weaver API is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
-    
+
  You should have received a copy of the GNU General Public License
  along with Weaver API.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -50,7 +50,7 @@ void handle_pcm_error(int status, snd_pcm_uframes_t frames, snd_pcm_t **handle){
     snd_pcm_prepare(*handle);
 
   }
-  else{ 
+  else{
     if(status < 0){
       fprintf(stderr, "error from writei: %s\n", snd_strerror(status));
     }
@@ -59,10 +59,6 @@ void handle_pcm_error(int status, snd_pcm_uframes_t frames, snd_pcm_t **handle){
     }
   }
 }
-
-
-
-
 
 // This functions opens an Ogg Vorbis file and play it
 void play_sound(char *file){
@@ -101,8 +97,8 @@ void _play_soundfile(char *file, char *dir){
   struct timespec req = {0, 10000000}; // 0.01 seconds
   char *path = (char *) malloc(strlen(file)+50);
   path[0] = '\0';
-    
-  
+
+
   // Opening file passed as argument
   strcat(path, "/usr/share/games/DUMMY/");
   strcat(path, dir);
@@ -122,16 +118,16 @@ void _play_soundfile(char *file, char *dir){
       fprintf(stderr, "unable to open PCM device: %s\n", snd_strerror(status));
       exit(1);
     }
-    
+
     // Allocate hardware parameters and set them to default
     snd_pcm_hw_params_alloca(&params);
     snd_pcm_hw_params_any(handle, params);
 
-    
+
     // Initializing Ogg Vorbis decoding
     ov_open(fp, &vf, NULL, 0);
-    
-    
+
+
     // Getting information from the file
     {
       //char **ptr=ov_comment(&vf,-1)->user_comments;
@@ -140,7 +136,7 @@ void _play_soundfile(char *file, char *dir){
       // fprintf(stderr,"%s\n",*ptr);
       // ++ptr;
       //  }
-      
+
       // A frame contains 1 sample in Mono and 2 in Stereo
       frames = 1024;
       size = 4096;
@@ -156,55 +152,43 @@ void _play_soundfile(char *file, char *dir){
       //snd_pcm_hw_params_set_buffer_size_near(handle, params, (snd_pcm_uframes_t *) &size);
       status = snd_pcm_hw_params(handle, params);
       if(status < 0){
-        fprintf(stderr, "unable to set hw parameters: %s\n", snd_strerror(status));
-        exit(1);
+	fprintf(stderr, "unable to set hw parameters: %s\n", snd_strerror(status));
+	exit(1);
       }
     }
-    
+
     buffer = (char *) malloc(size);
-    
+
     snd_pcm_prepare(handle);
     while(1){
       nanosleep(&req, NULL);
       int ret;
       status = 0;
       do{
-        ret = ov_read(&vf, &buffer[status], size - status, 0, 2, 1, &current_section);
-        if(ret == 0)
-          break;
-        if(!handle_vorbis_error(ret))
-          status += ret;
+	ret = ov_read(&vf, &buffer[status], size - status, 0, 2, 1, &current_section);
+	if(ret == 0)
+	  break;
+	if(!handle_vorbis_error(ret))
+	  status += ret;
       }while(status < size);
       if(ret == 0){
-        if(status > 0){
-          snd_pcm_hw_params_set_buffer_size(handle, params, size);
-          snd_pcm_hw_params(handle, params);
+	if(status > 0){
+	  snd_pcm_hw_params_set_buffer_size(handle, params, size);
+	  snd_pcm_hw_params(handle, params);
 	  nanosleep(&req, NULL);
-          status = snd_pcm_writei(handle, buffer, frames);
-          handle_pcm_error(status, frames, &handle);
-        }
-        break;
+	  status = snd_pcm_writei(handle, buffer, frames);
+	  handle_pcm_error(status, frames, &handle);
+	}
+	break;
       }
-      //status = ov_read(&vf, buffer2, size , 0, 2, 1, &current_section);
-      //if(status == 0)
-      //  break;
-      //handle_vorbis_error(status);
       if(status > 0){
-        //snd_pcm_hw_params_set_buffer_size(handle, params, size);
-        //snd_pcm_hw_params(handle, params);
-        status = snd_pcm_writei(handle, buffer, frames);
-        handle_pcm_error(status, frames, &handle);
-        //snd_pcm_writei(handle, buffer2, frames);
-        //handle_pcm_error(status, frames);
+	status = snd_pcm_writei(handle, buffer, frames);
+	handle_pcm_error(status, frames, &handle);
       }
     }
-
-  
   // Finishing
   snd_pcm_drain(handle);
   snd_pcm_close(handle);
   ov_clear(&vf);
   free(buffer);
- 
-
 }

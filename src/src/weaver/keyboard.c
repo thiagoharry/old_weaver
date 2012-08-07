@@ -7,12 +7,12 @@
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  Weaver API is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
-    
+
  You should have received a copy of the GNU General Public License
  along with Weaver API.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -42,15 +42,15 @@ void get_input(void){
   XEvent event;
   KeySym pressed_key, released_key;
   mouse.changed = 0;
-  
+
   while(XPending(_dpy)){
     XNextEvent(_dpy, &event);
-    
+
     if(event.type == KeyPress){ // KEYBOARD EVENT
       keyboard[ANY] += 1;
       pressed_key = XLookupKeysym(&event.xkey, 0);
-      
-      // Treating special cases first 
+
+      // Treating special cases first
       if(pressed_key == LEFT_SHIFT || pressed_key == RIGHT_SHIFT)
 	keyboard[SHIFT] += 1;
       if(pressed_key == LEFT_CTRL || pressed_key == RIGHT_CTRL)
@@ -63,7 +63,7 @@ void get_input(void){
     else if(event.type == KeyRelease){
       released_key = XLookupKeysym(&event.xkey, 0);
       keyboard[ANY] = 0;
-      
+
       // Some special cases
       if(released_key == LEFT_SHIFT || released_key == RIGHT_SHIFT)
 	keyboard[SHIFT] = 0;
@@ -72,8 +72,8 @@ void get_input(void){
       if(released_key == LEFT_ALT || released_key == RIGHT_ALT)
 	keyboard[ALT] = 0;
 
-      
-      keyboard[released_key] = 0; // Default behaviour  
+
+      keyboard[released_key] = 0; // Default behaviour
     }
     else if(event.type == ButtonPress){ //MOUSE EVENT
       if(! mouse.pressed){

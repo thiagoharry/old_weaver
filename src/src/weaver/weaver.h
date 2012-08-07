@@ -7,12 +7,12 @@
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  Weaver API is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
-    
+
  You should have received a copy of the GNU General Public License
  along with Weaver API.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -69,7 +69,7 @@ void weaver_rest(long);
 
 void center_camera(struct vector4 *, float, float);
 void limit_camera(struct vector4 *, int, int, int, int);
-void zoom_camera(struct vector4 *, float); 
+void zoom_camera(struct vector4 *, float);
 
 void film_circle(struct vector4 *, struct vector3 *, unsigned);
 void erase_circle(struct vector4 *, struct vector3 *);

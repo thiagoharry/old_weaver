@@ -15,7 +15,7 @@ while (( $j < 100 )); do
     j=$(($j+1))
 done
 echo -ne ");
-  XSync(_dpy, 1); 
+  XSync(_dpy, 1);
   DEBUG_TIMER_START();\n
   film_polygon(cam, poly, RED);
   XSync(_dpy, 1);
@@ -25,27 +25,27 @@ echo -ne ");
 }" >> src/game.c
 make &> /dev/null
 j=0
-echo -n "" > data.txt 
+echo -n "" > data.txt
 while (( $j < 101 )); do
     echo $(($j - 1))"%"
     media=0
     i=0
-    while ((  $i < 10 )); do 
+    while ((  $i < 10 )); do
 	valor=$(./test_project)
 	media=$((${media}+${valor}))
-	i=$(($i+1)); 
+	i=$(($i+1));
     done
     echo -n ${j}" " >> data.txt
     echo $((${media}/10)) >> data.txt
-    
+
     sed s/\\\\limit_camera/limit_camera/ src/game.c > src/game.c~
     mv src/game.c~ src/game.c
     media0=0
     i=0
-    while ((  $i < 10 )); do 
+    while ((  $i < 10 )); do
 	valor=$(./test_project)
 	media0=$((${media0}+${valor}))
-	i=$(($i+1)); 
+	i=$(($i+1));
     done
     echo -n ${j}" " >> data2.txt
     echo $((${media0}/10)) >> data2.txt

@@ -17,15 +17,15 @@ int main(int argc, char **argv){\n
 }" > src/game.c
 make &> /dev/null
 j=1
-echo -n "" > data.txt 
+echo -n "" > data.txt
 while (( $j < 101 )); do
     echo $(($j - 1))"%"
     media=0
     i=0
-    while ((  $i < 30 )); do 
+    while ((  $i < 30 )); do
 	valor=$(./test_project)
 	media=$((${media}+${valor}))
-	i=$(($i+1)); 
+	i=$(($i+1));
     done
     echo -n $(($j*$j))" " >> data.txt
     echo $((${media}/30)) >> data.txt

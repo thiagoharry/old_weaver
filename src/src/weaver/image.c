@@ -7,12 +7,12 @@
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
  (at your option) any later version.
- 
+
  Weaver API is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  GNU General Public License for more details.
-    
+
  You should have received a copy of the GNU General Public License
  along with Weaver API.  If not, see <http://www.gnu.org/licenses/>.
 */
@@ -38,7 +38,7 @@ void _print_png_version(void){
 // An initialization function
 int _readpng_init(FILE *infile, long *pWidth, long *pHeight){
   unsigned char sig[8]; // The first 8 bytes with magic number
-  
+
   if(fread(sig, 1, 8, infile) <= 0)
     return 1; // Not a PNG file!
   if (png_sig_cmp(sig, 0, 8))
@@ -69,7 +69,7 @@ int _readpng_init(FILE *infile, long *pWidth, long *pHeight){
   *pWidth = _width;
   *pHeight = _height;
 
-  
+
   //free((char *) _png_ptr);
   return 0;
 }
@@ -81,11 +81,11 @@ int _readpng_get_bgcolor(unsigned char *red, unsigned char *green, unsigned char
   if (setjmp(png_jmpbuf(_png_ptr))) {
     png_destroy_read_struct(&_png_ptr, &_info_ptr, NULL);
     return 2;
-  }  
-  
+  }
+
   if (!png_get_valid(_png_ptr, _info_ptr, PNG_INFO_bKGD))
     return 1;
-  
+
   png_get_bKGD(_png_ptr, _info_ptr, &pBackground);
 
   if (_bit_depth == 16) {
@@ -114,7 +114,7 @@ unsigned char *_readpng_get_image(double display_exponent, int *pChannels, unsig
   png_uint_32  i, rowbytes;
   png_bytepp  row_pointers = NULL;
   //unsigned char *image_data;
-  
+
   if (setjmp(png_jmpbuf(_png_ptr))) {
     png_destroy_read_struct(&_png_ptr, &_info_ptr, NULL);
     return NULL;
@@ -137,18 +137,18 @@ unsigned char *_readpng_get_image(double display_exponent, int *pChannels, unsig
   // Gamma correction
   if (png_get_gAMA(_png_ptr, _info_ptr, &gamma))
     png_set_gamma(_png_ptr, display_exponent, gamma);
-  
+
   // Updating information in structs
   png_read_update_info(_png_ptr, _info_ptr);
 
   *pRowbytes = rowbytes = png_get_rowbytes(_png_ptr, _info_ptr);
   *pChannels = (int)png_get_channels(_png_ptr, _info_ptr);
-  
+
   if ((_image_data = (unsigned char *)malloc(rowbytes*_height)) == NULL) {
     png_destroy_read_struct(&_png_ptr, &_info_ptr, NULL);
     return NULL;
   }
-  
+
   if ((row_pointers = (png_bytepp)malloc(_height*sizeof(png_bytep))) == NULL) {
     png_destroy_read_struct(&_png_ptr, &_info_ptr, NULL);
     free(_image_data);
@@ -160,9 +160,9 @@ unsigned char *_readpng_get_image(double display_exponent, int *pChannels, unsig
   for (i = 0;  i < _height;  ++i)
     row_pointers[i] = _image_data + i*rowbytes;
 
-  
+
   png_read_image(_png_ptr, row_pointers);
-  
+
   png_read_end(_png_ptr, NULL);
   free(row_pointers);
 
@@ -179,7 +179,7 @@ struct surface *new_image(char *file){
   struct surface *my_surf;
 
   _display_exponent = default_display_exponent = 2.2;
-  
+
   strcat(path, "/usr/share/games/DUMMY/images/");
   strcat(path, file);
   if(!(infile = fopen(path, "rb"))){
@@ -203,7 +203,7 @@ struct surface *new_image(char *file){
   fclose(infile);
   png_destroy_read_struct(&_png_ptr, &_info_ptr, NULL);
   free(_image_data);
-  
+
   return my_surf;
 }
 
@@ -228,7 +228,7 @@ int _display_image(struct surface *my_surf, int x, int y){
   if(_depth == 24 || _depth == 32){
     xdata = (unsigned char *) malloc(4*_image_width*_image_height);
     pad = 32;
-    RShift = 7 - _rpng_x_msb(RMask);     // these are right-shifts, too 
+    RShift = 7 - _rpng_x_msb(RMask);     // these are right-shifts, too
     GShift = 7 - _rpng_x_msb(GMask);
     BShift = 7 - _rpng_x_msb(BMask);
   }
@@ -256,8 +256,8 @@ int _display_image(struct surface *my_surf, int x, int y){
     exit(1);
   }
   XInitImage(_ximage);
-  _ximage -> byte_order =  MSBFirst; 
-  
+  _ximage -> byte_order =  MSBFirst;
+
   mask = XCreateImage(_dpy, _visual, 1, XYBitmap, 0, (char *) maskdata, _image_width, _image_height, pad, 0);
   XInitImage(mask);
   if(!mask){
@@ -271,7 +271,7 @@ int _display_image(struct surface *my_surf, int x, int y){
   // Beginning the loop drawing...
   if(_depth == 24 || _depth == 32){
     unsigned long red, green, blue;
-    
+
     //LOOP!
     for(lastrow = row = 0; row < _image_height; ++row){
       src = _image_data + row * _image_rowbytes;
@@ -312,7 +312,7 @@ int _display_image(struct surface *my_surf, int x, int y){
             _alpha_composite(green, g, a, _bg_green);
             _alpha_composite(blue,  b, a, _bg_blue);
           }
-          
+
           //printf("DEBUG: %d %d %d\n", RShift, GShift, BShift);
           pixel = (red   << -RShift) |
             (green << -GShift) |
@@ -346,10 +346,10 @@ int _display_image(struct surface *my_surf, int x, int y){
 	else
 	  XPutPixel(mask, i, j, 0);
       }
-    
+
     bit_gc = XCreateGC(_dpy, my_surf -> mask, 0, NULL);
     XPutImage(_dpy, my_surf -> mask, bit_gc, mask, 0, 0, 0, 0, _image_width, _image_height);
-    XFreeGC(_dpy, bit_gc); 
+    XFreeGC(_dpy, bit_gc);
     XDestroyImage(_ximage);
     XDestroyImage(mask);
     //flush();

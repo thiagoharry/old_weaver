@@ -6,8 +6,8 @@ echo -ne "#include \"weaver/weaver.h\"\n
 #include \"game.h\"\n
 int main(int argc, char **argv){
   surface *surf;
-  awake_the_weaver(); // Initializing Weaver API  
-  XSync(_dpy, 1); 
+  awake_the_weaver(); // Initializing Weaver API
+  XSync(_dpy, 1);
   DEBUG_TIMER_START();
   surf = new_image(\"pixel.png\");
   XSync(_dpy, 1);
@@ -21,7 +21,7 @@ j=1
 sum=0
 first=0
 last=0
-echo -n "" > data.txt 
+echo -n "" > data.txt
 while (( $j <= 1000 )); do
     echo "$((${j}/10))%"
     convert -resize "${j}x${j}" images/pixel.png images/pixel.png
