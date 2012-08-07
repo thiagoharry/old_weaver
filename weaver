@@ -173,8 +173,13 @@ if [ -a .web ]; then
 	    weaver_directory_help
             exit
         else
-	    # Calling weaver with arguments in a Weaver Directory
-       	    create_module $1
+	    if [[ $1 == "." ]]; then
+		# Updating weaver version in the current project
+		update_weaver .
+	    else
+	        # Calling weaver with arguments in a Weaver Directory
+       		create_module $1
+	    fi
         fi
     fi
 else
