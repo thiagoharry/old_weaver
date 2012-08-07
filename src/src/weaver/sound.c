@@ -25,7 +25,7 @@
 #include "sound.h"
 #include "display.h"
 
-int handle_vorbis_error(int status){
+int _handle_vorbis_error(int status){
   if(status < 0){
     fprintf(stderr, "Unknown error...\n");
     return 1;
@@ -168,7 +168,7 @@ void _play_soundfile(char *file, char *dir){
 	ret = ov_read(&vf, &buffer[status], size - status, 0, 2, 1, &current_section);
 	if(ret == 0)
 	  break;
-	if(!handle_vorbis_error(ret))
+	if(!_handle_vorbis_error(ret))
 	  status += ret;
       }while(status < size);
       if(ret == 0){
