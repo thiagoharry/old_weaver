@@ -49,42 +49,42 @@ power management:
 \subsection{Memory Info}
 \begin{verbatim}
 MemTotal:        1990372 kB
-MemFree:          293868 kB
-Buffers:           66732 kB
-Cached:          1141068 kB
+MemFree:          236056 kB
+Buffers:           71044 kB
+Cached:          1136872 kB
 SwapCached:            0 kB
-Active:           720776 kB
-Inactive:         865900 kB
-Active(anon):     389740 kB
-Inactive(anon):   123316 kB
-Active(file):     331036 kB
-Inactive(file):   742584 kB
+Active:           975512 kB
+Inactive:         674980 kB
+Active(anon):     453356 kB
+Inactive(anon):   163992 kB
+Active(file):     522156 kB
+Inactive(file):   510988 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 HighTotal:       1115476 kB
-HighFree:          64080 kB
+HighFree:          28740 kB
 LowTotal:         874896 kB
-LowFree:          229788 kB
+LowFree:          207316 kB
 SwapTotal:             0 kB
 SwapFree:              0 kB
-Dirty:               684 kB
+Dirty:              6448 kB
 Writeback:             0 kB
-AnonPages:        378940 kB
-Mapped:           141004 kB
-Shmem:            134096 kB
-Slab:              87620 kB
-SReclaimable:      48968 kB
-SUnreclaim:        38652 kB
-KernelStack:        2968 kB
-PageTables:         8296 kB
+AnonPages:        442608 kB
+Mapped:           146264 kB
+Shmem:            174768 kB
+Slab:              79872 kB
+SReclaimable:      45260 kB
+SUnreclaim:        34612 kB
+KernelStack:        3408 kB
+PageTables:         9152 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:      995184 kB
-Committed_AS:    2576340 kB
+Committed_AS:    2830240 kB
 VmallocTotal:     122880 kB
-VmallocUsed:       16024 kB
-VmallocChunk:     101888 kB
+VmallocUsed:       16152 kB
+VmallocChunk:     100428 kB
 HardwareCorrupted:     0 kB
 AnonHugePages:         0 kB
 HugePages_Total:       0
@@ -92,18 +92,17 @@ HugePages_Free:        0
 HugePages_Rsvd:        0
 HugePages_Surp:        0
 Hugepagesize:       4096 kB
-DirectMap4k:       16376 kB
-DirectMap4M:      892928 kB
+DirectMap4k:       40952 kB
+DirectMap4M:      868352 kB
 \end{verbatim}
 \section{Function Tests}
-\subsection{new\_image(a)}
-Function used for creating a new surface from a PNG file.
+\subsection{draw\_point()}
+Function used for drawing a point in the screen.
 
-\includegraphics{tests/tex/new_image.eps}
 
-The graph shows how much time in nanosseconds it takes to create a new surface $x \times x $ from a PNG file.
+\includegraphics{tests/tex/draw_point.eps}
 
-As this function has a linear theoretical
+As this function has a constant theoretical
 complexity, the time, in nanosseconds is 
-approximated by the function $f(x)=97.145x+718$.
+approximated by the function $f(x)=846$.
 \end{document}

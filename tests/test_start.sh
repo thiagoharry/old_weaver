@@ -3,15 +3,22 @@
 echo "Starting Weaver Tests..."
 echo "Checking for test dependencies..."
 
-echo -n "LaTeX...."
+echo -n "LaTeX........"
 if latex --version &> /dev/null ; then
     echo "OK"
 else
     /bin/echo -e "\033[31mFAILED\033[m"
 fi
 
-echo -n "Gnuplot.."
+echo -n "Gnuplot......"
 if gnuplot --version &> /dev/null ; then
+    echo "OK"
+else
+    /bin/echo -e "\033[31mFAILED\033[m"
+fi
+
+echo -n "ImageMagick.."
+if convert --version &> /dev/null ; then
     echo "OK"
 else
     /bin/echo -e "\033[31mFAILED\033[m"
