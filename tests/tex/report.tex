@@ -28,7 +28,7 @@ model		: 23
 model name	: Intel(R) Celeron(R) CPU          900  @ 2.20GHz
 stepping	: 10
 microcode	: 0xa07
-cpu MHz		: 2194.457
+cpu MHz		: 2194.718
 cache size	: 1024 KB
 fdiv_bug	: no
 hlt_bug		: no
@@ -39,7 +39,7 @@ fpu_exception	: yes
 cpuid level	: 13
 wp		: yes
 flags		: fpu vme de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss tm pbe nx lm constant_tsc up arch_perfmon pebs bts aperfmperf pni dtes64 monitor ds_cpl tm2 ssse3 cx16 xtpr pdcm xsave lahf_lm dts
-bogomips	: 4388.91
+bogomips	: 4389.43
 clflush size	: 64
 cache_alignment	: 64
 address sizes	: 36 bits physical, 48 bits virtual
@@ -49,42 +49,42 @@ power management:
 \subsection{Memory Info}
 \begin{verbatim}
 MemTotal:        1990372 kB
-MemFree:          380276 kB
-Buffers:          244460 kB
-Cached:           787764 kB
+MemFree:          135928 kB
+Buffers:           76296 kB
+Cached:          1328044 kB
 SwapCached:            0 kB
-Active:           868456 kB
-Inactive:         616600 kB
-Active(anon):     453820 kB
-Inactive(anon):   132364 kB
-Active(file):     414636 kB
-Inactive(file):   484236 kB
+Active:           917352 kB
+Inactive:         825268 kB
+Active(anon):     339040 kB
+Inactive(anon):   195932 kB
+Active(file):     578312 kB
+Inactive(file):   629336 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 HighTotal:       1115476 kB
-HighFree:          52052 kB
+HighFree:          17456 kB
 LowTotal:         874896 kB
-LowFree:          328224 kB
+LowFree:          118472 kB
 SwapTotal:             0 kB
 SwapFree:              0 kB
-Dirty:               580 kB
+Dirty:               496 kB
 Writeback:             0 kB
-AnonPages:        452908 kB
-Mapped:           129180 kB
-Shmem:            133292 kB
-Slab:             102088 kB
-SReclaimable:      68988 kB
-SUnreclaim:        33100 kB
-KernelStack:        2936 kB
-PageTables:         8928 kB
+AnonPages:        338280 kB
+Mapped:           128912 kB
+Shmem:            196696 kB
+Slab:              88020 kB
+SReclaimable:      51272 kB
+SUnreclaim:        36748 kB
+KernelStack:        3176 kB
+PageTables:         8776 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:      995184 kB
-Committed_AS:    2547700 kB
+Committed_AS:    2737516 kB
 VmallocTotal:     122880 kB
-VmallocUsed:       16212 kB
-VmallocChunk:     106016 kB
+VmallocUsed:       16420 kB
+VmallocChunk:     105664 kB
 HardwareCorrupted:     0 kB
 AnonHugePages:         0 kB
 HugePages_Total:       0
@@ -96,13 +96,13 @@ DirectMap4k:       16376 kB
 DirectMap4M:      892928 kB
 \end{verbatim}
 \section{Function Tests}
-\subsection{draw\_point()}
-Function used for drawing a point in the screen.
+\subsection{new\_vector2(a,b)}
+Function used for creating a 2d vector.
 
 
-\includegraphics{tests/tex/draw_point.eps}
+\includegraphics{tests/tex/new_vector2.eps}
 
 As this function has a constant theoretical
 complexity, the time, in nanosseconds is 
-approximated by the function $f(x)=404$.
+approximated by the function $f(x)=361$.
 \end{document}
