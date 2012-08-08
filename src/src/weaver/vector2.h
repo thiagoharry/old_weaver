@@ -29,7 +29,6 @@ struct vector2{
 };
 
 struct vector2 *new_vector2(float x, float y);
-void connect_vector2(struct vector2 *, struct vector2 *);
 struct vector2 *new_polygon(int, ...);
 void destroy_polygon(struct vector2 *);
 void rotate_polygon(struct vector2 *, float, float, float);

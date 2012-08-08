@@ -35,12 +35,6 @@ struct vector2 *new_vector2(float x, float y){
   return vector;
 }
 
-// And this connects two vectors
-void connect_vector2(struct vector2 *a, struct vector2 *b){
-  a -> next = b;
-  b -> previous = a;
-}
-
 // Now a function to create arbitrary polygons for us
 struct vector2 *new_polygon(int number_of_vertices, ...){
   struct vector2 *new_vector = NULL;
@@ -64,8 +58,10 @@ struct vector2 *new_polygon(int number_of_vertices, ...){
       }
       return new_vector;
     }
-    if(previous_vector != NULL)
-      connect_vector2(previous_vector, new_vector);
+    if(previous_vector != NULL){
+      previous_vector -> next = new_vector;
+      new_vector -> previous = previous_vector;
+    }
     else
       first_vector = new_vector;
     previous_vector = new_vector;
