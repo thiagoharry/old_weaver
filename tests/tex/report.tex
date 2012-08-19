@@ -11,7 +11,7 @@ neuromancer
 \item
 \textbf{Operating System Version: }
 \begin{verbatim}
-Ubuntu 12.04 LTS \n \l
+Ubuntu 12.04.1 LTS \n \l
 
 \end{verbatim}
 \item
@@ -28,7 +28,7 @@ model		: 23
 model name	: Intel(R) Celeron(R) CPU          900  @ 2.20GHz
 stepping	: 10
 microcode	: 0xa07
-cpu MHz		: 2194.718
+cpu MHz		: 2194.480
 cache size	: 1024 KB
 fdiv_bug	: no
 hlt_bug		: no
@@ -38,8 +38,8 @@ fpu		: yes
 fpu_exception	: yes
 cpuid level	: 13
 wp		: yes
-flags		: fpu vme de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss tm pbe nx lm constant_tsc up arch_perfmon pebs bts aperfmperf pni dtes64 monitor ds_cpl tm2 ssse3 cx16 xtpr pdcm xsave lahf_lm dts
-bogomips	: 4389.43
+flags		: fpu vme de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss tm pbe nx lm constant_tsc up arch_perfmon pebs bts aperfmperf pni dtes64 monitor ds_cpl tm2 ssse3 cx16 xtpr pdcm xsave lahf_lm dtherm
+bogomips	: 4388.96
 clflush size	: 64
 cache_alignment	: 64
 address sizes	: 36 bits physical, 48 bits virtual
@@ -49,42 +49,42 @@ power management:
 \subsection{Memory Info}
 \begin{verbatim}
 MemTotal:        1990372 kB
-MemFree:          135928 kB
-Buffers:           76296 kB
-Cached:          1328044 kB
+MemFree:          194360 kB
+Buffers:           65908 kB
+Cached:          1245772 kB
 SwapCached:            0 kB
-Active:           917352 kB
-Inactive:         825268 kB
-Active(anon):     339040 kB
-Inactive(anon):   195932 kB
-Active(file):     578312 kB
-Inactive(file):   629336 kB
+Active:           930872 kB
+Inactive:         756748 kB
+Active(anon):     376796 kB
+Inactive(anon):   202336 kB
+Active(file):     554076 kB
+Inactive(file):   554412 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 HighTotal:       1115476 kB
-HighFree:          17456 kB
+HighFree:          23656 kB
 LowTotal:         874896 kB
-LowFree:          118472 kB
+LowFree:          170704 kB
 SwapTotal:             0 kB
 SwapFree:              0 kB
-Dirty:               496 kB
+Dirty:               556 kB
 Writeback:             0 kB
-AnonPages:        338280 kB
-Mapped:           128912 kB
-Shmem:            196696 kB
-Slab:              88020 kB
-SReclaimable:      51272 kB
-SUnreclaim:        36748 kB
-KernelStack:        3176 kB
-PageTables:         8776 kB
+AnonPages:        375976 kB
+Mapped:           104144 kB
+Shmem:            203172 kB
+Slab:              84120 kB
+SReclaimable:      55224 kB
+SUnreclaim:        28896 kB
+KernelStack:        3320 kB
+PageTables:         9048 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:      995184 kB
-Committed_AS:    2737516 kB
+Committed_AS:    2827116 kB
 VmallocTotal:     122880 kB
-VmallocUsed:       16420 kB
-VmallocChunk:     105664 kB
+VmallocUsed:       16360 kB
+VmallocChunk:      99572 kB
 HardwareCorrupted:     0 kB
 AnonHugePages:         0 kB
 HugePages_Total:       0
@@ -92,17 +92,17 @@ HugePages_Free:        0
 HugePages_Rsvd:        0
 HugePages_Surp:        0
 Hugepagesize:       4096 kB
-DirectMap4k:       16376 kB
-DirectMap4M:      892928 kB
+DirectMap4k:       32760 kB
+DirectMap4M:      876544 kB
 \end{verbatim}
 \section{Function Tests}
-\subsection{new\_vector2(a,b)}
-Function used for creating a 2d vector.
+\subsection{new\_polygon(a,b)}
+Function used for creating a polygon in the
+screen, given it's coordinates. 
 
+\includegraphics{tests/tex/new_polygon.eps}
 
-\includegraphics{tests/tex/new_vector2.eps}
-
-As this function has a constant theoretical
+As this function has a linear theoretical
 complexity, the time, in nanosseconds is 
-approximated by the function $f(x)=361$.
+approximated by the function $f(x)=.27x+1023$.
 \end{document}
