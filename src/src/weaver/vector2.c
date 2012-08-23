@@ -78,7 +78,8 @@ struct vector2 *new_polygon(int number_of_vertices, ...){
 void destroy_polygon(struct vector2 *poly){
   struct vector2 *first_vector = poly;
   struct vector2 *current_vector, *temp;
-
+  if(poly == NULL)
+    return;
   current_vector = first_vector;
   do{
     temp = current_vector;
@@ -91,6 +92,8 @@ void destroy_polygon(struct vector2 *poly){
 void rotate_polygon(struct vector2 *poly, float x, float y, float rad){
   long double new_x, new_y;
   struct vector2 *first_vector, *current_vector;
+  if(poly == NULL)
+    return;
   first_vector = current_vector = poly;
   do{
     // Changing base...

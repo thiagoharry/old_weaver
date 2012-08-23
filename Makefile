@@ -93,6 +93,7 @@ test: test_dependencies
 	tests/test_blit_masked_pixmap.sh
 	tests/test_blit_surface.sh
 	tests/test_center_camera.sh
+	tests/test_destroy_polygon.sh
 	tests/test_destroy_surface.sh
 	tests/test_draw_circle.sh
 	tests/test_draw_ellipse.sh
@@ -116,6 +117,7 @@ test: test_dependencies
 	tests/test_may_the_weaver_sleep.sh
 	tests/test_new_image.sh
 	tests/test_new_polygon.sh
+	tests/test_rotate_polygon.sh
 	tests/test_new_surface.sh
 	tests/test_new_vector2.sh
 	tests/test_weaver_rest.sh
@@ -136,6 +138,10 @@ test_blit_surface: test_dependencies
 test_center_camera: test_dependencies
 	tests/test_start.sh
 	tests/test_center_camera.sh
+	tests/test_end.sh
+test_destroy_polygon: test_dependencies
+	tests/test_start.sh
+	tests/test_destroy_polygon.sh
 	tests/test_end.sh
 test_destroy_surface: test_dependencies
 	tests/test_start.sh
@@ -232,6 +238,10 @@ test_new_image: test_dependencies
 test_new_polygon: test_dependencies
 	tests/test_start.sh
 	tests/test_new_polygon.sh
+	tests/test_end.sh
+test_rotate_polygon: test_dependencies
+	tests/test_start.sh
+	tests/test_rotate_polygon.sh
 	tests/test_end.sh
 test_new_surface: test_dependencies
 	tests/test_start.sh
