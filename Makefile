@@ -115,11 +115,13 @@ test: test_dependencies
 	tests/test_flush.sh
 	tests/test_limit_camera.sh
 	tests/test_may_the_weaver_sleep.sh
+	tests/test_move_polygon.sh
 	tests/test_new_image.sh
 	tests/test_new_polygon.sh
 	tests/test_rotate_polygon.sh
 	tests/test_new_surface.sh
 	tests/test_new_vector2.sh
+	tests/test_new_vector3.sh
 	tests/test_weaver_rest.sh
 	tests/test_zoom_camera.sh
 	tests/test_end.sh
@@ -231,6 +233,10 @@ test_may_the_weaver_sleep: test_dependencies
 	tests/test_start.sh
 	tests/test_may_the_weaver_sleep.sh
 	tests/test_end.sh
+test_move_polygon: test_dependencies
+	tests/test_start.sh
+	tests/test_move_polygon.sh
+	tests/test_end.sh
 test_new_image: test_dependencies
 	tests/test_start.sh
 	tests/test_new_image.sh
@@ -250,6 +256,10 @@ test_new_surface: test_dependencies
 test_new_vector2: test_dependencies
 	tests/test_start.sh
 	tests/test_new_vector2.sh
+	tests/test_end.sh
+test_new_vector3: test_dependencies
+	tests/test_start.sh
+	tests/test_new_vector3.sh
 	tests/test_end.sh
 test_weaver_rest: test_dependencies
 	tests/test_start.sh

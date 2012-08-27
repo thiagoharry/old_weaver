@@ -113,6 +113,8 @@ void rotate_polygon(struct vector2 *poly, float x, float y, float rad){
 // This moves all the vertices in a polygon
 void move_polygon(struct vector2 *poly, float x, float y){
   struct vector2 *first_vertex, *current_vertex;
+  if(poly == NULL)
+    return;
   first_vertex = current_vertex = poly;
   do{
     current_vertex -> x += x;

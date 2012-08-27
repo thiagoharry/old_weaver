@@ -22,10 +22,6 @@
 
 #define destroy_vector3(x) free(x)
 
-#define move_circle(circ, a, b)                 \
-  circ -> x += a;                               \
-  circ -> y += b;
-
 struct vector3{
   float x, y, z;
   struct vector3 *previous, *top, *next;
@@ -33,5 +29,6 @@ struct vector3{
 
 struct vector3 *new_vector3(float, float, float);
 void rotate_circle(struct vector3 *, float, float, float);
+void move_circle(struct vector3 *, float, float);
 
 #endif

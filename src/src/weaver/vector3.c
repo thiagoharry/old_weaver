@@ -47,3 +47,11 @@ void rotate_circle(struct vector3 *circ, float x, float y, float rad){
   circ -> x = (float) (new_x + (long double) x);
   circ -> y = (float) (new_y + (long double) y);
 }
+
+// This function moves a vector3*, assuming that it's a circle
+void move_circle(struct vector3 *circ, float x, float y){
+  if(circ == NULL)
+    return;
+  circ -> x += x;
+  circ -> y += y;
+}
