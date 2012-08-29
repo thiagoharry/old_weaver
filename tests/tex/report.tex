@@ -28,7 +28,7 @@ model		: 23
 model name	: Intel(R) Celeron(R) CPU          900  @ 2.20GHz
 stepping	: 10
 microcode	: 0xa07
-cpu MHz		: 2194.450
+cpu MHz		: 2194.489
 cache size	: 1024 KB
 fdiv_bug	: no
 hlt_bug		: no
@@ -39,7 +39,7 @@ fpu_exception	: yes
 cpuid level	: 13
 wp		: yes
 flags		: fpu vme de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss tm pbe nx lm constant_tsc up arch_perfmon pebs bts aperfmperf pni dtes64 monitor ds_cpl tm2 ssse3 cx16 xtpr pdcm xsave lahf_lm dtherm
-bogomips	: 4388.90
+bogomips	: 4388.97
 clflush size	: 64
 cache_alignment	: 64
 address sizes	: 36 bits physical, 48 bits virtual
@@ -49,42 +49,42 @@ power management:
 \subsection{Memory Info}
 \begin{verbatim}
 MemTotal:        1990372 kB
-MemFree:          266300 kB
-Buffers:           97332 kB
-Cached:           831140 kB
+MemFree:          829424 kB
+Buffers:          123092 kB
+Cached:           747256 kB
 SwapCached:            0 kB
-Active:          1033440 kB
-Inactive:         587672 kB
-Active(anon):     698212 kB
-Inactive(anon):   222464 kB
-Active(file):     335228 kB
-Inactive(file):   365208 kB
+Active:           336872 kB
+Inactive:         729852 kB
+Active(anon):     197288 kB
+Inactive(anon):   122392 kB
+Active(file):     139584 kB
+Inactive(file):   607460 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 HighTotal:       1115476 kB
-HighFree:          25764 kB
+HighFree:         160304 kB
 LowTotal:         874896 kB
-LowFree:          240536 kB
+LowFree:          669120 kB
 SwapTotal:             0 kB
 SwapFree:              0 kB
-Dirty:               700 kB
+Dirty:               632 kB
 Writeback:             0 kB
-AnonPages:        692660 kB
-Mapped:           108908 kB
-Shmem:            228060 kB
-Slab:              76476 kB
-SReclaimable:      51564 kB
-SUnreclaim:        24912 kB
-KernelStack:        3544 kB
-PageTables:        11028 kB
+AnonPages:        196484 kB
+Mapped:            87056 kB
+Shmem:            123240 kB
+Slab:              73660 kB
+SReclaimable:      39064 kB
+SUnreclaim:        34596 kB
+KernelStack:        2640 kB
+PageTables:         6924 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:      995184 kB
-Committed_AS:    3566272 kB
+Committed_AS:    1935800 kB
 VmallocTotal:     122880 kB
-VmallocUsed:       16300 kB
-VmallocChunk:     103832 kB
+VmallocUsed:       16200 kB
+VmallocChunk:     104056 kB
 HardwareCorrupted:     0 kB
 AnonHugePages:         0 kB
 HugePages_Total:       0
@@ -96,13 +96,12 @@ DirectMap4k:       16376 kB
 DirectMap4M:      892928 kB
 \end{verbatim}
 \section{Function Tests}
-\subsection{new\_vector2(a,b)}
-Function used for creating a 2d vector.
+\subsection{rotate\_polygon(a,b)}
+Function used for rotating a polygon.
 
+\includegraphics{tests/tex/rotate_polygon.eps}
 
-\includegraphics{tests/tex/new_vector2.eps}
-
-As this function has a constant theoretical
+As this function has a linear theoretical
 complexity, the time, in nanosseconds is 
-approximated by the function $f(x)=1$.
+approximated by the function $f(x)=.0091x+1$.
 \end{document}

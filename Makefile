@@ -118,6 +118,7 @@ test: test_dependencies
 	tests/test_move_polygon.sh
 	tests/test_new_image.sh
 	tests/test_new_polygon.sh
+	tests/test_rotate_circle.sh
 	tests/test_rotate_polygon.sh
 	tests/test_new_surface.sh
 	tests/test_new_vector2.sh
@@ -244,6 +245,10 @@ test_new_image: test_dependencies
 test_new_polygon: test_dependencies
 	tests/test_start.sh
 	tests/test_new_polygon.sh
+	tests/test_end.sh
+test_rotate_circle: test_dependencies
+	tests/test_start.sh
+	tests/test_rotate_circle.sh
 	tests/test_end.sh
 test_rotate_polygon: test_dependencies
 	tests/test_start.sh

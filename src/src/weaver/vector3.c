@@ -36,7 +36,8 @@ struct vector3 *new_vector3(float x, float y, float z){
 // This function rotates a vector3* assuming that it's a circle
 void rotate_circle(struct vector3 *circ, float x, float y, float rad){
   long double new_x, new_y;
-
+  if(circ == NULL)
+    return;
   new_x = (long double) circ -> x - (long double) x;
   new_y = (long double) circ -> y - (long double) y;
 
