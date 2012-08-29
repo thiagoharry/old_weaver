@@ -49,42 +49,42 @@ power management:
 \subsection{Memory Info}
 \begin{verbatim}
 MemTotal:        1990372 kB
-MemFree:          829424 kB
-Buffers:          123092 kB
-Cached:           747256 kB
+MemFree:          173784 kB
+Buffers:          121624 kB
+Cached:          1266460 kB
 SwapCached:            0 kB
-Active:           336872 kB
-Inactive:         729852 kB
-Active(anon):     197288 kB
-Inactive(anon):   122392 kB
-Active(file):     139584 kB
-Inactive(file):   607460 kB
+Active:           786672 kB
+Inactive:         889408 kB
+Active(anon):     289124 kB
+Inactive(anon):   187536 kB
+Active(file):     497548 kB
+Inactive(file):   701872 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 HighTotal:       1115476 kB
-HighFree:         160304 kB
+HighFree:          14232 kB
 LowTotal:         874896 kB
-LowFree:          669120 kB
+LowFree:          159552 kB
 SwapTotal:             0 kB
 SwapFree:              0 kB
-Dirty:               632 kB
+Dirty:               576 kB
 Writeback:             0 kB
-AnonPages:        196484 kB
-Mapped:            87056 kB
-Shmem:            123240 kB
-Slab:              73660 kB
-SReclaimable:      39064 kB
-SUnreclaim:        34596 kB
-KernelStack:        2640 kB
-PageTables:         6924 kB
+AnonPages:        288032 kB
+Mapped:            85784 kB
+Shmem:            188640 kB
+Slab:             117680 kB
+SReclaimable:      78860 kB
+SUnreclaim:        38820 kB
+KernelStack:        3000 kB
+PageTables:         7868 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:      995184 kB
-Committed_AS:    1935800 kB
+Committed_AS:    2480036 kB
 VmallocTotal:     122880 kB
-VmallocUsed:       16200 kB
-VmallocChunk:     104056 kB
+VmallocUsed:       16432 kB
+VmallocChunk:     102616 kB
 HardwareCorrupted:     0 kB
 AnonHugePages:         0 kB
 HugePages_Total:       0
@@ -92,16 +92,17 @@ HugePages_Free:        0
 HugePages_Rsvd:        0
 HugePages_Surp:        0
 Hugepagesize:       4096 kB
-DirectMap4k:       16376 kB
-DirectMap4M:      892928 kB
+DirectMap4k:       36856 kB
+DirectMap4M:      872448 kB
 \end{verbatim}
 \section{Function Tests}
-\subsection{rotate\_polygon(a,b)}
-Function used for rotating a polygon.
+\subsection{move\_circle(a,b,c)}
+Function used for moving a 3d vector representing a circle.
 
-\includegraphics{tests/tex/rotate_polygon.eps}
 
-As this function has a linear theoretical
+\includegraphics{tests/tex/move_circle.eps}
+
+As this function has a constant theoretical
 complexity, the time, in nanosseconds is 
-approximated by the function $f(x)=.0091x+1$.
+approximated by the function $f(x)=1$.
 \end{document}
