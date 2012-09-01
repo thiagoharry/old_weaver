@@ -28,7 +28,7 @@ model		: 23
 model name	: Intel(R) Celeron(R) CPU          900  @ 2.20GHz
 stepping	: 10
 microcode	: 0xa07
-cpu MHz		: 2194.489
+cpu MHz		: 2194.580
 cache size	: 1024 KB
 fdiv_bug	: no
 hlt_bug		: no
@@ -39,7 +39,7 @@ fpu_exception	: yes
 cpuid level	: 13
 wp		: yes
 flags		: fpu vme de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss tm pbe nx lm constant_tsc up arch_perfmon pebs bts aperfmperf pni dtes64 monitor ds_cpl tm2 ssse3 cx16 xtpr pdcm xsave lahf_lm dtherm
-bogomips	: 4388.97
+bogomips	: 4389.16
 clflush size	: 64
 cache_alignment	: 64
 address sizes	: 36 bits physical, 48 bits virtual
@@ -49,42 +49,42 @@ power management:
 \subsection{Memory Info}
 \begin{verbatim}
 MemTotal:        1990372 kB
-MemFree:          173784 kB
-Buffers:          121624 kB
-Cached:          1266460 kB
+MemFree:          121524 kB
+Buffers:          336132 kB
+Cached:          1019692 kB
 SwapCached:            0 kB
-Active:           786672 kB
-Inactive:         889408 kB
-Active(anon):     289124 kB
-Inactive(anon):   187536 kB
-Active(file):     497548 kB
-Inactive(file):   701872 kB
+Active:           735412 kB
+Inactive:        1016252 kB
+Active(anon):     396688 kB
+Inactive(anon):   147028 kB
+Active(file):     338724 kB
+Inactive(file):   869224 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 HighTotal:       1115476 kB
 HighFree:          14232 kB
 LowTotal:         874896 kB
-LowFree:          159552 kB
+LowFree:          107292 kB
 SwapTotal:             0 kB
 SwapFree:              0 kB
-Dirty:               576 kB
+Dirty:               492 kB
 Writeback:             0 kB
-AnonPages:        288032 kB
-Mapped:            85784 kB
-Shmem:            188640 kB
-Slab:             117680 kB
-SReclaimable:      78860 kB
-SUnreclaim:        38820 kB
-KernelStack:        3000 kB
-PageTables:         7868 kB
+AnonPages:        395872 kB
+Mapped:           138400 kB
+Shmem:            147824 kB
+Slab:              93980 kB
+SReclaimable:      53180 kB
+SUnreclaim:        40800 kB
+KernelStack:        3024 kB
+PageTables:         8932 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:      995184 kB
-Committed_AS:    2480036 kB
+Committed_AS:    2626216 kB
 VmallocTotal:     122880 kB
-VmallocUsed:       16432 kB
-VmallocChunk:     102616 kB
+VmallocUsed:       16200 kB
+VmallocChunk:     104056 kB
 HardwareCorrupted:     0 kB
 AnonHugePages:         0 kB
 HugePages_Total:       0
@@ -92,15 +92,15 @@ HugePages_Free:        0
 HugePages_Rsvd:        0
 HugePages_Surp:        0
 Hugepagesize:       4096 kB
-DirectMap4k:       36856 kB
-DirectMap4M:      872448 kB
+DirectMap4k:       16376 kB
+DirectMap4M:      892928 kB
 \end{verbatim}
 \section{Function Tests}
-\subsection{move\_circle(a,b,c)}
-Function used for moving a 3d vector representing a circle.
+\subsection{new\_vector4(a,b,c)}
+Function used for creating a 4d vector.
 
 
-\includegraphics{tests/tex/move_circle.eps}
+\includegraphics{tests/tex/new_vector4.eps}
 
 As this function has a constant theoretical
 complexity, the time, in nanosseconds is 

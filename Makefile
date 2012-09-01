@@ -1,3 +1,4 @@
+
 SCRIPT_DIR=/usr/bin
 DATA_DIR=/usr/share/weaver
 
@@ -124,6 +125,7 @@ test: test_dependencies
 	tests/test_new_surface.sh
 	tests/test_new_vector2.sh
 	tests/test_new_vector3.sh
+	tests/test_new_vector4.sh
 	tests/test_weaver_rest.sh
 	tests/test_zoom_camera.sh
 	tests/test_end.sh
@@ -270,6 +272,10 @@ test_new_vector2: test_dependencies
 test_new_vector3: test_dependencies
 	tests/test_start.sh
 	tests/test_new_vector3.sh
+	tests/test_end.sh
+test_new_vector4: test_dependencies
+	tests/test_start.sh
+	tests/test_new_vector4.sh
 	tests/test_end.sh
 test_weaver_rest: test_dependencies
 	tests/test_start.sh
