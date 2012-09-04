@@ -5,9 +5,13 @@ cd tests/test_project
 echo -ne "#include \"weaver/weaver.h\"
 #include \"game.h\"
 int main(int argc, char **argv){
-  DEBUG_TIMER_START();
+{ struct timeval _begin, _end;
+  gettimeofday(&_begin, NULL);
   awake_the_weaver(); // Initializing Weaver API
-  DEBUG_TIMER_END();
+  gettimeofday(&_end, NULL);
+  printf(\"%ld\\\n\", (1000000 * (_end.tv_sec - _begin.tv_sec) +
+		   _end.tv_usec - _begin.tv_usec));
+  }
   may_the_weaver_sleep();
   return 0;
 }" > src/game.c

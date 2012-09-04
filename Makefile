@@ -91,6 +91,7 @@ aux:
 test: test_dependencies
 	tests/test_start.sh
 	tests/test_apply_texture.sh
+	tests/test_awake_the_weaver.sh
 	tests/test_blit_masked_pixmap.sh
 	tests/test_blit_surface.sh
 	tests/test_center_camera.sh
@@ -132,6 +133,10 @@ test: test_dependencies
 test_apply_texture: test_dependencies
 	tests/test_start.sh
 	tests/test_apply_texture.sh
+	tests/test_end.sh
+test_awake_the_weaver: test_dependencies
+	tests/test_start.sh
+	tests/test_awake_the_weaver.sh
 	tests/test_end.sh
 test_blit_masked_pixmap: test_dependencies
 	tests/test_start.sh

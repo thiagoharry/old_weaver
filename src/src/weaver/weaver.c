@@ -1149,11 +1149,11 @@ int collision_rectangle_polygon(struct vector4 *r, struct vector2 *p){
   }
 
   do{ // Loops in all the polygon's vertices
-    x1 = MIN(current -> x, next -> x);
-    x2 = MAX(current -> x, next -> x);
+    x1 = _MIN(current -> x, next -> x);
+    x2 = _MAX(current -> x, next -> x);
     if(!(x1 > r -> x + r -> w || x2 < r -> x)){
-      y1 = MIN(current -> y, next -> y);
-      y2 = MAX(current -> y, next -> y);
+      y1 = _MIN(current -> y, next -> y);
+      y2 = _MAX(current -> y, next -> y);
       if(!(y1 > r -> y + r -> z || y2 < r -> y)){ // The edge is next. Perhaps
 	                                          //it's colliding...
 	if(x1 == x2 || y1 == y2){ // We have a vertical or horizontal edge

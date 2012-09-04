@@ -36,7 +36,10 @@
 #define new_camera_w(x, y, width) new_vector4(width, x, y, width *      \
                                               ((float) window_height /  \
                                                (float) window_width))
-#define new_camera_h(x, y, height) new_vector4(height * ((float) window_width / (float) window_height), x, y, height)
+#define new_camera_h(x, y, height) new_vector4(height * ((float) window_width / \
+							 (float) \
+							 window_height), x, y,\
+					       height)
 #define new_circle(x, y, z) new_vector3(x, y, z)
 #define destroy_circle(a) free(a)
 #define destroy_rectangle(a) free(a)
@@ -51,8 +54,8 @@
 #define erase_fullpolygon(a, b) _film_fullpolygon(a, b, NOT_IMPORTANT, 1)
 #define film_polygon(a, b, c) _film_polygon(a, b, c, 0)
 #define erase_polygon(a, b) _film_polygon(a, b, NOT_IMPORTANT, 1)
-#define MAX(x, y) (x) > (y) ? (x) : (y)
-#define MIN(x, y) (x) > (y) ? (y) : (x)
+#define _MAX(x, y) (x) > (y) ? (x) : (y)
+#define _MIN(x, y) (x) > (y) ? (y) : (x)
 #define DEBUG_TIMER_START() { struct timeval _begin, _end;	\
   XFlush(_dpy);                                                 \
   gettimeofday(&_begin, NULL);
