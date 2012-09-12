@@ -9,16 +9,7 @@ int main(int argc, char **argv){
   camera *cam = new_camera(0.0, 0.0, 100.0, 100.0);
   awake_the_weaver(); // Initializing Weaver API
   DEBUG_TIMER_START();
-  center_camera(cam, 0.0, 0.0);
-  center_camera(cam, 0.5, 0.25);
-  center_camera(cam, 1000.0, 1000.0);
   center_camera(cam, 25000.35, 24245.53533);
-  center_camera(cam, FLT_MAX, FLT_MAX);
-  center_camera(cam, 0.0, 0.0);
-  center_camera(cam, 0.5, 0.25);
-  center_camera(cam, 1000.0, 1000.0);
-  center_camera(cam, 25000.35, 24245.53533);
-  center_camera(cam, FLT_MAX, FLT_MAX);
   DEBUG_TIMER_END();
   may_the_weaver_sleep();
   return 0;
@@ -36,7 +27,7 @@ while (( $j < 101 )); do
     make &> /dev/null
     j=$(($j+1))
 done
-media=$(echo "scale=2; ${media}/1000" | bc -l)
+media=$(echo "scale=2; ${media}/100" | bc -l)
 
 echo "set output \"center_camera.eps\"" > ../gnuplot_instructions.txt
 echo "set terminal postscript eps enhanced;" >> ../gnuplot_instructions.txt
@@ -44,8 +35,7 @@ echo "plot \"data.txt\" with lines;" >> ../gnuplot_instructions.txt
 
 echo "\subsection{center\_camera(a,b,c)}" >> ../tex/report.tex
 echo "Function used to center a camera in a 2D " >> ../tex/report.tex
-echo "coordinate. The above graphic had the real values" >> ../tex/report.tex
-echo "magnified 10\$\times\$." >> ../tex/report.tex
+echo "coordinate. " >> ../tex/report.tex
 gnuplot ../gnuplot_instructions.txt
 mv center_camera.eps ../tex
 echo "" >> ../tex/report.tex
