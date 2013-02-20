@@ -13,6 +13,7 @@ int main(int argc, char **argv){
   for(i = 0; i < 2000; i ++){
     film_rectangle(cam, rect, i);
   }
+  XSync(_dpy, 1);
   DEBUG_TIMER_END();
   may_the_weaver_sleep();
   return 0;
@@ -39,13 +40,14 @@ echo -ne "#include \"weaver/weaver.h\"
 int main(int argc, char **argv){
   int i;
   camera *cam = new_camera(0.0, 0.0, (float) window_width, (float) window_height);
-  limit_camera(cam, 1, 1, window_width - 2, window_height - 2);
+  //limit_camera(cam, 1, 1, window_width - 2, window_height - 2);
   rectangle *rect = new_rectangle(1.0, 1.0, (float) window_width- 1, (float) window_height - 1);
   awake_the_weaver(); // Initializing Weaver API
   DEBUG_TIMER_START();
   for(i = 0; i < 2000; i ++){
     film_rectangle(cam, rect, i);
   }
+  XSync(_dpy, 1);
   DEBUG_TIMER_END();
   may_the_weaver_sleep();
   return 0;
@@ -68,7 +70,7 @@ media=$(echo "scale=2; ${media}/100" | bc -l)
 
 echo "set output \"film_rectangle.eps\"" > ../gnuplot_instructions.txt
 echo "set terminal postscript eps enhanced;" >> ../gnuplot_instructions.txt
-echo "plot \"data.txt\" title \"unlimited camera\" with lines, \"data2.txt\" title \"limited\_camera\" with lines;" >> ../gnuplot_instructions.txt
+echo "plot \"data.txt\" title \"unlimited camera\" with lines, \"data2.txt\" title \"limited camera\" with lines;" >> ../gnuplot_instructions.txt
 
 echo "\subsection{film\_rectangle(a,b,c)}" >> ../tex/report.tex
 echo "Draw a rectangle in an arbitrarily large surface." >> ../tex/report.tex

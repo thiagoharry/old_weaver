@@ -9,15 +9,6 @@ int main(int argc, char **argv){
   awake_the_weaver(); // Initializing Weaver API
   DEBUG_TIMER_START();
   zoom_camera(cam, 0.00001);
-  zoom_camera(cam, 0.0001);
-  zoom_camera(cam, 0.001);
-  zoom_camera(cam, 0.01);
-  zoom_camera(cam, 0.1);
-  zoom_camera(cam, 1.1);
-  zoom_camera(cam, 1.111);
-  zoom_camera(cam, 10.0);
-  zoom_camera(cam, 100.0);
-  zoom_camera(cam, 1000.0);
   DEBUG_TIMER_END();
   may_the_weaver_sleep();
   return 0;
@@ -35,7 +26,7 @@ while (( $j < 101 )); do
     make &> /dev/null
     j=$(($j+1))
 done
-media=$(echo "scale=2; ${media}/1000" | bc -l)
+media=$(echo "scale=2; ${media}/100" | bc -l)
 
 echo "set output \"zoom_camera.eps\"" > ../gnuplot_instructions.txt
 echo "set terminal postscript eps enhanced;" >> ../gnuplot_instructions.txt
@@ -43,7 +34,6 @@ echo "plot \"data.txt\" with lines;" >> ../gnuplot_instructions.txt
 
 echo "\subsection{zoom\_camera(a,b,c)}" >> ../tex/report.tex
 echo "Function used to zoom in or out a camera struct." >> ../tex/report.tex
-echo "The above graphic had values  magnified 5X." >> ../tex/report.tex
 gnuplot ../gnuplot_instructions.txt
 mv zoom_camera.eps ../tex
 echo "" >> ../tex/report.tex

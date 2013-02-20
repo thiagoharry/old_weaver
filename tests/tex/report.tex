@@ -28,7 +28,7 @@ model		: 23
 model name	: Intel(R) Celeron(R) CPU          900  @ 2.20GHz
 stepping	: 10
 microcode	: 0xa07
-cpu MHz		: 2194.416
+cpu MHz		: 2194.462
 cache size	: 1024 KB
 fdiv_bug	: no
 hlt_bug		: no
@@ -39,7 +39,7 @@ fpu_exception	: yes
 cpuid level	: 13
 wp		: yes
 flags		: fpu vme de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss tm pbe nx lm constant_tsc up arch_perfmon pebs bts aperfmperf pni dtes64 monitor ds_cpl tm2 ssse3 cx16 xtpr pdcm xsave lahf_lm dtherm
-bogomips	: 4388.83
+bogomips	: 4388.92
 clflush size	: 64
 cache_alignment	: 64
 address sizes	: 36 bits physical, 48 bits virtual
@@ -49,42 +49,42 @@ power management:
 \subsection{Memory Info}
 \begin{verbatim}
 MemTotal:        1990372 kB
-MemFree:          367540 kB
-Buffers:          116952 kB
-Cached:           916248 kB
+MemFree:          191592 kB
+Buffers:          174272 kB
+Cached:          1029960 kB
 SwapCached:            0 kB
-Active:           818704 kB
-Inactive:         703068 kB
-Active(anon):     489376 kB
-Inactive(anon):   140800 kB
-Active(file):     329328 kB
-Inactive(file):   562268 kB
+Active:           993640 kB
+Inactive:         728764 kB
+Active(anon):     519016 kB
+Inactive(anon):   202264 kB
+Active(file):     474624 kB
+Inactive(file):   526500 kB
 Unevictable:           0 kB
 Mlocked:               0 kB
 HighTotal:       1115476 kB
-HighFree:          14728 kB
+HighFree:          26136 kB
 LowTotal:         874896 kB
-LowFree:          352812 kB
+LowFree:          165456 kB
 SwapTotal:             0 kB
 SwapFree:              0 kB
-Dirty:               576 kB
+Dirty:               448 kB
 Writeback:             0 kB
-AnonPages:        488540 kB
-Mapped:           122456 kB
-Shmem:            141624 kB
-Slab:              77560 kB
-SReclaimable:      43044 kB
-SUnreclaim:        34516 kB
-KernelStack:        3048 kB
-PageTables:         9352 kB
+AnonPages:        518248 kB
+Mapped:            97104 kB
+Shmem:            203116 kB
+Slab:              52916 kB
+SReclaimable:      31980 kB
+SUnreclaim:        20936 kB
+KernelStack:        3088 kB
+PageTables:         9084 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
 CommitLimit:      995184 kB
-Committed_AS:    2689508 kB
+Committed_AS:    2826144 kB
 VmallocTotal:     122880 kB
-VmallocUsed:       16036 kB
-VmallocChunk:     105844 kB
+VmallocUsed:       16152 kB
+VmallocChunk:      92736 kB
 HardwareCorrupted:     0 kB
 AnonHugePages:         0 kB
 HugePages_Total:       0
@@ -96,15 +96,22 @@ DirectMap4k:       16376 kB
 DirectMap4M:      892928 kB
 \end{verbatim}
 \section{Function Tests}
-\subsection{center\_camera(a,b,c)}
-Function used to center a camera in a 2D 
-coordinate. 
+\subsection{film\_circle(a,b)}
+This function draw the perimeter of a circle using
+the color passed as argument. Drawing a
+circle in a arbitrarily big surface, given the
+coordinates, have exponential complexity. But as
+we are drawing only in the screen, this limits 
+the time complexity to a constant. This function
+have different performances in limited or unlimited
+cameras.
 
-\includegraphics{tests/tex/center_camera.eps}
+\includegraphics{tests/tex/film_circle.eps}
 
 As this function has a constant
 theoretical complexity, the time, in nanosseconds
 spent by this function is 
-approximated by the function $f(x)=1.58$
-in this computer.
+approximated by the function $f(x)=28.34$
+for unlimited cameras and $f(x)=7.20$ for
+limited cameras.
 \end{document}
