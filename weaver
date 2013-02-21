@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Copyright (C) 2009 Thiago Leucz Astrizi
+# Copyright (C) 2009-2013 Thiago Leucz Astrizi
 
 # This file is part of Weaver Framework.
 
@@ -23,12 +23,11 @@ WEAVER=/usr/share/weaver
 if ! [ -a ${WEAVER} ]; then
     WEAVER=${0:0:$((${#0}-6))}
 fi
-VERSION=1.2-unstable
+VERSION=0.2-unstable
 
 # This function cleans the current directory recursively, erasing temporary
 # files
 function clean_directory(){
-    find . -name "*~" -exec rm -f {} \;
     find . -name "*\#" -exec rm -f {} \;
     find . -name "*.o" -exec rm -f {} \;
 }
@@ -83,15 +82,14 @@ function create_module(){
 	echo "#include \"${1}.h\"" >> src/${1}.c
 	echo >> src/${1}.h
 	sed s/DUMMY/${PROJ}/ ${WEAVER}/src/game.h | sed s/Copyright.*Astrizi/Copyright\ \(C\)\ ${YEAR}\ "${NAME}"/ | sed s/_GAME_H_/_$(echo ${1} | tr [:lower:] [:upper:])_H_/ > src/${1}.h
+	echo "#include \"game.h\"" >> src/${1}.h
+	echo "" >> src/${1}.h
+	echo "#endif" >> src/${1}.h
+
 	# Updating header files
-	for i in src/*.h; do
-	    name=$(basename $i)
-	    name=${name:0:${#name}-2}
-	    sed s/\#define\ _$(echo $name | tr [:lower:] [:upper:])_H_/\#define\ _$(echo $name | tr [:lower:] [:upper:])_H_"\n"\#include\ \"${1}.h\"/ $i > $i~
-	    mv $i~ $i
-	    echo "#include \"${name}.h\"" >> src/${i}.h
-	done
-	echo "#endif" >> src/${i}.h
+	sed s/\#define\ _GAME_H_/\#define\ GAME_H_"\n"\#include\ \"${1}.h\"/ src/game.h > src/game.h~
+	mv src/game.h~ src/game.h
+
 	# Updating Makefiles
 	sed s/PROG_OBJ=/PROG_OBJ=${1}.o\ / Makefile | sed s:PROG_HEAD=:PROG_HEAD=src/${1}.h\ : > Makefile~
         sed s/\#GAME_END/${1}.o:" src\/"${1}".c \${PROG_HEAD}\n\t\${CC} -c src\/"${1}".c\n"\#GAME_END/ Makefile~ > Makefile
