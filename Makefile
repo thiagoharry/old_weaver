@@ -300,4 +300,5 @@ clean:
 	find . -name "*.eps" -exec rm -f {} \;
 	find . -name "*.pdf" -exec rm -f {} \;
 	find . -name "*.hi" -exec rm -f {} \;
+	rm -rf tests/gnuplot_instructions.txt
 	rm -rf tests/test_project
