@@ -23,7 +23,7 @@ int main(int argc, char **argv){
   XSync(_dpy, 1);
   DEBUG_TIMER_START();
   move_polygon(poly, 7.0, 9.0);
-  DEBUG_TIMER_END();
+  DEBUG_TIMER_STOP();
   destroy_polygon(poly);
   may_the_weaver_sleep();
   return 0;\n

@@ -22,7 +22,7 @@ int main(int argc, char **argv){
     done
     echo -ne ");
   XSync(_dpy, 1);
-  DEBUG_TIMER_END();\n
+  DEBUG_TIMER_STOP();\n
   may_the_weaver_sleep();\n
   return 0;\n
 }" >> src/game.c

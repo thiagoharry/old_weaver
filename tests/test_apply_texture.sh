@@ -11,7 +11,7 @@ int main(int argc, char **argv){\n
   flush();\n
   DEBUG_TIMER_START();\n
   apply_texture(surf, dest);\n
-  DEBUG_TIMER_END();\n
+  DEBUG_TIMER_STOP();\n
   may_the_weaver_sleep();\n
   return 0;\n
 }" > src/game.c

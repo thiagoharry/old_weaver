@@ -14,7 +14,7 @@ int main(int argc, char **argv){
     film_rectangle(cam, rect, i);
   }
   XSync(_dpy, 1);
-  DEBUG_TIMER_END();
+  DEBUG_TIMER_STOP();
   may_the_weaver_sleep();
   return 0;
 }" > src/game.c
@@ -48,7 +48,7 @@ int main(int argc, char **argv){
     film_rectangle(cam, rect, i);
   }
   XSync(_dpy, 1);
-  DEBUG_TIMER_END();
+  DEBUG_TIMER_STOP();
   may_the_weaver_sleep();
   return 0;
 }" > src/game.c

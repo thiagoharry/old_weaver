@@ -18,7 +18,7 @@ int main(int argc, char **argv){
   DEBUG_TIMER_START();
   blit_masked_pixmap(src -> pix, dst -> mask, dst, 0, 0, src -> width, src -> height, 0, 0, 0, 0);
   XSync(_dpy, 1);
-  DEBUG_TIMER_END();
+  DEBUG_TIMER_STOP();
   may_the_weaver_sleep();
   return 0;\n
 }" > src/game.c

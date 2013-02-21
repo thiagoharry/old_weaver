@@ -14,7 +14,7 @@ int main(int argc, char **argv){
   fill_surface(background, RED);
   DEBUG_TIMER_START();
     erase_rectangle(cam, rect);
-  DEBUG_TIMER_END();
+  DEBUG_TIMER_STOP();
   may_the_weaver_sleep();
   return 0;
 }" > src/game.c

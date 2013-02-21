@@ -10,7 +10,7 @@ int main(int argc, char **argv){
   DEBUG_TIMER_START();
   draw_rectangle(0, 0, window_width, window_height, BLUE);
   XSync(_dpy, 1);
-  DEBUG_TIMER_END();
+  DEBUG_TIMER_STOP();
   may_the_weaver_sleep();
   return 0;\n
 }" > src/game.c

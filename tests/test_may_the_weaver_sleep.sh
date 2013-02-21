@@ -8,7 +8,7 @@ int main(int argc, char **argv){
   awake_the_weaver(); // Initializing Weaver API
   DEBUG_TIMER_START();
   may_the_weaver_sleep();
-  DEBUG_TIMER_END();
+  DEBUG_TIMER_STOP();
   return 0;
 }" > src/game.c
 make &> /dev/null

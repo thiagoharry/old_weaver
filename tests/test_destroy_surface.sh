@@ -14,7 +14,7 @@ int main(int argc, char **argv){
   DEBUG_TIMER_START();
   destroy_surface(surf);
   XSync(_dpy, 1);
-  DEBUG_TIMER_END();
+  DEBUG_TIMER_STOP();
   may_the_weaver_sleep();
   return 0;\n
 }" > src/game.c

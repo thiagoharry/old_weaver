@@ -11,7 +11,7 @@ int main(int argc, char **argv){
   XSync(_dpy, 1);
   DEBUG_TIMER_START();
   rotate_circle(v, 3.2, 5.89, 0.345);
-  DEBUG_TIMER_END();
+  DEBUG_TIMER_STOP();
   destroy_vector3(v);
   may_the_weaver_sleep();
   return 0;\n

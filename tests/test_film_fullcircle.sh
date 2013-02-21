@@ -11,7 +11,7 @@ int main(int argc, char **argv){
   awake_the_weaver(); // Initializing Weaver API
   DEBUG_TIMER_START();
       film_fullcircle(cam, circ, RED);
-  DEBUG_TIMER_END();
+  DEBUG_TIMER_STOP();
   may_the_weaver_sleep();
   return 0;
 }" > src/game.c
@@ -41,7 +41,7 @@ int main(int argc, char **argv){
   awake_the_weaver(); // Initializing Weaver API
   DEBUG_TIMER_START();
   film_fullcircle(cam, circ, RED);
-  DEBUG_TIMER_END();
+  DEBUG_TIMER_STOP();
   may_the_weaver_sleep();
   return 0;
 }" > src/game.c

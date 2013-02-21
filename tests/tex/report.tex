@@ -5,13 +5,13 @@
 \maketitle
 This is a report with the results of a battery
 tests conducted in a machine called 
-neuromancer
+harry-emachines-D525
 .
 \begin{itemize}
 \item
 \textbf{Operating System Version: }
 \begin{verbatim}
-Ubuntu 12.04.1 LTS \n \l
+Ubuntu 12.10 \n \l
 
 \end{verbatim}
 \item
@@ -28,7 +28,7 @@ model		: 23
 model name	: Intel(R) Celeron(R) CPU          900  @ 2.20GHz
 stepping	: 10
 microcode	: 0xa07
-cpu MHz		: 2194.462
+cpu MHz		: 2194.479
 cache size	: 1024 KB
 fdiv_bug	: no
 hlt_bug		: no
@@ -38,8 +38,8 @@ fpu		: yes
 fpu_exception	: yes
 cpuid level	: 13
 wp		: yes
-flags		: fpu vme de pse tsc msr pae mce cx8 apic mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss tm pbe nx lm constant_tsc up arch_perfmon pebs bts aperfmperf pni dtes64 monitor ds_cpl tm2 ssse3 cx16 xtpr pdcm xsave lahf_lm dtherm
-bogomips	: 4388.92
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss tm pbe nx lm constant_tsc up arch_perfmon pebs bts aperfmperf pni dtes64 monitor ds_cpl tm2 ssse3 cx16 xtpr pdcm xsave lahf_lm dtherm
+bogomips	: 4388.95
 clflush size	: 64
 cache_alignment	: 64
 address sizes	: 36 bits physical, 48 bits virtual
@@ -48,54 +48,267 @@ power management:
 \end{verbatim}
 \subsection{Memory Info}
 \begin{verbatim}
-MemTotal:        1990372 kB
-MemFree:          191592 kB
-Buffers:          174272 kB
-Cached:          1029960 kB
+MemTotal:        1993768 kB
+MemFree:         1665632 kB
+Buffers:           63636 kB
+Cached:           165084 kB
 SwapCached:            0 kB
-Active:           993640 kB
-Inactive:         728764 kB
-Active(anon):     519016 kB
-Inactive(anon):   202264 kB
-Active(file):     474624 kB
-Inactive(file):   526500 kB
-Unevictable:           0 kB
-Mlocked:               0 kB
-HighTotal:       1115476 kB
-HighFree:          26136 kB
-LowTotal:         874896 kB
-LowFree:          165456 kB
-SwapTotal:             0 kB
-SwapFree:              0 kB
-Dirty:               448 kB
+Active:            89360 kB
+Inactive:         170472 kB
+Active(anon):      37548 kB
+Inactive(anon):    26528 kB
+Active(file):      51812 kB
+Inactive(file):   143944 kB
+Unevictable:       31108 kB
+Mlocked:           31108 kB
+HighTotal:       1111380 kB
+HighFree:         877764 kB
+LowTotal:         882388 kB
+LowFree:          787868 kB
+SwapTotal:       2015228 kB
+SwapFree:        2015228 kB
+Dirty:               408 kB
 Writeback:             0 kB
-AnonPages:        518248 kB
-Mapped:            97104 kB
-Shmem:            203116 kB
-Slab:              52916 kB
-SReclaimable:      31980 kB
-SUnreclaim:        20936 kB
-KernelStack:        3088 kB
-PageTables:         9084 kB
+AnonPages:         62160 kB
+Mapped:            31564 kB
+Shmem:             27216 kB
+Slab:              20560 kB
+SReclaimable:      10000 kB
+SUnreclaim:        10560 kB
+KernelStack:        1616 kB
+PageTables:         1628 kB
 NFS_Unstable:          0 kB
 Bounce:                0 kB
 WritebackTmp:          0 kB
-CommitLimit:      995184 kB
-Committed_AS:    2826144 kB
+CommitLimit:     3012112 kB
+Committed_AS:     369240 kB
 VmallocTotal:     122880 kB
-VmallocUsed:       16152 kB
-VmallocChunk:      92736 kB
+VmallocUsed:       16296 kB
+VmallocChunk:     105428 kB
 HardwareCorrupted:     0 kB
 AnonHugePages:         0 kB
 HugePages_Total:       0
 HugePages_Free:        0
 HugePages_Rsvd:        0
 HugePages_Surp:        0
-Hugepagesize:       4096 kB
-DirectMap4k:       16376 kB
-DirectMap4M:      892928 kB
+Hugepagesize:       2048 kB
+DirectMap4k:       10232 kB
+DirectMap2M:      903168 kB
 \end{verbatim}
 \section{Function Tests}
+\subsection{apply\_texture(a,b)}
+Function used for filling a surface with a texture
+stored in other texture.
+In this test, \emph{a} is a $1\times1$ texture
+and \emph{b} is a square surface with $x$ pixels.
+
+\includegraphics{tests/tex/apply_texture.eps}
+
+As this function has a linear theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=2.92x$
+in this computer.
+\subsection{awake\_the\_weaver()}
+Function used to initialize the Weaver API.
+
+\includegraphics{tests/tex/awake_the_weaver.eps}
+
+As this function has a constant theoretical
+complexity, the time, in nanosseconds spent 
+by this function is 
+approximated by the function $f(x)=4390.05$
+in this computer.
+\subsection{blit\_masked\_pixmap(a,b,c,d,e,f,g,h,i,j,k)}
+Function used for blitting a masked pixmap in some surface.
+
+\includegraphics{tests/tex/blit_masked_pixmap.eps}
+
+This graph shows how many nanosseconds takes to blit an entire $x \times x$ masked pixmap in some surface.
+
+The time, in nanosseconds is 
+approximated by the function $f(x)=41.729x+95$.
+\subsection{blit\_surface(a,b,c,d,e,f)}
+Function used for blitting a surface in other surface.
+
+\includegraphics{tests/tex/blit_surface.eps}
+
+This graph shows how many nanosseconds takes to blit an entire $x \times x$ surface in other surface. Some transparent pixels are in the first surface.
+
+The time, in nanosseconds is 
+approximated by the function $f(x)=41.761x+97$.
+\subsection{center\_camera(a,b,c)}
+Function used to center a camera in a 2D 
+coordinate. 
+
+\includegraphics{tests/tex/center_camera.eps}
+
+As this function has a constant
+theoretical complexity, the time, in nanosseconds
+spent by this function is 
+approximated by the function $f(x)=1.34$
+in this computer.
+\subsection{destroy\_polygon(a,b)}
+Function used for freeing the memory allocated by a polygon.
+
+\includegraphics{tests/tex/destroy_polygon.eps}
+
+As this function has a linear theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=.02x+1$.
+\subsection{destroy\_surface(a)}
+Function used for destroying a surface.
+
+\includegraphics{tests/tex/destroy_surface.eps}
+
+This graph shows how many nanosseconds takes to destroy a $x \times x$ surface.
+
+The time, in nanosseconds is 
+approximated by the function $f(x)=.093900x+84$.
+\subsection{draw\_circle(a,b,c,d)}
+Function used for drawing a circle in the
+screen, given it's coordinates. 
+
+\includegraphics{tests/tex/draw_circle.eps}
+
+As this function has a constant theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=1250$.
+\subsection{draw\_ellipse(a,b,c,d,e)}
+Function used for drawing a ellipse in the
+screen, given it's coordinates. 
+
+\includegraphics{tests/tex/draw_ellipse.eps}
+
+As this function has a constant theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=1471$.
+\subsection{draw\_line(a,b,c,d)}
+Function used for drawing a line in the
+screen, given it's coordinates. 
+
+\includegraphics{tests/tex/draw_line.eps}
+
+As this function has a constant theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=12446$.
+\subsection{draw\_point()}
+Function used for drawing a point in the screen.
+
+
+\includegraphics{tests/tex/draw_point.eps}
+
+As this function has a constant theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=800$.
+\subsection{draw\_rectangle(a,b,c,d,e)}
+Function used for drawing a rectangle in the
+screen, given it's coordinates. 
+
+\includegraphics{tests/tex/draw_rectangle.eps}
+
+As this function has a constant theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=984$.
+\subsection{draw\_rectangle\_mask(a,b,c,d,e)}
+Function used for turning transparent a 
+rectangular area in a surface. 
+
+\includegraphics{tests/tex/draw_rectangle_mask.eps}
+
+This graph shows how many nanosseconds this computer needs to turn transparent a $x \times s$ surface.
+
+The time, in nanosseconds is 
+approximated by the function $f(x)=.720x+62$.
+\subsection{erase\_circle(a,b)}
+This function draw the perimeter of a circle using
+the colors in the background surface. Drawing a
+circle in a arbitrarily big surface, given the
+coordinates have exponential complexity. But as
+we are drawing only in the screen, it limits 
+the time complexity to a constant. This function
+have different performances in limited or unlimited
+cameras.
+
+\includegraphics{tests/tex/erase_circle.eps}
+
+As this function has a constant
+theoretical complexity, the time, in nanosseconds
+spent by this function is 
+approximated by the function $f(x)=415.00$
+for unlimited cameras and $f(x)=2.67$ for
+limited cameras.
+\subsection{erase\_fullcircle(a,b)}
+This function draws and fills a circle using
+the colors in the background surface. Drawing a
+circle in a arbitrarily big surface, given the
+coordinates have exponential complexity. But as
+we are drawing only in the screen, it limits 
+the time complexity to a constant. This function
+have different performances in limited or unlimited
+cameras.
+
+\includegraphics{tests/tex/erase_fullcircle.eps}
+
+As this function has a constant
+theoretical complexity, the time, in nanosseconds
+spent by this function is 
+approximated by the function $f(x)=421.46$
+for unlimited cameras and $f(x)=5.62$ for
+limited cameras.
+\subsection{get\_input()}
+Function used for getting mouse and keyboard events.
+
+
+\includegraphics{tests/tex/get_input.eps}
+
+As this function has a constant theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=1169$.
+\subsection{hide\_cursor()}
+Function used for hiding the cursor in the screen.
+
+
+\includegraphics{tests/tex/hide_cursor.eps}
+
+As this function has a constant theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=2596$.
+\subsection{fill\_circle(a,b,c,d)}
+Function used for filling a circle in the
+screen, given it's coordinates. 
+
+\includegraphics{tests/tex/fill_circle.eps}
+
+As this function has a constant theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=1773$.
+\subsection{fill\_ellipse(a,b,c,d,e)}
+Function used for filling a ellipse in the
+screen, given it's coordinates. 
+
+\includegraphics{tests/tex/fill_ellipse.eps}
+
+As this function has a constant theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=1803$.
+\subsection{fill\_rectangle(a,b,c,d,e)}
+Function used for drawing and filling a rectangle in the
+screen, given it's coordinates. 
+
+\includegraphics{tests/tex/fill_rectangle.eps}
+
+As this function has a constant theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=1370$.
+\subsection{fill\_surface(a,b)}
+Function used for filling a surface with a color.
+
+\includegraphics{tests/tex/fill_surface.eps}
+
+This graph shows how many nanosseconds takes to fill a $x \times x$ surface.
+
+The time, in nanosseconds is 
+approximated by the function $f(x)=33.870800x+113$.
 \subsection{film\_circle(a,b)}
 This function draw the perimeter of a circle using
 the color passed as argument. Drawing a
@@ -111,7 +324,196 @@ cameras.
 As this function has a constant
 theoretical complexity, the time, in nanosseconds
 spent by this function is 
-approximated by the function $f(x)=28.34$
-for unlimited cameras and $f(x)=7.20$ for
+approximated by the function $f(x)=74.19$
+for unlimited cameras and $f(x)=7.36$ for
 limited cameras.
+\subsection{film\_fullrectangle(a,b,c)}
+Fill a rectangle in an arbitrarily large surface.
+have exponential complexity. But this function
+draw in the screen, so the number of pixels drawn
+is limited. So, we assume a constant complexity
+for this function.
+
+There are differences in the performance if you use
+a limited camera or not.
+
+\includegraphics{tests/tex/film_fullrectangle.eps}
+
+As this function has a constant
+theoretical complexity, the time, in nanosseconds
+spent by this function is 
+approximated by the function $f(x)=9.00$
+for limited cameras and $f(x)=1.00$ for
+unlimited cameras.
+\subsection{film\_rectangle(a,b,c)}
+Draw a rectangle in an arbitrarily large surface.
+have exponential complexity. But this function
+draw in the screen, so the number of pixels drawn
+is limited. So, we assume a constant complexity
+for this function.
+
+There are differences in the performance if you use
+a limited camera or not.
+
+\includegraphics{tests/tex/film_rectangle.eps}
+
+As this function has a constant
+theoretical complexity, the time, in nanosseconds
+spent by this function is 
+approximated by the function $f(x)=9.96$
+for limited cameras and $f(x)=9.97$ for
+unlimited cameras.
+\subsection{flush()}
+Function used for starting the execution of all
+ queued drawing functions and updating the window
+ with the contents in the buffer (we use double-buffering).
+
+\includegraphics{tests/tex/flush.eps}
+
+As this function has a constant theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=1777$.
+\subsection{limit\_camera(a,b,c)}
+Function used to limit the camera where a camera 
+can draw.
+
+\includegraphics{tests/tex/limit_camera.eps}
+
+As this function has a constant
+theoretical complexity, the time, in nanosseconds
+spent by this function is 
+approximated by the function $f(x)=1.30$
+in this computer.
+\subsection{may\_the\_weaver\_sleep()}
+Function used to stop using  the Weaver API and
+free the memory,
+
+\includegraphics{tests/tex/may_the_weaver_sleep.eps}
+
+As this function has a constant theoretical
+complexity, the time, in nanosseconds spent 
+by this function (in nanosseconds) is
+approximated by the function $f(x)=1742.80$
+in this computer.
+\subsection{move\_circle(a,b,c)}
+Function used for moving a 3d vector representing a circle.
+
+
+\includegraphics{tests/tex/move_circle.eps}
+
+As this function has a constant theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=1$.
+\subsection{move\_polygon(a,b)}
+Function used for moving a polygon.
+
+\includegraphics{tests/tex/move_polygon.eps}
+
+As this function has a linear theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=.0056x+1$.
+\subsection{new\_image(a)}
+Function used for creating a new surface from a PNG file.
+
+\includegraphics{tests/tex/new_image.eps}
+
+The graph shows how much time in nanosseconds it takes to create a new surface $x \times x $ from a PNG file.
+
+As this function has a linear theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=71.132x+419$.
+\subsection{new\_polygon(a,b)}
+Function used for creating a polygon in the
+screen, given it's coordinates. 
+
+\includegraphics{tests/tex/new_polygon.eps}
+
+As this function has a linear theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=-.06x+1677$.
+\subsection{rotate\_circle(a,b,c)}
+Function used for rotating a 3d vector representing a circle.
+
+
+\includegraphics{tests/tex/rotate_circle.eps}
+
+As this function has a constant theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=7$.
+\subsection{rotate\_polygon(a,b)}
+Function used for rotating a polygon.
+
+\includegraphics{tests/tex/rotate_polygon.eps}
+
+As this function has a linear theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=.0075x+1$.
+\subsection{new\_surface(a,b)}
+Function used for creating a new surface.
+
+\includegraphics{tests/tex/new_surface.eps}
+
+The graph shows how much time in nanosseconds it takes to create a new surface $x \times x $.
+
+As this function has a linear theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=1.173600x+87$.
+\subsection{new\_vector2(a,b)}
+Function used for creating a 2d vector.
+
+
+\includegraphics{tests/tex/new_vector2.eps}
+
+As this function has a constant theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=1$.
+\subsection{new\_vector3(a,b,c)}
+Function used for creating a 3d vector.
+
+
+\includegraphics{tests/tex/new_vector3.eps}
+
+As this function has a constant theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=1$.
+\subsection{new\_vector4(a,b,c)}
+Function used for creating a 4d vector.
+
+
+\includegraphics{tests/tex/new_vector4.eps}
+
+As this function has a constant theoretical
+complexity, the time, in nanosseconds is 
+approximated by the function $f(x)=1$.
+\subsection{weaver\_rest(a)}
+Function used to create a pause in the Weaver API.
+As it uses the \emph{nanosleep} C function, it's
+known that it's theoretical complexity is
+exponential. It's necessary to create a controlled
+delay.
+
+As there's no use in measuring a controlled delay,
+this test is using only $0$ as argument. This
+turns the function complexity to a constant, that
+enable us to measure the time spent by other
+functions used in \emph{weaver\_rest}, except
+\emph{nanosleep}.
+
+\includegraphics{tests/tex/weaver_rest.eps}
+
+As this function (in this test) has a constant
+theoretical complexity, the time, in nanosseconds
+spent by this function is 
+approximated by the function $f(x)=179.06$
+in this computer.
+\subsection{zoom\_camera(a,b,c)}
+Function used to zoom in or out a camera struct.
+
+\includegraphics{tests/tex/zoom_camera.eps}
+
+As this function has a constant
+theoretical complexity, the time, in nanosseconds
+spent by this function is 
+approximated by the function $f(x)=1.45$
+in this computer.
 \end{document}

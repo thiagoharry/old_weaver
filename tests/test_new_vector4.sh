@@ -10,7 +10,7 @@ int main(int argc, char **argv){
   XSync(_dpy, 1);
   DEBUG_TIMER_START();
   v = new_vector4(5.242, 8.435, 7.324, 12.784);
-  DEBUG_TIMER_END();
+  DEBUG_TIMER_STOP();
   destroy_vector4(v);
   may_the_weaver_sleep();
   return 0;\n
