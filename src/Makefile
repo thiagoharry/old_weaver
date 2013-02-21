@@ -6,6 +6,7 @@ PROG_OBJ=game.o
 PROG_HEAD=src/game.h
 INSTALL_DIR=/usr/games
 DATA_DIR=/usr/share/games/dummy
+CFLAGS=-Wl,--as-needed
 
 #######################################################
 all: ${WEAVER_OBJ} ${PROG_OBJ}
