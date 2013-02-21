@@ -25,6 +25,9 @@
 #include "weaver.h"
 #include "display.h"
 
+struct timeval _b_frame, current_time;
+int fps;
+
 // This function initializes everything
 void awake_the_weaver(void){
   _initialize_screen();

@@ -47,16 +47,16 @@ typedef struct surface{
   Pixmap mask;
 } surface;
 
-Display *_dpy;
-Window _w;
-XdbeBackBuffer _b;
-int window_width, window_height;
-GC _gc, _mask_gc;
-int _screen, _depth;
-Visual *_visual;
-struct surface *window;
-struct surface *background;
-unsigned long transparent_color;
+extern Display *_dpy;
+extern Window _w;
+extern XdbeBackBuffer _b;
+extern int window_width, window_height;
+extern GC _gc, _mask_gc;
+extern int _screen, _depth;
+extern Visual *_visual;
+extern struct surface *window;
+extern struct surface *background;
+extern unsigned long transparent_color;
 
 struct surface *new_surface(int, int);
 void destroy_surface(struct surface *);

@@ -23,6 +23,11 @@
 #include "display.h"
 #include "keyboard.h"
 
+int keyboard[KEYS];
+
+struct _mouse mouse;
+
+
 // This function initializes and cleans our keyboard buffer
 void _initialize_keyboard(void){
   int i;

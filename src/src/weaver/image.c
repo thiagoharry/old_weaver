@@ -24,8 +24,20 @@
 #include "display.h"
 
 
-static double _display_exponent;
-static unsigned char _bg_red, _bg_green, _bg_blue;
+double _display_exponent;
+unsigned char _bg_red, _bg_green, _bg_blue;
+
+png_structp _png_ptr;
+png_infop _info_ptr;
+long _width, _height;
+int _bit_depth, _color_type;
+
+unsigned long _image_width, _image_height, _image_rowbytes;
+int _image_channels;
+
+unsigned char *_image_data;
+
+
 
 // Only for debugging
 void _print_png_version(void){

@@ -25,6 +25,10 @@
 #include "sound.h"
 #include "display.h"
 
+pid_t _music;
+pid_t _sound;
+
+
 int _handle_vorbis_error(int status){
   if(status < 0){
     fprintf(stderr, "Unknown error...\n");

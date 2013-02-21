@@ -25,6 +25,18 @@
 #include <string.h>
 #include "display.h"
 
+Display *_dpy;
+Window _w;
+XdbeBackBuffer _b;
+int window_width, window_height;
+GC _gc, _mask_gc;
+int _screen, _depth;
+Visual *_visual;
+struct surface *window;
+struct surface *background;
+unsigned long transparent_color;
+
+
 // Flushes the buffer in the screen
 void flush(void){
   XdbeSwapInfo info;

@@ -108,13 +108,14 @@
 #define N           XK_n
 #define M           XK_m
 
-int keyboard[KEYS];
+extern int keyboard[KEYS];
+extern struct _mouse mouse;
 
-struct{
+typedef struct _mouse{
   int pressed;
   int changed;
   int x, y;
-} mouse;
+} _mouse;
 
 void _initialize_keyboard(void);
 void get_input(void);

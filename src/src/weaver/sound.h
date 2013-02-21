@@ -30,7 +30,7 @@ void _play_soundfile(char *, char *);
 void play_music(char *);
 void stop_music(void);
 
-pid_t _music;
-pid_t _sound;
+extern pid_t _music;
+extern pid_t _sound;
 
 #endif
