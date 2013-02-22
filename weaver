@@ -17,7 +17,6 @@
 # You should have received a copy of the GNU General Public License
 # along with Weaver Framework.  If not, see <http://www.gnu.org/licenses/>.
 
-#WEAVER=/home/bcc/tla06/weaver/src
 WEAVER=/usr/share/weaver
 # If weaver isn't installed, it should work too
 if ! [ -a ${WEAVER} ]; then
@@ -106,6 +105,7 @@ function update_weaver(){
 	YEAR=${YEAR}","$(date +%Y)
     fi
     NAME=$(grep "Copyright (C) " $1/src/game.c | sed s/^" "*// | sed s/" "+/" "/ | cut -d ' ' -f 4-)
+    PROJ=$(basename ${1})
     # Updating Weaver API
     cp -r ${WEAVER}/reserved_words $1 2> /dev/null
     cp -r ${WEAVER}/src/weaver $1/src 2> /dev/null
@@ -118,9 +118,11 @@ function update_weaver(){
     done
 
     # Correcting some names in some source code files
-    sed s/DUMMY/$1/ ${WEAVER}/src/weaver/sound.c > $1/src/weaver/sound.c
-    sed s/DUMMY/$1/ ${WEAVER}/src/weaver/image.c > $1/src/weaver/image.c
-    sed s/DUMMY/$1/ ${WEAVER}/src/weaver/font.c > $1/src/weaver/font.c
+    sed s/DUMMY/${PROJ}/ ${WEAVER}/src/weaver/sound.c > $1/src/weaver/sound.c
+    sed s/DUMMY/${PROJ}/ ${WEAVER}/src/weaver/image.c > $1/src/weaver/image.c
+    sed s/DUMMY/${PROJ}/ ${WEAVER}/src/weaver/font.c > $1/src/weaver/font.c
+
+    echo "Project updated to Weaver version ${VERSION}."
 }
 
 # This function creates a new Weaver Project, whose name is passed as
@@ -171,9 +173,15 @@ if [ -a .web ]; then
 	    weaver_directory_help
             exit
         else
-	    if [[ $1 == "." ]]; then
+	    if [ -e  "$1"/.web ]; then
 		# Updating weaver version in the current project
-		update_weaver .
+		# If it's not the top level directory from a project, find the
+		# top level directory and then update.
+		if [ -e "$1"/../.web ]; then
+		    ${0} "$1"/../
+		else
+		    update_weaver "$1"
+		fi
 	    else
 	        # Calling weaver with arguments in a Weaver Directory
        		create_module $1
@@ -190,12 +198,16 @@ else
     elif grep "^[ ]*"$1"[ ]*$" ${WEAVER}/reserved_words &> /dev/null; then
         # Trying to create a project with a reserved name
 	echo $1" is a reserved name. Please, give other name for the project."
-    elif [ -a $1/.web ]; then
+    elif [ -e "$1"/.web ]; then
 	# The project exists. Update it
-	if [[ ${1:$((${#1}-1))} == "/" ]]; then
-	    update_weaver ${1:0:$((${#1}-1))}
+	if [ -e "$1"/../.web ]; then
+	    ${0} "$1"/../
 	else
-	    update_weaver $1
+	    if [[ ${1:$((${#1}-1))} == "/" ]]; then
+		update_weaver ${1:0:$((${#1}-1))}
+	    else
+		update_weaver $1
+	    fi
 	fi
     else
 	weaver_create $1
