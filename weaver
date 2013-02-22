@@ -67,6 +67,9 @@ function create_module(){
     if [ -a src/${1}.c ]; then
 	echo "You already have source files with these names."
     else
+	if ! [ -a /usr/share/weaver ]; then
+	    WEAVER=${WEAVER}/src/
+	fi
 	# Project root address
         ADDR=$(echo $(pwd) | sed s/$(head -n 1 .web).*//)$(head -n 1 .web)
 	# Project name
@@ -118,10 +121,17 @@ function update_weaver(){
     done
 
     # Correcting some names in some source code files
-    sed s/DUMMY/${PROJ}/ ${WEAVER}/src/weaver/sound.c > $1/src/weaver/sound.c
-    sed s/DUMMY/${PROJ}/ ${WEAVER}/src/weaver/image.c > $1/src/weaver/image.c
-    sed s/DUMMY/${PROJ}/ ${WEAVER}/src/weaver/font.c > $1/src/weaver/font.c
-
+    if ! [ -a /usr/share/weaver ]; then
+      # If weaver is not installed, we check for the files in weaver's source dir
+      sed s/DUMMY/${PROJ}/ ${WEAVER}/src/src/weaver/sound.c > $1/src/weaver/sound.c
+      sed s/DUMMY/${PROJ}/ ${WEAVER}/src/src/weaver/image.c > $1/src/weaver/image.c
+      sed s/DUMMY/${PROJ}/ ${WEAVER}/src/src/weaver/font.c > $1/src/weaver/font.c
+    else
+      # else, we check the normal location
+      sed s/DUMMY/${PROJ}/ ${WEAVER}/src/weaver/sound.c > $1/src/weaver/sound.c
+      sed s/DUMMY/${PROJ}/ ${WEAVER}/src/weaver/image.c > $1/src/weaver/image.c
+      sed s/DUMMY/${PROJ}/ ${WEAVER}/src/weaver/font.c > $1/src/weaver/font.c
+    fi
     echo "Project updated to Weaver version ${VERSION}."
 }
 
