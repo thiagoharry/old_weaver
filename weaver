@@ -110,7 +110,6 @@ function update_weaver(){
     NAME=$(grep "Copyright (C) " $1/src/game.c | sed s/^" "*// | sed s/" "+/" "/ | cut -d ' ' -f 4-)
     PROJ=$(basename ${1})
     # Updating Weaver API
-    cp -r ${WEAVER}/reserved_words $1 2> /dev/null
     cp -r ${WEAVER}/src/weaver $1/src 2> /dev/null
 
     # Updating year and copyright holder
