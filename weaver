@@ -90,7 +90,7 @@ function create_module(){
 	echo "#endif" >> src/${1}.h
 
 	# Updating header files
-	sed s/\#define\ _GAME_H_/\#define\ GAME_H_"\n"\#include\ \"${1}.h\"/ src/game.h > src/game.h~
+	sed s/\#define\ _GAME_H_/\#define\ _GAME_H_"\n"\#include\ \"${1}.h\"/ src/game.h > src/game.h~
 	mv src/game.h~ src/game.h
 
 	# Updating Makefiles

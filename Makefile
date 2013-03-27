@@ -290,11 +290,37 @@ test_zoom_camera: test_dependencies
 	tests/test_start.sh
 	tests/test_zoom_camera.sh
 	tests/test_end.sh
+send_to_savannah: tarbz2 deb
+	gpg -b --use-agent ../weaver-${VERSION}.tar.bz2
+	gpg -b --use-agent ../weaver-${VERSION}.deb
+	scp ../weaver-${VERSION}.tar.bz2 ../weaver-${VERSION}.tar.bz2.sig thiagoharry@dl.sv.nongnu.org:/releases/weaver/
+	scp ../weaver-${VERSION}.deb ../weaver-${VERSION}.deb.sig thiagoharry@dl.sv.nongnu.org:/releases/weaver/
 tarbz2: clean
 	cp -r . ../weaver-${VERSION}
 	rm -rf ../weaver-${VERSION}/.git*
 	tar -cf ../weaver-${VERSION}.tar ../weaver-${VERSION}
 	bzip2 ../weaver-${VERSION}.tar
+	rm -rf ../weaver-${VERSION}
+deb: clean
+	mkdir ../weaver-${VERSION}
+	mkdir ../weaver-${VERSION}/usr
+	mkdir ../weaver-${VERSION}/usr/bin
+	mkdir ../weaver-${VERSION}/usr/share
+	mkdir ../weaver-${VERSION}/usr/share/weaver
+	mkdir ../weaver-${VERSION}/usr/share/weaver/images
+	mkdir ../weaver-${VERSION}/usr/share/weaver/fonts
+	mkdir ../weaver-${VERSION}/usr/share/weaver/music
+	mkdir ../weaver-${VERSION}/usr/share/weaver/sound
+	mkdir ../weaver-${VERSION}/usr/share/weaver/src
+	mkdir ../weaver-${VERSION}/usr/share/weaver/src/weaver
+	cp -r DEBIAN ../weaver-${VERSION}
+	cp weaver ../weaver-${VERSION}/usr/bin
+	cp src/LICENSE src/Makefile ../weaver-${VERSION}/usr/share/weaver
+	cp reserved_words ../weaver-${VERSION}/usr/share/weaver
+	cp src/src/game.c src/src/game.h ../weaver-${VERSION}/usr/share/weaver/src
+	cp src/src/weaver/*.c ../weaver-${VERSION}/usr/share/weaver/src/weaver
+	cp src/src/weaver/*.h ../weaver-${VERSION}/usr/share/weaver/src/weaver
+	dpkg-deb -b ../weaver-${VERSION}
 	rm -rf ../weaver-${VERSION}
 clean:
 	find . -name "*~" -exec rm -f {} \;
