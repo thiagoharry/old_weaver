@@ -1,0 +1,13 @@
+0.2:	* Added the surface "background"
+	* Added the functions DEBUG_TIMER_STOP()
+	  	    	      DEBUG_TIMER_END()
+			      erase_fullpolygon()
+			      erase_fullrectangle()
+			      erase_polygon()
+			      erase_rectangle()
+			      erase_screen()
+        * Some bugfixes in the sound
+	* Now weaver works as a portable app. The script works well even if
+	    the program wasn't installed.
+	* Now weaver can update weaver directories from previous weaver releases.
+	    Just type "weaver PROJECT_PATH".
