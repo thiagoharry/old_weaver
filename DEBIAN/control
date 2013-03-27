@@ -1,0 +1,9 @@
+Package: weaver
+Priority: optional
+Section: Development
+Installed-Size: 876
+Maintainer: Thiago Leucz Astrizi (harry@bitbitbit.com.br)
+Architecture: all
+Version: 0.2
+Depends: libx11-dev, libvorbis-dev, libasound2-dev, libpng12-dev, libfreetype6-dev, libxext-dev
+Description: Weaver is a framework designed to help the development of free, graphical 2D games for GNU/Linux systems.
