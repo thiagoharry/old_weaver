@@ -1,4 +1,4 @@
-
+VERSION=0.2
 SCRIPT_DIR=/usr/bin
 DATA_DIR=/usr/share/weaver
 
@@ -290,6 +290,12 @@ test_zoom_camera: test_dependencies
 	tests/test_start.sh
 	tests/test_zoom_camera.sh
 	tests/test_end.sh
+tarbz2: clean
+	cp -r . ../weaver-${VERSION}
+	rm -rf ../weaver-${VERSION}/.git*
+	tar -cf ../weaver-${VERSION}.tar ../weaver-${VERSION}
+	bzip2 ../weaver-${VERSION}.tar
+	rm -rf ../weaver-${VERSION}
 clean:
 	find . -name "*~" -exec rm -f {} \;
 	find . -name "*\#" -exec rm -f {} \;

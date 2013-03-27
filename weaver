@@ -22,7 +22,8 @@ WEAVER=/usr/share/weaver
 if ! [ -a ${WEAVER} ]; then
     WEAVER=${0:0:$((${#0}-6))}
 fi
-VERSION=0.2-unstable
+
+VERSION=0.2.0
 
 # This function cleans the current directory recursively, erasing temporary
 # files
