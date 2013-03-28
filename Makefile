@@ -88,7 +88,7 @@ uninstall:
 	rm -rf ${DATA_DIR}
 aux:
 	ghc --make misc/src2html.hs
-test: test_dependencies
+benchmark: test_dependencies
 	tests/test_start.sh
 	tests/test_apply_texture.sh
 	tests/test_awake_the_weaver.sh
@@ -322,6 +322,9 @@ deb: clean
 	cp src/src/weaver/*.h ../weaver-${VERSION}/usr/share/weaver/src/weaver
 	dpkg-deb -b ../weaver-${VERSION}
 	rm -rf ../weaver-${VERSION}
+test_pong:
+	cd tests
+	./tests/test_pong.sh
 clean:
 	find . -name "*~" -exec rm -f {} \;
 	find . -name "*\#" -exec rm -f {} \;
