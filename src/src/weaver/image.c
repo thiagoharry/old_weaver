@@ -43,8 +43,8 @@ unsigned char *_image_data;
 void _print_png_version(void){
   fprintf(stderr, "   Compiled with libpng %s; using libpng %s.\n",
           PNG_LIBPNG_VER_STRING, png_libpng_ver);
-  fprintf(stderr, "   Compiled with zlib %s; using zlib %s.\n",
-          ZLIB_VERSION, zlib_version);
+  /*fprintf(stderr, "   Compiled with zlib %s; using zlib %s.\n",
+    ZLIB_VERSION, zlib_version);*/
 }
 
 // An initialization function
