@@ -1,4 +1,4 @@
-VERSION=0.2
+VERSION=0.3.0
 SCRIPT_DIR=/usr/bin
 DATA_DIR=/usr/share/weaver
 

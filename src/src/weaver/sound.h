@@ -26,11 +26,13 @@
 
 int _initialize_sound(void);
 void play_sound(char *);
-void _play_soundfile(char *, char *);
+void *_play_soundfile(void *);
+void _close_vorbis_file(void *);
+void _close_pcm(void *);
 void play_music(char *);
 void stop_music(void);
 
-extern pid_t _music;
-extern pid_t _sound;
+extern pthread_t _music;
+extern pthread_t _sound;
 
 #endif

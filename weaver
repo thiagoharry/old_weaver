@@ -23,7 +23,7 @@ if ! [ -a ${WEAVER} ]; then
     WEAVER=${0:0:$((${#0}-6))}
 fi
 
-VERSION=0.2.0
+VERSION=0.3.0
 
 # This function cleans the current directory recursively, erasing temporary
 # files
@@ -100,6 +100,17 @@ function create_module(){
     fi
 }
 
+# This function is used inside 'update_weaver' and checks if the Makefile
+# needs to be updated
+function update_makefile(){
+    # Include pthread library if not included:
+    cat $1/Makefile | tr '\n' ' ' | grep -q " all:.*-pthread.*#GAME_START"
+    if [ $? != 0 ]; then
+	cp $1/Makefile $1/Makefile~
+	sed 's/\t${CC}.*-o ${PROG}.*/& -pthread/' $1/Makefile~ > $1/Makefile
+    fi
+}
+
 # This function updates a Weaver Directory putting the newest Weaver
 # files there
 function update_weaver(){
@@ -132,6 +143,7 @@ function update_weaver(){
       sed s/DUMMY/${PROJ}/ ${WEAVER}/src/weaver/image.c > $1/src/weaver/image.c
       sed s/DUMMY/${PROJ}/ ${WEAVER}/src/weaver/font.c > $1/src/weaver/font.c
     fi
+    update_makefile $1
     echo "Project updated to Weaver version ${VERSION}."
 }
 

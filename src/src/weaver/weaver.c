@@ -22,6 +22,7 @@
 #include <sys/time.h>
 #include <float.h>
 #include <signal.h>
+#include <pthread.h>
 #include "weaver.h"
 #include "display.h"
 
@@ -33,6 +34,7 @@ void awake_the_weaver(void){
   _initialize_screen();
   _initialize_keyboard();
   _initialize_mouse();
+  _initialize_font();
   srand(time(NULL));
   gettimeofday(&current_time, NULL);
   fps = 50;
@@ -43,7 +45,7 @@ void awake_the_weaver(void){
 void may_the_weaver_sleep(void){
   stop_music();
   if(_sound)
-    kill(_sound, 9);
+    pthread_cancel(_sound);
   XFreeGC(_dpy, _gc);
   free(window);
   destroy_surface(background);

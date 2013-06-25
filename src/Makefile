@@ -1,4 +1,4 @@
-CC=gcc -Wall -O2 -g $$(freetype-config --cflags) 
+CC=gcc -Wall -O2 -g $$(freetype-config --cflags)
 W_DIR=src/weaver/
 PROG=dummy
 WEAVER_OBJ=display.o keyboard.o vector2.o vector3.o vector4.o weaver.o sound.o image.o font.o
@@ -10,7 +10,7 @@ CFLAGS=-Wl,--as-needed
 
 #######################################################
 all: ${WEAVER_OBJ} ${PROG_OBJ}
-	${CC} ${CFLAGS} -g -o ${PROG} ${WEAVER_OBJ} ${PROG_OBJ} -lX11 -lXext -lm -lvorbisfile -lasound -lfreetype $$(freetype-config --cflags) $$(pkg-config --libs libpng)
+	${CC} ${CFLAGS} -g -o ${PROG} ${WEAVER_OBJ} ${PROG_OBJ} -lX11 -lXext -lm -lvorbisfile -lasound -lfreetype $$(freetype-config --cflags) $$(pkg-config --libs libpng) -pthread
 #GAME_START
 game.o: src/game.c ${PROG_HEAD}
 	${CC} -c src/game.c

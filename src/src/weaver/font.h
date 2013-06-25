@@ -21,13 +21,13 @@
 
 #include <ft2build.h>
 #include FT_FREETYPE_H
-/*
-FT_Library _library;
-FT_Face _face;
+
+extern FT_Library _library;
+extern FT_Face _face;
+extern int _dpi_h, _dpi_v;
 
 int _initialize_font(void);
 int load_font(char *, int);
-
 int draw_text(unsigned, unsigned, int, char *, unsigned);
-*/
+
 #endif
