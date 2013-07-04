@@ -24,9 +24,13 @@
 FT_Library _library;
 FT_Face _face;
 int _dpi_h, _dpi_v;
+int letter_spacing, word_spacing, line_spacing;
 
 // Initializes the FreeType Library
 int _initialize_font(void){
+  letter_spacing = 0;
+  word_spacing = 0;
+  line_spacing = 0;
   int error = 0;
   error = FT_Init_FreeType(&_library);
   if(error){
@@ -46,7 +50,7 @@ int _initialize_font(void){
 }
 
 // Loads a font face number 'index' from the 'file' file
-int load_font(char *file, int size){
+int load_font(char *file){
   int error;
   FILE *fp;
   char *path = (char *) malloc(strlen(file)+50);
@@ -85,71 +89,131 @@ int load_font(char *file, int size){
   return 1;
 }
 
+unsigned long _unicode_index(char *p){
+  if(*p == -61)
+    return 258 + *(p+1);
+  return 0;
+}
 
-int draw_text(unsigned x, unsigned y, int size, char *text, unsigned color){
-  int error;
-  char *p;
-  int glyph_index;
-  XImage *ximage = NULL;
+int draw_text(char *text, surface *dst, unsigned x, unsigned y, int size,
+	      unsigned color){
+  int error, lines, bit, pow, glyph_index, line_surface_x = 0, initial_x = x,
+    initial_y = y;
+  char *p, *last_drawn_char = text, *data = NULL;
+  XImage *ximage = NULL; // Buffer, stores drawn characters in the client
+  surface *line_surface = NULL; // Buffer, stores drawn words in the server
 
   if(_face == NULL){
-    printf("WARNING: Trying to write, but no font were selected.\n");
+    fprintf(stderr, "WARNING: Trying to write, but no font was selected.\n");
     return 0;
   }
 
   // Setting font size
   error = FT_Set_Char_Size(_face, 0, size * 64, _dpi_h, _dpi_v);
   if(error){
-    printf("WARNING: Error while setting size in font.\n");
+    fprintf(stderr, "WARNING: Error while setting size in font.\n");
     _face = NULL;
     return 0;
   }
 
-  for(p = text; *p != '\0'; p++){
-    surface *surf;
+  // 'line_surface' is a buffer able to store each word before drawn it.
+  line_surface = new_surface(dst -> width,
+			     _face -> size -> metrics.height  >> 6);
+  if(line_surface == NULL){
+    fprintf(stderr, "WARNING: Unable to create surface to hold text.\n");
+    return 0;
+  }
+  fill_surface(line_surface, color);
+  draw_rectangle_mask(line_surface, 0, 0, line_surface -> width,
+		      line_surface -> height);
 
+  // Drawing each character in this loop
+  for(p = text; *p != '\0'; p++){
     // retrieve glyph index from character code
     glyph_index = FT_Get_Char_Index(_face, *p);
+    // Treat special unicode characters
+    if(glyph_index == 0 && *p < 0){
+      glyph_index = _unicode_index(p);
+      p ++;
+    }
     // load glyph image into the slot (erase previous one)
     error = FT_Load_Glyph(_face, glyph_index, FT_LOAD_DEFAULT);
     if(error) // If we can't handle this character, go to the next
       continue;
-
-    // convert to an anti-aliased bitmap
+    // Render the character with the selected font, this creates the bitmap
     error = FT_Render_Glyph(_face->glyph, FT_RENDER_MODE_MONO);
     if(error)
       continue;
 
-    if(_face->glyph->bitmap.width <= 0 || _face->glyph->bitmap.rows <= 0){
-      x += _face -> glyph -> advance.x >> 6;
+    // Spaces and line breaks are handled here (and words are drawn here)
+    if(_face->glyph->bitmap.width <= 0 || _face->glyph->bitmap.rows <= 0 ||
+       *p == '\n'){
+      if(x + line_surface_x > dst -> width || *p == '\n'){
+	x = 0;
+	y += line_surface -> height + line_spacing;
+	if(y + line_surface -> height > dst -> height){
+	  destroy_surface(line_surface);
+	  return (- (last_drawn_char - text + 1) / sizeof(char));
+	}
+      }
+      blit_surface(line_surface, dst, 0, 0, line_surface_x, line_surface -> height,
+		   x, y - (_face->size->metrics.ascender >> 6));
+      last_drawn_char = p;
+      x += line_surface_x += letter_spacing + word_spacing +
+	(_face -> glyph -> advance.x >> 6);;
+      line_surface_x = 0;
+      draw_rectangle_mask(line_surface, 0, 0, line_surface -> width,
+			  line_surface -> height);
       continue;
     }
 
-    // Now we have a charactere in _face->glyph-> bitmap
-    ximage = XCreateImage(_dpy, _visual, 1, XYBitmap, 0,
-			  (char *) _face->glyph-> bitmap.buffer,
+    // Creating the XImage used to render each individual character
+    data = (char *) malloc(_face->glyph->bitmap.width *
+			   _face->glyph->bitmap.rows * 4);
+    ximage = XCreateImage(_dpy, _visual, 1, XYBitmap, 0, data,
 			  _face->glyph->bitmap.width, _face->glyph->bitmap.rows,
-			  32, 0);
+			  8, 0);
     if(!ximage){
       fprintf(stderr, "ERROR: XCreateImage() failed!\n");
       exit(1);
     }
-
     XInitImage(ximage);
-    ximage -> byte_order =  MSBFirst;
-    ximage -> bitmap_bit_order = MSBFirst;
-    ximage -> bits_per_pixel = 1;
-
-    surf = new_surface(_face->glyph->bitmap.width*2, _face->glyph->bitmap.rows*2);
-    XSetForeground(_dpy, _gc, color);
-    XFillRectangle(_dpy, surf -> pix, _gc, 0, 0, surf -> width, surf -> height);
-    XPutImage(_dpy, surf -> mask, _mask_gc, ximage, 0, 0, 0, 0,
-          _face->glyph->bitmap.width*2, _face->glyph->bitmap.rows*2);
-    blit_surface(surf, window, 0, 0, surf -> width, surf -> height, x, y);
-    x += _face -> glyph -> advance.x >> 6;
-    destroy_surface(surf);
+    // Drawing the character in the XImage structure
+    for(lines = 0;
+	lines < _face->glyph->bitmap.pitch * _face->glyph->bitmap.rows;
+	lines += _face->glyph->bitmap.pitch){
+      for(bit = 0, pow = 1; bit < _face->glyph->bitmap.width; bit ++, pow *= 2){
+	if(pow == 256)
+	  pow = 1;
+	XPutPixel(ximage, bit, lines / _face->glyph->bitmap.pitch, BLACK);
+	if((_face->glyph->bitmap.buffer[lines + bit / 8] / (128/pow)) % 2)
+	  XPutPixel(ximage, bit, lines / _face->glyph->bitmap.pitch, WHITE);
+      }
+    }
+    // Transfering the XImage character to the buffer 'line_buffer'
+    XSetForeground(_dpy, _mask_gc, ~0l);
+    XSetBackground(_dpy, _mask_gc, 0l);
+    XPutImage(_dpy, line_surface -> mask, _mask_gc, ximage, 0, 0,
+	      line_surface_x,
+	      (_face->size->metrics.ascender -
+	      _face->glyph->metrics.horiBearingY) >> 6,
+	      line_surface -> width, line_surface -> height);
+    line_surface_x += (letter_spacing + (_face -> glyph -> advance.x >> 6));
+    XDestroyImage(ximage);
   }
-  XDestroyImage(ximage);
-  return 0;
+  // Finished loop, we just need to draw the last word stored in the buffer:
+  if(x + line_surface_x > dst -> width){
+    x = 0;
+    y += line_surface -> height + line_spacing;
+    if(y  + line_surface -> height > dst -> height){
+      destroy_surface(line_surface);
+      return (- (last_drawn_char - text + 1) / sizeof(char));
+    }
+  }
+  blit_surface(line_surface, dst, 0, 0, line_surface_x, line_surface -> height,
+	       x, y - (_face->size->metrics.ascender >> 6));
+  destroy_surface(line_surface);
+  return dst -> width * (y - initial_y) + (line_surface_x - initial_x);
 }
+
 
