@@ -97,11 +97,12 @@ unsigned long _unicode_index(char *p){
 
 int draw_text(char *text, surface *dst, unsigned x, unsigned y, int size,
 	      unsigned color){
-  int error, lines, bit, pow, glyph_index, line_surface_x = 0, initial_x = x,
-    initial_y = y;
+  int error, lines, bit, pow, glyph_index = 0, line_surface_x = 0, initial_x = x,
+    initial_y = y, last_char_index = 0;
   char *p, *last_drawn_char = text, *data = NULL;
   XImage *ximage = NULL; // Buffer, stores drawn characters in the client
   surface *line_surface = NULL; // Buffer, stores drawn words in the server
+  FT_Bool use_kerning = FT_HAS_KERNING(_face);
 
   if(_face == NULL){
     fprintf(stderr, "WARNING: Trying to write, but no font was selected.\n");
@@ -130,6 +131,7 @@ int draw_text(char *text, surface *dst, unsigned x, unsigned y, int size,
   // Drawing each character in this loop
   for(p = text; *p != '\0'; p++){
     // retrieve glyph index from character code
+    last_char_index = glyph_index;
     glyph_index = FT_Get_Char_Index(_face, *p);
     // Treat special unicode characters
     if(glyph_index == 0 && *p < 0){
@@ -167,6 +169,13 @@ int draw_text(char *text, surface *dst, unsigned x, unsigned y, int size,
       continue;
     }
 
+    // Kerning
+    if(use_kerning && last_char_index && glyph_index){
+      FT_Vector delta;
+      FT_Get_Kerning(_face, last_char_index, glyph_index, FT_KERNING_DEFAULT,
+		     &delta);
+      line_surface_x += delta.x >> 6;
+    }
     // Creating the XImage used to render each individual character
     data = (char *) malloc(_face->glyph->bitmap.width *
 			   _face->glyph->bitmap.rows * 4);
@@ -213,7 +222,5 @@ int draw_text(char *text, surface *dst, unsigned x, unsigned y, int size,
   blit_surface(line_surface, dst, 0, 0, line_surface_x, line_surface -> height,
 	       x, y - (_face->size->metrics.ascender >> 6));
   destroy_surface(line_surface);
-  return dst -> width * (y - initial_y) + (line_surface_x - initial_x);
+  return dst -> width * (y - initial_y) + (x + line_surface_x - initial_x);
 }
-
-
