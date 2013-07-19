@@ -32,6 +32,6 @@ extern int line_spacing;
 int _initialize_font(void);
 int load_font(char *);
 int draw_text(char *, surface *, unsigned, unsigned, int, unsigned);
-unsigned long _unicode_index(char *);
+unsigned long _unicode_index(char **);
 
 #endif

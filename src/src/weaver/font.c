@@ -89,9 +89,13 @@ int load_font(char *file){
   return 1;
 }
 
-unsigned long _unicode_index(char *p){
-  if(*p == -61)
-    return 258 + *(p+1);
+unsigned long _unicode_index(char **p){
+  unsigned long r;
+  if((**p >> 5) == -2){ // 2-byte character
+    r = ((**p & 0x1f) << 6) + (*(*p + 1) & 0x3f);
+    *p += 1;
+    return r;
+  }
   return 0;
 }
 
@@ -135,8 +139,7 @@ int draw_text(char *text, surface *dst, unsigned x, unsigned y, int size,
     glyph_index = FT_Get_Char_Index(_face, *p);
     // Treat special unicode characters
     if(glyph_index == 0 && *p < 0){
-      glyph_index = _unicode_index(p);
-      p ++;
+      glyph_index = FT_Get_Char_Index(_face,  _unicode_index(&p));
     }
     // load glyph image into the slot (erase previous one)
     error = FT_Load_Glyph(_face, glyph_index, FT_LOAD_DEFAULT);
