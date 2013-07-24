@@ -151,11 +151,15 @@ int draw_text(char *text, surface *dst, unsigned x, unsigned y, int size,
       continue;
 
     // Spaces and line breaks are handled here (and words are drawn here)
+    // When a word is too big to fit in the destiny, it's also splitted here
     if(_face->glyph->bitmap.width <= 0 || _face->glyph->bitmap.rows <= 0 ||
-       *p == '\n'){
+       *p == '\n' ||
+       line_surface_x + _face->glyph->bitmap.width > dst -> width){
       if(x + line_surface_x > dst -> width || *p == '\n'){
 	x = 0;
 	y += line_surface -> height + line_spacing;
+	if(line_surface_x + _face->glyph->bitmap.width > dst -> width)
+	  p --;
 	if(y + line_surface -> height > dst -> height){
 	  destroy_surface(line_surface);
 	  return (- (last_drawn_char - text + 1) / sizeof(char));
@@ -164,8 +168,8 @@ int draw_text(char *text, surface *dst, unsigned x, unsigned y, int size,
       blit_surface(line_surface, dst, 0, 0, line_surface_x, line_surface -> height,
 		   x, y - (_face->size->metrics.ascender >> 6));
       last_drawn_char = p;
-      x += line_surface_x += letter_spacing + word_spacing +
-	(_face -> glyph -> advance.x >> 6);;
+      x += line_surface_x + letter_spacing + word_spacing +
+	(_face -> glyph -> advance.x >> 6);
       line_surface_x = 0;
       draw_rectangle_mask(line_surface, 0, 0, line_surface -> width,
 			  line_surface -> height);
