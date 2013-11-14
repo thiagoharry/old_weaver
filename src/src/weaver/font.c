@@ -155,7 +155,7 @@ int draw_text(char *text, surface *dst, unsigned x, unsigned y, int size,
     if(_face->glyph->bitmap.width <= 0 || _face->glyph->bitmap.rows <= 0 ||
        *p == '\n' ||
        line_surface_x + _face->glyph->bitmap.width > dst -> width){
-      if(x + line_surface_x > dst -> width || *p == '\n'){
+      if(x + line_surface_x > dst -> width){
 	x = 0;
 	y += line_surface -> height + line_spacing;
 	if(line_surface_x + _face->glyph->bitmap.width > dst -> width)
@@ -173,6 +173,10 @@ int draw_text(char *text, surface *dst, unsigned x, unsigned y, int size,
       line_surface_x = 0;
       draw_rectangle_mask(line_surface, 0, 0, line_surface -> width,
 			  line_surface -> height);
+      if(*p == '\n'){
+	x = 0;
+	y += line_surface -> height + line_spacing;
+      }
       continue;
     }
 

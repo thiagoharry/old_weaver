@@ -110,7 +110,7 @@ void *_play_soundfile(void *file){
   OggVorbis_File vf;
   FILE *fp;
   int current_section;
-  struct timespec req = {0, 10000000}; // 0.01 seconds
+  struct timespec req = {0, 1000000}; // 0.001 seconds
   char *path;
   int infinite_loop = 0;
 
