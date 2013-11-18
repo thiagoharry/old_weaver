@@ -109,6 +109,13 @@ function update_makefile(){
 	cp $1/Makefile $1/Makefile~
 	sed 's/\t${CC}.*-o ${PROG}.*/& -pthread/' $1/Makefile~ > $1/Makefile
     fi
+    # Include list.h headers and functions if not included
+    cat $1/Makefile | tr '\n' ' ' | grep -q "#WEAVER_START.*list.o:.*#WEAVER_END"
+    if [ $? != 0 ]; then
+	cp $1/Makefile $1/Makefile~
+	sed 's/WEAVER_OBJ=.*/& list.o/' $1/Makefile > $1/Makefile~
+	sed 's/#WEAVER_START/&\nlist.o: src\/weaver\/list.c src\/weaver\/list.h\n\t${CC} -c src\/weaver\/list.c/' $1/Makefile~ > $1/Makefile
+    fi
 }
 
 # This function updates a Weaver Directory putting the newest Weaver

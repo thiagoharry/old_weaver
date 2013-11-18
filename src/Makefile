@@ -1,7 +1,7 @@
 CC=gcc -Wall -O2 -g $$(freetype-config --cflags)
 W_DIR=src/weaver/
 PROG=dummy
-WEAVER_OBJ=display.o keyboard.o vector2.o vector3.o vector4.o weaver.o sound.o image.o font.o
+WEAVER_OBJ=display.o keyboard.o vector2.o vector3.o vector4.o weaver.o sound.o image.o font.o list.o
 PROG_OBJ=game.o
 PROG_HEAD=src/game.h
 INSTALL_DIR=/usr/games
@@ -34,6 +34,8 @@ sound.o: src/weaver/sound.c src/weaver/sound.h
 	${CC} -c src/weaver/sound.c
 font.o: src/weaver/font.c src/weaver/font.h
 	${CC} -c src/weaver/font.c
+list.o: src/weaver/list.c src/weaver/list.h
+	${CC} -c src/weaver/list.c
 #WEAVER_END
 clean:
 	rm -rf *~ *.o ./\#*

@@ -30,6 +30,7 @@
 #include "sound.h"
 #include "image.h"
 #include "font.h"
+#include "list.h"
 
 // Macro functions
 #define new_camera(x, y, width, height) new_vector4(width, x, y, height)
