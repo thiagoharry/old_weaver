@@ -891,18 +891,16 @@ void _film_fullpolygon(struct vector4 *camera, struct vector2 *polygon,
 
 }
 
-// This films an empty polygon
+// This films a full polygon
 void _film_polygon(struct vector4 *camera, struct vector2 *polygon,
-		   unsigned color, int erase){
+		       unsigned color, int erase){
   struct vector2 *current_vertex = polygon;
-  struct vector2 *next;
-  int x1, y1, x2, y2;
-  int limited_camera = 0;
-  surface *lim_surf = NULL;
-  int inside = 0; // The polygon really will need to be drawn?
-
-  if(current_vertex == NULL)
-    return;
+  XPoint *points;
+  int limited_camera = 0, number_of_points = 0;
+  float smallest_x = FLT_MAX, smallest_y = FLT_MAX;
+  float biggest_x  = FLT_MIN, biggest_y  = FLT_MIN;
+  int inside = 0; // The polygon is entirely inside the camera?
+  int i;
 
   do{
     if(current_vertex -> x > camera -> x &&
@@ -910,189 +908,258 @@ void _film_polygon(struct vector4 *camera, struct vector2 *polygon,
        current_vertex -> y > camera -> y &&
        current_vertex -> y < camera -> y + camera -> z){
       inside = 1;
+      current_vertex = polygon;
       break;
     }
     current_vertex = current_vertex -> next;
   }while(current_vertex != polygon);
   if(!inside)
     return;
+  inside = 0;
 
-  // If the camera is limited, we'll work inside a surface first
-  if(camera -> previous != NULL && camera -> next != NULL)
-    limited_camera = 1;
+  // XXX: I think it's not necessary:
+  /*if(!erase)
+    XSetFillRule(_dpy, _gc, WindingRule);
+  else
+  XSetFillRule(_dpy, _mask_gc, WindingRule);*/
 
-  // First we handle the degenerate cases
-  // This is a "Empty Polygon". Don't draw anything.
+  /* Empty polygon.*/
   if(polygon == NULL)
     return;
 
-  // This is a henagon. A polygon with only one vertex
-  // They can be used as particles, so it's usefull to draw them
-  if(polygon -> next == polygon){
+  if(camera -> previous != NULL || camera -> next != NULL)
+    limited_camera = 1;
 
-    x1 = (int) (((polygon -> x - camera -> x) / camera -> w) * window_width);
-    y1 = (int) (((polygon -> y - camera -> y) / camera -> z) * window_height);
-
-    // If our camera is limited, we need some more calculations
-    if(limited_camera){
-      x1 = (int) ((float) x1 * (((float) (long) camera -> next) /
-				(float) window_width)) +
-	(long) (camera -> previous);
-      y1 = (int) ((float) y1 * (((float) (long) camera -> down) /
-				(float) window_height)) +
-	(long) (camera -> top);
-    }
-    if((!limited_camera) || (x1 < (long) camera -> previous +
-			     (long) camera -> next && x1 >
-			     (long) camera -> previous &&
-			     y1 < (long) camera -> top +
-			     (long) camera -> down && y1 >
-			     (long) camera -> top)){
-      if(!erase)
-	draw_point(x1, y1, color);
-      else
-	blit_surface(background, window, x1, y1, 1, 1, x1, y1);
-    }
-
-    // We draw the point only if it's inside the camera limits
-    return;
-  } // End if it's a henagon
-
-    // Now the usual case. We have a polygon with more than one vertex.
+  // Discovering the number of points, and also
+  // the extreme points
   do{
-    next = current_vertex -> next;
-
-    x1 = (int) (((current_vertex -> x - camera -> x) / camera -> w) *
-		window_width);
-    y1 = (int) (((current_vertex -> y - camera -> y) / camera -> z) *
-		window_height);
-    x2 = (int) (((next -> x - camera -> x) / camera -> w) * window_width);
-    y2 = (int) (((next -> y - camera -> y) / camera -> z) * window_height);
-
-    // If the camera is limited, we shall first work inside a surface
-    // with the right size.
-    if(limited_camera){
-      x1 = (int) ((float) x1 * ((float) (long) camera -> next) /
-		  (float) window_width);
-      x2 = (int) ((float) x2 * ((float) (long) camera -> next) /
-		  (float) window_width);
-      y1 = (int) ((float) y1 * ((float) (long) camera -> down) /
-		  (float) window_height);
-      y2 = (int) ((float) y2 * ((float) (long) camera -> down) /
-		  (float) window_height);
-
-
-      if((x1 < 0 && x2 < 0) || (y1 < 0 && y2 < 0) ||
-	 (x1 >  (long) camera -> next &&
-	  x2 > (long) camera -> next) ||
-	 (y1 >  (long) camera -> down
-	  && y2 > (long) camera -> down)){
-	current_vertex = current_vertex -> next;
-	continue;
-      }
-
-      /*
-	If the line is completely inside the camera, we should
-	be able to draw directly in the screen. It should improve
-	performance.
-      */
-      // FIXME:
-      /*{
-	if(!erase && x1 > 0 && x2 > 0 &&
-	   x1 < (long) camera -> next && x2 < (long) camera -> next &&
-	   y1 > 0 && y2 > 0 &&
-	   y1 < (long) camera -> down && y2 < (long) camera -> down){
-	  draw_line(x1 + (long) camera -> previous,
-		    y1 + (long) camera -> top,
-		    x2 + (long) camera -> previous,
-		    y2 + (long) camera -> top, color);
-	  current_vertex = current_vertex -> next;
-	  continue;
-	}
-	}*/
-
-      if(lim_surf == NULL){
-	lim_surf = new_surface((long) camera -> next,
-			       (long) camera -> down);
-	blit_surface(background, lim_surf, (long) camera -> previous,
-		     (long) camera -> top,
-		     lim_surf -> width, lim_surf -> height,
-		     0, 0);
-	draw_rectangle_mask(lim_surf, 0, 0, lim_surf -> width,
-			    lim_surf -> height);
-      }
-
-      XSetForeground(_dpy, _mask_gc, ~0l);
-      XDrawLine(_dpy, lim_surf -> mask, _mask_gc, x1, y1, x2, y2);
-      if(!erase){
-	XSetForeground(_dpy, _gc, color);
-	XDrawLine(_dpy, lim_surf -> pix, _gc, x1, y1, x2, y2);
-      }
-
-    }
-    else{
-      // We don't have a limited camera. Much easier!
-      if(!erase){
-	draw_line(x1, y1, x2, y2, color);
-      }
-      else{
-	int width = (x1 - x2 >= 0)?(x1 - x2):(x2 - x1);
-	int height = (y1 - y2 >= 0)?(y1 - y2):(y2 - y1);
-	int x = (x1 >= x2)?(x2):(x1);
-	int y = (y1 >= y2)?(y2):(y1);
-	if(!width){
-	  blit_surface(background, window, x, y, 1, height, x, y);
-	  continue;
-	}
-	if(!height){
-	   blit_surface(background, window, x, y, width, 1, x, y);
-	  continue;
-	  }
-	surface *surf = new_surface(width+1, height+1);
-	draw_rectangle_mask(surf, 0, 0, surf -> width, surf -> height);
-	blit_surface(background, surf, x, y,
-		     surf -> width, surf -> height,
-		     0, 0);
-	// Drawing the edge in the surface
-	if((x1 <= x2 && y1 <= y2) || ((x1 >= x2 && y1 >= y2))){
-	  XSetForeground(_dpy, _mask_gc, ~0l);
-	  XDrawLine(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width-1,
-		    surf-> height-1);
-
-	}
-	else{
-	  XSetForeground(_dpy, _mask_gc, ~0l);
-	  XDrawLine(_dpy, surf -> mask, _mask_gc, surf -> width, 0, 0,
-		    surf-> height);
-	}
-
-	draw_surface(surf, window, x, y);
-
-	destroy_surface(surf);
-      }
+    number_of_points ++;
+    if(erase || limited_camera){
+      if(current_vertex -> x < smallest_x)
+	smallest_x = current_vertex -> x;
+      if(current_vertex -> y < smallest_y)
+	smallest_y = current_vertex -> y;
+      if(current_vertex -> x > biggest_x)
+	biggest_x = current_vertex -> x;
+      if(current_vertex -> y > biggest_y)
+	biggest_y = current_vertex -> y;
     }
     current_vertex = current_vertex -> next;
   }while(current_vertex != polygon);
-  // Destroying the surface for limited cameras
-  if(limited_camera && lim_surf != NULL){
-    draw_surface(lim_surf, window, (long) camera -> previous,
-		 (long) camera -> top);
-    destroy_surface(lim_surf);
+  if(limited_camera){
+    // Check if the polygon is entirely inside the camera
+    if(smallest_x > camera -> x && smallest_y > camera -> y &&
+       biggest_x < camera -> x + camera -> w &&
+       biggest_y < camera -> y + camera -> z)
+      inside = 1;
   }
+
+  // Allocating space for the XPoints
+  points = (XPoint *) malloc(sizeof(XPoint) * number_of_points);
+
+  //Getting the points coordinates
+  number_of_points = 0;
+  current_vertex = polygon;
+  do{
+    points[number_of_points].x = (int) (((current_vertex -> x - camera -> x)/
+					 camera -> w) * window_width);
+    points[number_of_points].y = (int) (((current_vertex -> y - camera -> y)/
+					 camera -> z) * window_height);
+    if(erase && !limited_camera){
+      points[number_of_points].x -= (int) (((smallest_x - camera -> x)/
+		      camera -> w) * window_width);
+      points[number_of_points].y -= (int) (((smallest_y - camera -> y)/
+		      camera -> z) * window_height);
+    }
+    number_of_points ++;
+    current_vertex = current_vertex -> next;
+  }while(current_vertex != polygon);
+  // Correcting values if we are under a limited camera
+  if(limited_camera){
+    /*
+      If the polygon in entirely inside the camera, we don't
+      need to use auxiliar surfaces.
+    */
+    if(inside && !erase){
+      for(i = 0; i < number_of_points; i ++){
+	points[i].x = (int) ((float) points[i].x *
+			     ((float) (long) camera -> next) /
+			     (float) window_width) +
+	  (long) camera -> previous;
+	points[i].y = (int) ((float) points[i].y *
+			     ((float) (long) camera -> down) /
+			     (float) window_height) +
+	  (long) camera -> top;
+	if(i){
+	  draw_line(points[i-1].x, points[i-1].y, points[i].x, points[i].y,
+		    color);
+	}
+      }
+      if(number_of_points == 1)
+	draw_point(points[0].x, points[0].y, color);
+      else{
+	draw_line(points[i-1].x, points[i-1].y, points[0].x, points[0].y,
+		  color);
+      }
+      return;
+    }
+
+    int width = (int) ((float) ((int) (((biggest_x - smallest_x)/
+					camera -> w) * window_width)) *
+		       ((float) (long) camera -> next) /
+		       (float) window_width) + 1;
+
+    int height =  (int) ((float) ((int) (((biggest_y - smallest_y)/
+					camera -> z) * window_height)) *
+		       ((float) (long) camera -> down) /
+		       (float) window_height) +1;
+
+    int x = (int) ((float) ((int) (((smallest_x - camera -> x)/
+					  camera -> w) * window_width)) *
+			 ((float) (long) camera -> next) /
+		   (float) window_width) + (int) (long) camera -> previous;
+    int y = (int) ((float) ((int) (((smallest_y - camera -> y)/
+				    camera -> z) * window_height)) *
+		   ((float) (long) camera -> down) /
+		   (float) window_height) + (int) (long) camera -> top;
+    if(x < (int) (long) camera -> previous){
+      width -= (int) (long) camera -> previous - x;
+      x = (int) (long) camera -> previous;
+    }
+    else if(x > (int) (long) camera -> previous + (int) (long) camera -> next)
+      x = (int) (long) camera -> previous + (int) (long) camera -> next;
+    if(y < (int) (long) camera -> top){
+      height -= (int) (long) camera -> top - y;
+      y = (int) (long) camera -> top;
+    }
+    else if(y > (int) (long) camera -> top + (int) (long) camera -> down)
+      y = (int) (long) camera -> top + (int) (long) camera -> down;
+    if(width > (int) (long) camera -> next)
+      width = (int) (long) camera -> next;
+    if(height > (int) (long) camera -> down)
+      height = (int) (long) camera -> down - 1;
+    if(x + width > (long) camera -> previous + (long) camera -> next)
+      width = (long) camera -> previous + (long) camera -> next - x;
+    if(y + height > (long) camera -> top + (long) camera -> down)
+      height = (long) camera -> top + (long) camera -> down - y;
+
+
+    if(erase && (width <= 0 || height <= 0))
+      return;
+
+    number_of_points = 0;
+    current_vertex = polygon;
+    do{
+      points[number_of_points].x = (int) ((float) points[number_of_points].x *
+                                          ((float) (long) camera -> next) /
+                                          (float) window_width);
+      points[number_of_points].y = (int) ((float) points[number_of_points].y *
+                                          ((float) (long) camera -> down) /
+                                          (float) window_height);
+      if(erase){
+	points[number_of_points].x += (long) camera -> previous - x;
+	points[number_of_points].y += (long) camera -> top - y;
+      }
+      number_of_points ++;
+      current_vertex = current_vertex -> next;
+    }while(current_vertex != polygon);
+
+
+    if(erase){
+      struct surface *surf = new_surface(width+2, height+2);
+      draw_rectangle_mask(surf, 0, 0, surf -> width, surf -> height);
+      blit_surface(background, surf, x, y, width, height, 0, 0);
+      // Drawing the polygon in the surface
+      XSetForeground(_dpy, _mask_gc, ~0l);
+      for(i = 1; i < number_of_points; i ++){
+	XDrawLine(_dpy, surf -> mask, _mask_gc, points[i-1].x, points[i-1].y,
+		  points[i].x, points[i].y);
+      }
+      XDrawLine(_dpy, surf -> mask, _mask_gc, points[i-1].x, points[i-1].y,
+		points[0].x, points[0].y);
+      /*XFillPolygon(_dpy, surf -> mask, _mask_gc, points, number_of_points,
+	Complex, CoordModeOrigin);*/
+      draw_surface(surf, window, x, y);
+      destroy_surface(surf);
+    }
+    else{
+      struct surface *surf = new_surface((long) camera -> next + 1,
+					 (long) camera -> down + 1);
+      //XSetFillRule(_dpy, _mask_gc, WindingRule);
+      XSetForeground(_dpy, _mask_gc, 0l);
+      XFillRectangle(_dpy, surf -> mask, _mask_gc, 0, 0, surf -> width,
+		     surf -> height);
+
+      // Drawing the polygon in the surface
+      XSetForeground(_dpy, _gc, color);
+      for(i = 1; i < number_of_points; i ++)
+	XDrawLine(_dpy, surf -> pix, _gc, points[i-1].x, points[i-1].y,
+		  points[i].x, points[i].y);
+	XDrawLine(_dpy, surf -> pix, _gc, points[i-1].x, points[i-1].y,
+		  points[0].x, points[0].y);
+      /*XFillPolygon(_dpy, surf -> pix, _gc, points, number_of_points, Complex,
+	CoordModeOrigin);*/
+
+
+      // Drawing the polygon in the transparency map
+      XSetForeground(_dpy, _mask_gc, ~0l);
+      for(i = 1; i < number_of_points; i ++)
+	XDrawLine(_dpy, surf -> mask, _mask_gc, points[i-1].x, points[i-1].y,
+		  points[i].x, points[i].y);
+	XDrawLine(_dpy, surf -> mask, _mask_gc, points[i-1].x, points[i-1].y,
+		  points[0].x, points[0].y);
+      /*XFillPolygon(_dpy, surf -> mask, _mask_gc, points, number_of_points,
+	Complex, CoordModeOrigin);*/
+
+      // Blitting the surface in the screen
+      blit_surface(surf, window, 0, 0, surf -> width, surf -> height,
+		   (long) camera -> previous, (long) camera -> top);
+
+
+      destroy_surface(surf);
+    }
+  }
+  else{ // Camera is not limited
+    if(erase){
+      int x = (int) (((smallest_x - camera -> x)/
+		      camera -> w) * window_width);
+      int y = (int) (((smallest_y - camera -> y)/
+		      camera -> z) * window_height);
+      int width = (int) (((biggest_x - smallest_x)/
+		      camera -> w) * window_width) + 1;
+      int height = (int) (((biggest_y- smallest_y)/
+		      camera -> z) * window_height) + 1;
+      surface *surf = new_surface(width + 1, height + 1);
+      draw_rectangle_mask(surf, 0, 0, surf -> width, surf -> height);
+      blit_surface(background, surf, x, y, width, height, 0, 0);
+      XSetForeground(_dpy, _mask_gc, ~0l);
+      for(i = 1; i < number_of_points; i ++){
+	XDrawLine(_dpy, surf -> mask, _mask_gc, points[i-1].x, points[i-1].y,
+		  points[i].x, points[i].y);
+      }
+      XDrawLine(_dpy, surf -> mask, _mask_gc, points[i-1].x, points[i-1].y,
+		points[0].x, points[0].y);
+      /*XFillPolygon(_dpy, surf -> mask, _mask_gc, points, number_of_points,
+	Complex, CoordModeOrigin);*/
+      draw_surface(surf, window, x, y);
+      destroy_surface(surf);
+    }
+    else{
+      XSetForeground(_dpy, _gc, color);
+      for(i = 1; i < number_of_points; i ++)
+	XDrawLine(_dpy, window -> pix, _gc, points[i-1].x, points[i-1].y,
+		  points[i].x, points[i].y);
+      XDrawLine(_dpy, window -> pix, _gc, points[i-1].x, points[i-1].y,
+		points[0].x, points[0].y);
+
+      /*XFillPolygon(_dpy, window -> pix, _gc, points, number_of_points,
+	Complex, CoordModeOrigin);*/
+    }
+  }
+  free(points);
 }
 
-// This detects collision between two rectangles
-int collision_rectangle_rectangle(struct vector4 *r1, struct vector4 *r2){
-  float dx = (r2 -> x - r1 -> x < 0) ? (r1 -> x - r2 -> x) :
-    (r2 -> x - r1 -> x);
-  if((r1 -> x < r2 -> x) ? (dx <= r1 -> w) : (dx <= r2 -> w)){
-    float dy = (r2 -> y - r1 -> y < 0) ? (r1 -> y - r2 -> y) :
-      (r2 -> y - r1 -> y);
-    if((r1 -> y < r2 -> y) ? (dy <= r1 -> z) : (dy <= r2 -> z))
-      return 1;
-  }
-  return 0;
-}
+
 
 // This detects collision between a rectangle and a circle
 int collision_rectangle_circle(struct vector4 *rectangle,
