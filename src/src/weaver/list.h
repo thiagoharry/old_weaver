@@ -40,7 +40,7 @@ struct list *new_list(void * (*constructor)(void *),
 void insert_list(struct list *, void *);
 void destroy_list(struct list *);
 void *list_ref(struct list *, int);
-void list_filter(struct list *, int (*filter)(void *));
-void list_map(struct list *, void * (*func)(void *));
+void filter_list(struct list *, int (*filter)(void *));
+void map_list(struct list *, void * (*func)(void *));
 
 #endif

@@ -61,12 +61,12 @@ void *list_ref(struct list *l, int n){
     p = p -> next;
     count ++;
   }
-  if(p != NULL)
+  if(p != NULL && n >= 0)
     return p -> value;
   return NULL;
 }
 
-void list_filter(struct list *l, int (*filter)(void *)){
+void filter_list(struct list *l, int (*filter)(void *)){
   struct _element *last_p = NULL, *p = l -> first;
   while(p != NULL){
     if(!filter(p -> value)){
@@ -89,7 +89,7 @@ void list_filter(struct list *l, int (*filter)(void *)){
   }
 }
 
-void list_map(struct list *l, void *(*function)(void *)){
+void map_list(struct list *l, void *(*function)(void *)){
   struct _element *p = l -> first;
   void *val;
   while(p != NULL){
